@@ -17,3 +17,8 @@ yarn dev
 ```
 
 The app should be accessible via browser @ http://localhost:3000
+
+# Dependencies 
+1. React
+2. Nextjs
+3. [Hydrogen](https://shopify.dev/custom-storefronts/hydrogen/getting-started/create)
