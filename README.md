@@ -28,6 +28,7 @@ yarn generate:graphql
 > then you won't be able to generate React hooks. As of now (Dec. 21), it's
 > still broken. I need to do some research into how to properly hook this up
 > to Shopify. I'm pretty sure I just need to have the right shopId, but we'll
+> see.
 
 # Dependencies 
 1. React
