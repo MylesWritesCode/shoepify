@@ -1,0 +1,40 @@
+###
+# File: /src/graphql/queries/SingleProduct.graphql
+# Project: govalo-store-playground
+# Purpose: Gets a single product from Shopify
+#
+# @author Myles Berueda
+# @date   Tuesday December 21st 2021
+# -----
+# Modified: Tuesday December 21st 2021 2:19:59 pm
+# -----
+# Copyright (c) 2021 MylesWritesCode
+# -----
+# HISTORY
+###
+query singleProduct($id: ID!) {
+  product: getProduct(_id: $id) {
+    _id
+    name
+    productId: takeshapeIoShopId
+    product: takeshapeIoShop {
+      title
+      descriptionHtml
+      images(first: 1) {
+        edges {
+          node {
+            transformedSrc(crop: CENTER, maxHeight: 1200, maxWidth: 800)
+          }
+        }
+      }
+      variants(first: 1) {
+        edges {
+          node {
+            price
+            storefrontId
+          }
+        }
+      }
+    }
+  }
+}
