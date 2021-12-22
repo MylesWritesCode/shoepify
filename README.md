@@ -23,13 +23,11 @@ The app should be accessible via browser @ http://localhost:3000
 ```
 # To generate hooks from *.graphql, you should just be able to run:
 yarn generate:graphql
-
-# @note: This is dependent on the config in codegen.yml. If the schema is wrong,
-# then you won't be able to generate React hooks. As of now (Dec. 21), it's
-# still broken. I need to do some research into how to properly hook this up
-# to Shopify. I'm pretty sure I just need to have the right shopId, but we'll
-# see.
 ```
+> @note: This is dependent on the config in codegen.yml. If the schema is wrong,
+> then you won't be able to generate React hooks. As of now (Dec. 21), it's
+> still broken. I need to do some research into how to properly hook this up
+> to Shopify. I'm pretty sure I just need to have the right shopId, but we'll
 
 # Dependencies 
 1. React
