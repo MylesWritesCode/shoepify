@@ -10,11 +10,15 @@ yarn install
 npm install
 ```
 
+## Config
+### Shopify
 Make sure to copy and configure `shopify.config.example.js` with your Shopify
 data. All of this can be found in your store settings.
 ```
 cp shopify.config.example.js shopify.config.js
 ```
+### GraphQL codegen
+Modify `codegen.yml` with your GraphQL endpoint on Shopify.
 
 ## To run
 ```
