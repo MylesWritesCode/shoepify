@@ -5,7 +5,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate:graphql": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@shopify/hydrogen": "^0.8.0",
@@ -17,11 +18,15 @@
     "react-router-dom": "^6.2.1"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^2.3.0",
+    "@graphql-codegen/cli": "2.3.0",
     "@types/node": "17.0.2",
     "@types/react": "17.0.37",
     "eslint": "8.5.0",
     "eslint-config-next": "12.0.7",
-    "typescript": "4.5.4"
+    "typescript": "4.5.4",
+    "@graphql-codegen/typescript": "2.4.1",
+    "@graphql-codegen/typescript-operations": "2.2.1",
+    "@graphql-codegen/typescript-react-apollo": "3.2.2",
+    "@graphql-codegen/introspection": "2.1.0"
   }
 }

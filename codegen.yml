@@ -1,0 +1,14 @@
+overwrite: true
+# I'm certain this is wrong. Need to do more research on this but it's
+# already EOD for me and I'm tired.
+schema: "https://{shop_id}.myshopify.com/api/2021-10/graphql.json"
+documents: "src/graphql/**/*.graphql"
+generates:
+  src/generated/graphql.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"
