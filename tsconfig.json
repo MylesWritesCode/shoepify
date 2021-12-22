@@ -17,11 +17,11 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@styles": ["./src/styles"],
-      "@pages": ["./src/pages"],
-      "@hooks": ["./src/hooks"],
-      "@utils": ["./src/utils"],
-      "@graphql": ["./src/graphql"],
+      "@styles/*": ["./src/styles/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@graphql/*": ["./src/graphql/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
