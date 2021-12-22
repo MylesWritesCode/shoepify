@@ -10,6 +10,12 @@ yarn install
 npm install
 ```
 
+Make sure to copy and configure `shopify.config.example.js` with your Shopify
+data. All of this can be found in your store settings.
+```
+cp shopify.config.example.js shopify.config.js
+```
+
 ## To run
 ```
 # Just need one terminal for this guy
