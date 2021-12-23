@@ -18,7 +18,14 @@ data. All of this can be found in your store settings.
 cp shopify.config.example.js shopify.config.js
 ```
 ### GraphQL codegen
-Modify `codegen.yml` with your GraphQL endpoint on Shopify.
+~~Modify `codegen.yml` with your GraphQL endpoint on Shopify.~~
+
+**Update** I've updated this to just pull from your `shopify.config.js`, so 
+make sure to configure that. After that, build out your GraphQL code in 
+`/graphql`, then run the graphql codegen script below. For building out your
+queries and mutations, check this reference:
+
+https://shopify-graphiql-app.shopifycloud.com/
 
 ## To run
 ```
@@ -31,14 +38,11 @@ The app should be accessible via browser @ http://localhost:3000
 # Scripts
 **GraphQL Codegen**
 ```
-# To generate hooks from *.graphql, you should just be able to run:
+# First, build out your *.graphql code in /graphql
+# Once you have the queries/mutations you want, runt he following script below:
 yarn generate:graphql
 ```
-> @note: This is dependent on the config in codegen.yml. If the schema is wrong,
-> then you won't be able to generate React hooks. As of now (Dec. 21), it's
-> still broken. I need to do some research into how to properly hook this up
-> to Shopify. I'm pretty sure I just need to have the right shopId, but we'll
-> see.
+This will generate hooks that you can call from `/generated` as hooks.
 
 # Dependencies 
 1. React
@@ -47,5 +51,10 @@ yarn generate:graphql
 
 # Notes
 **Dec 21, 2021** Some general todos to remind myself tomorrow.
-- Set up graphql-codegen: I'm fairly certain I just need the right schema URL
+- ~~Set up graphql-codegen: I'm fairly certain I just need the right schema URL~~
 - Finish `getShopifyData.ts`
+
+**Dec 22, 2021** More general notes and todos.
+- I should probably set up `@shopify/hydrogen` to see how it works. Tomorrow
+will probably be doc reading time
+- Pull in assets from an ecommerce project on frontendmentor.io

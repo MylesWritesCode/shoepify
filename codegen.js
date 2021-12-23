@@ -1,7 +1,7 @@
 /**
- * File: /codegen.ts
+ * File: /codegen.js
  * Project: govalo-store-playground
- * Purpose: I want to use a TS file instead of YAML, cause we need stuff from
+ * Purpose: I want to use a JS file instead of YAML, cause we need stuff from
  *          shopify.config.js. Make sure that file is modified with the right
  *          stuff.
  *
@@ -17,14 +17,12 @@
 const {
   storeDomain,
   storefrontToken,
-  graphqlApiVersion,
 } = require("./shopify.config.js");
 
 module.exports = {
   schema: [
     {
       // Sick. We can dyncamically assign keys like this. Thanks Nick.
-      // [`${storeDomain}/api/${graphqlApiVersion}/graphql.json`]: {
       [`https://${storeDomain}/api/graphql`]: {
         headers: {
           "X-Shopify-Storefront-Access-Token": storefrontToken,
@@ -47,5 +45,3 @@ module.exports = {
     },
   },
 };
-
-// export default config;
