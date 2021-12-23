@@ -18,6 +18,7 @@
 
 // @todo: Make this not of type any lmao. 
 export const getShopifyData = ({ query, variables}: any) => {
+
   
   const res = {
     props: {
@@ -31,6 +32,8 @@ export const getShopifyData = ({ query, variables}: any) => {
     // dependencies am I willing to put into this project? I'd also have to
     // consult my other projects, since I don't really remember.
     // @update: Screw it I remember how to do this. Check graphql folder.
+    // @update: Okay so Shopify docs manually build out a query using
+    // graphql-tag. I think I can still create a hook using graphql-codegen.
 
   } catch (err) {
     console.log("Error: ", err);
