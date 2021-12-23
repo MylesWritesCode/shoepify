@@ -14,9 +14,9 @@
  * HISTORY
 **/
 
-export default {
+module.exports = {
   locale: 'en-us',
   storeDomain: 'your-store.myshopify.com',
-  storefrontToken: 'y0ur-sh0pifY-t0k3n',
+  storefrontToken: 'super-awes0me-tok3n',
   graphqlApiVersion: 'unstable',
 };
