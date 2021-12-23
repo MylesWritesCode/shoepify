@@ -1,7 +1,8 @@
 /**
- * File: /shopify.config.js
+ * File: /shopify.config.example.js
  * Project: govalo-store-playground
- * Purpose: Config for Shopify Storefront API
+ * Purpose: Config for Shopify Storefront API.
+ *          RENAME THIS TO shopify.config.js WITH YOUR STORE VALUES
  * 
  * @author Myles Berueda
  * @date   Tuesday December 21st 2021
