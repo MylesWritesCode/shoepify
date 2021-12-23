@@ -14,20 +14,25 @@
  * -----
  * HISTORY
  **/
-const { storeDomain } = require("./shopify.config.js");
+const {
+  storeDomain,
+  storefrontToken,
+  graphqlApiVersion,
+} = require("./shopify.config.js");
 
 module.exports = {
   schema: [
     {
       // Sick. We can dyncamically assign keys like this. Thanks Nick.
-      [`${storeDomain}/api/2021-10/graphql.json`]: {
+      // [`${storeDomain}/api/${graphqlApiVersion}/graphql.json`]: {
+      [`https://${storeDomain}/api/graphql`]: {
         headers: {
-          Authorization: "api-key",
+          "X-Shopify-Storefront-Access-Token": storefrontToken,
         },
       },
     },
   ],
-  documents: ["src/**/*.tsx", "src/**/*.ts"],
+  documents: ["src/graphql/**/*.graphql"],
   overwrite: true,
   generates: {
     "src/generated/graphql.tsx": {
