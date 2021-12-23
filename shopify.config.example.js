@@ -3,7 +3,7 @@
  * Project: govalo-store-playground
  * Purpose: Config for Shopify Storefront API.
  *          RENAME THIS TO shopify.config.js WITH YOUR STORE VALUES
- * 
+ *
  * @author Myles Berueda
  * @date   Tuesday December 21st 2021
  * -----
@@ -12,11 +12,11 @@
  * Copyright (c) 2021 MylesWritesCode
  * -----
  * HISTORY
-**/
+ **/
 
 module.exports = {
-  locale: 'en-us',
-  storeDomain: 'your-store.myshopify.com',
-  storefrontToken: 'super-awes0me-tok3n',
-  graphqlApiVersion: 'unstable',
+  locale: "en-us",
+  storeDomain: "your-store.myshopify.com",
+  storefrontToken: "super-awes0me-tok3n",
+  graphqlApiVersion: "2021-10",
 };
