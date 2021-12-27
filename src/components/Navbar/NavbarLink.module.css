@@ -1,0 +1,28 @@
+/**
+ * File: /src/components/Navbar/NarbarLink.module.css
+ * Project: govalo-store-playground
+ * Purpose: // TODO: Add the purpose of the file here.
+ * 
+ * @author Myles Berueda
+ * @date   Monday December 27th 2021
+ * -----
+ * Modified: Monday December 27th 2021 8:32:27 am
+ * -----
+ * Copyright (c) 2021 MylesWritesCode
+ * -----
+ * HISTORY
+**/
+
+.container {
+  display: flex;
+  /* padding: 1rem; */
+  margin: 0 0.5rem;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.container:hover {
+  color: hsl(220, 13%, 13%);
+  box-shadow: 0px -3px inset hsl(26, 100%, 55%);
+}

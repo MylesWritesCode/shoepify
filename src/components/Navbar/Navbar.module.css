@@ -1,0 +1,56 @@
+/**
+ * File: /src/components/Navbar/Navbar.module.css
+ * Project: govalo-store-playground
+ * Purpose: // TODO: Add the purpose of the file here.
+ * 
+ * @author Myles Berueda
+ * @date   Monday December 27th 2021
+ * -----
+ * Modified: Monday December 27th 2021 8:26:55 am
+ * -----
+ * Copyright (c) 2021 MylesWritesCode
+ * -----
+ * HISTORY
+**/
+
+.container {
+  display: flex;
+  height: 72px;
+  margin: 0 1rem 3rem 1rem;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid hsl(220, 14%, 75%);
+}
+
+.left {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  margin-right: 3rem;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+}
+
+.brand h1 {
+  margin: 0;
+  padding: 0;
+  color: hsl(220, 13%, 13%);
+  text-transform: lowercase;
+}
+
+.links {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  color: hsl(219, 9%, 45%);
+  font-size: 14px;
+}
