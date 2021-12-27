@@ -13,6 +13,9 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div>
+        this is a thing that goes in here
+      </div>
     </div>
   );
 };
