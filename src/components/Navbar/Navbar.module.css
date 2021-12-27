@@ -16,7 +16,7 @@
 .container {
   display: flex;
   height: 72px;
-  margin: 0 1rem 3rem 1rem;
+  margin: 0 1rem;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;

@@ -16,6 +16,7 @@ import styles from "./Navbar.module.css";
 import React from "react";
 import { shopConfig } from "@config/shop";
 import NavbarLink from "./NavbarLink";
+import Info from "./Info";
 
 interface NavbarProps {}
 
@@ -32,7 +33,9 @@ const Navbar: React.FC<NavbarProps> = ({ ...props }) => {
           })}
         </div>
       </div>
-      <div className={styles.info}>login/cart stuff</div>
+      <div className={styles.info}>
+        <Info />
+      </div>
     </div>
   );
 };
