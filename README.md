@@ -44,6 +44,12 @@ yarn generate:graphql
 ```
 This will generate hooks that you can call from `/generated` as hooks.
 
+# Frontend Mentor
+Because I don't want to make any of my own assets, I'm going to be using
+[Frontend Mentor](https://www.frontendmentor.io/challenges/ecommerce-product-page-UPsZ9MJp6) for all of my frontend assets. I don't have
+access to the Figma/Sketch designs with a free account, so everything will be my
+best approximation based on the pictures I've seen.
+
 # Dependencies 
 1. React
 2. Nextjs
