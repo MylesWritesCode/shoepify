@@ -1,5 +1,6 @@
 {
-  "name": "govalo-store-playground",
+  "name": "shoepify",
+  "description": "A small learning app I'm writing to learn more about how headless integration works with the Shopify backend.",
   "private": true,
   "scripts": {
     "dev": "next dev",
