@@ -1,0 +1,86 @@
+/**
+ * File: /src/pages/products/Products.module.css
+ * Project: govalo-store-playground
+ * Purpose: // TODO: Add the purpose of the file here.
+ * 
+ * @author Myles Berueda
+ * @date   Tuesday December 28th 2021
+ * -----
+ * Modified: Tuesday December 28th 2021 7:14:13 am
+ * -----
+ * Copyright (c) 2021 MylesWritesCode
+ * -----
+ * HISTORY
+**/
+.container {
+  display: flex;
+  height: 80vh;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  margin: 3rem 2rem;
+
+  --primary: hsl(26, 100%, 55%);
+  --primary-pale: hsl(26, 94%, 86%);
+  --secondary: hsl(220, 13%, 13%);
+  --dark-grey: hsl(219, 9%, 45%);
+  --grey: hsl(220, 14%, 75%);
+  --light-grey: hsl(223, 64%, 98%);
+  --white: hsl(0, 0%, 100%);
+  --black: hsl(0, 0%, 0%);
+}
+
+.section {
+  display: flex;
+  height: 100%;
+  padding: 1rem;
+  flex: 1 0 50%;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.company {
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.title {
+  color: var(--secondary);
+}
+
+.description {
+  color: var(--dark-grey);
+}
+
+.price-and-discount {
+  display: flex;
+  margin: 1rem 0;
+  flex-direction: row;
+  align-items: center;
+}
+
+.price-and-discount h1 {
+  margin: 0;
+  padding: 0;
+}
+
+.discount-percentage {
+  margin: 0 1rem;
+  padding: 0.25rem 0.50rem;
+  background: var(--primary-pale);
+  color: var(--primary);
+  border-radius: 0.25rem;
+  font-weight: 700;
+}
+
+.original-price {
+  color: var(--grey);
+  font-weight: 700;
+  text-decoration: line-through;
+}
+
+.qty-and-price {
+  
+}
