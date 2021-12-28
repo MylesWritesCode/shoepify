@@ -1,7 +1,7 @@
 /**
  * File: /src/pages/index.tsx
  * Project: govalo-store-playground
- * Purpose: Landing page
+ * Purpose: Landing page. For now I'll use this for quick development
  * 
  * @author Myles Berueda
  * @date   Tuesday December 21st 2021
@@ -23,7 +23,7 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Some title</title>
+        <title>👞 Shoepify 👟</title>
         <meta
           name="description"
           content="A small shopify app written in Typescript with React, Hydrogen, and Nextjs."
