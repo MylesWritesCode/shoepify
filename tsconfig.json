@@ -24,8 +24,8 @@
       "@hooks/*": ["./src/hooks/*"],
       "@mock/*": ["./src/mock/*"],
       "@pages/*": ["./src/pages/*"],
-      "@types/*": ["./src/types/*"],
       "@styles/*": ["./src/styles/*"],
+      "@type/*": ["./src/types/*"],
       "@utils/*": ["./src/utils/*"],
     }
   },
