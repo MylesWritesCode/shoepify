@@ -33,6 +33,7 @@ import defaultProduct from "@mock/default-product";
 
 const Products: NextPage = () => {
   const [product, setProduct] = useState<Product>(defaultProduct);
+  const [quantity, setQuantity] = useState<number>(1);
   const { title, company, description, price, discount } = product;
 
   return (
@@ -66,7 +67,7 @@ const Products: NextPage = () => {
           </div>
 
           <div className={styles["qty-and-atc"]}>
-            <QuantityWidget />
+            <QuantityWidget state={quantity} setState={setQuantity}/>
             <button className={styles.atc}>Add to cart</button>
           </div>
         </div>

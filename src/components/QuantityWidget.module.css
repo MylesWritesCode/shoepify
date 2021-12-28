@@ -16,7 +16,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.75rem 1rem;
   background: var(--light-grey);
   border-radius: 0.5rem;
 
@@ -30,6 +29,19 @@
   --black: hsl(0, 0%, 0%);
 }
 
+.container button {
+  height: 100%;
+  width: 100%;
+  padding: 1rem 0.75rem;
+  cursor: pointer;
+  border: unset;
+  background-color: unset;
+}
+
+.container button:hover {
+  opacity: 0.5;
+}
+
 .icon {
   height: 12px;
   width: 12px;
@@ -37,11 +49,6 @@
   mask-size: contain;
   mask-position: center;
   mask-repeat: no-repeat;
-  cursor: pointer;
-}
-
-.icon:hover {
-  opacity: 0.5;
 }
 
 .minus {
@@ -55,5 +62,6 @@
 .qty {
   color: var(--secondary);
   font-weight: 700;
-  margin: 0 1.75rem;
+  margin: 0 1rem;
+  width: 20px
 }

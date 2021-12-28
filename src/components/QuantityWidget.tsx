@@ -12,24 +12,41 @@
  * *****
  * HISTORY
  **/
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 
 import styles from "./QuantityWidget.module.css";
 
-interface QuantityWidgetProps {}
+interface QuantityWidgetProps {
+  state: number;
+  setState: (state: number) => void;
+}
 
-const QuantityWidget: React.FC<QuantityWidgetProps> = ({ ...props }) => {
-  const [quantity, setQuantity] = useState<number>(10);
+const QuantityWidget: React.FC<QuantityWidgetProps> = ({ 
+  state: quantity,
+  setState,
+  ...props 
+}) => {
+  // Just some render testing. Keeping here so I remember.
+  useEffect(() => {
+    // Will be fired on component mount. Note no dependencies in dep array.
+    console.log('component mounted');
+    return () => {
+      // Will be fired when the component unmounts.
+      console.log('component unmounted');
+    }
+  }, []);
+
   return (
     <div className={styles.container}>
-      <style>
-        svg { 
-          
-        }
-      </style>
-      <div className={`${styles.icon} ${styles.minus}`}></div>
+      <button id="minus" onClick={() => {
+        if (quantity > 0) setState(quantity - 1);
+        }}>
+        <div className={`${styles.icon} ${styles.minus}`}></div>
+      </button>
       <div className={styles.qty}>{quantity}</div>
-      <div className={`${styles.icon} ${styles.plus}`}></div>
+      <button id="plus" onClick={() => setState(quantity + 1)}>
+        <div className={`${styles.icon} ${styles.plus}`}></div>
+      </button>
     </div>
   );
 };
