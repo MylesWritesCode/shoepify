@@ -15,13 +15,17 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { ShopifyServerProvider, DefaultRoutes } from "@shopify/hydrogen";
+import Navbar from "@components/Navbar/Navbar";
 
 import shopifyConfig from "../../shopify.config";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ShopifyServerProvider shopifyConfig={shopifyConfig} >
-      <Component {...pageProps} />
+    <ShopifyServerProvider shopifyConfig={shopifyConfig}>
+      <>
+        <Navbar />
+        <Component {...pageProps} />
+      </>
     </ShopifyServerProvider>
   );
 }

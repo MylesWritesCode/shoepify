@@ -18,7 +18,7 @@ export const shopConfig = {
   links: [
     {
       name: "Collections",
-      link: "#"
+      link: "/products"
     },
     {
       name: "Men",
