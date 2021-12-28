@@ -1,0 +1,59 @@
+/**
+ * File: /src/components/QuantityWidget.module.css
+ * Project: govalo-store-playground
+ * Purpose: // TODO: Add the purpose of the file here.
+ * 
+ * @author Myles Berueda
+ * @date   Tuesday December 28th 2021
+ * *****
+ * Modified: Tuesday December 28th 2021 11:19:43 am
+ * *****
+ * Copyright (c) 2021 MylesWritesCode
+ * *****
+ * HISTORY
+**/
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: var(--light-grey);
+  border-radius: 0.5rem;
+
+  --primary: hsl(26, 100%, 55%);
+  --primary-pale: hsl(25, 100%, 94%);
+  --secondary: hsl(220, 13%, 13%);
+  --dark-grey: hsl(219, 9%, 45%);
+  --grey: hsl(220, 14%, 75%);
+  --light-grey: hsl(223, 64%, 98%);
+  --white: hsl(0, 0%, 100%);
+  --black: hsl(0, 0%, 0%);
+}
+
+.icon {
+  height: 12px;
+  width: 12px;
+  background-color: var(--primary);
+  mask-size: contain;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.icon:hover {
+  opacity: 0.5;
+}
+
+.minus {
+  mask-image: url("/icon-minus.svg");
+}
+
+.plus {
+  mask-image: url("/icon-plus.svg");
+}
+
+.qty {
+  color: var(--secondary);
+  font-weight: 700;
+  margin: 0 1.75rem;
+}

@@ -72,6 +72,28 @@
   text-decoration: line-through;
 }
 
-.qty-and-price {
-  
+.qty-and-atc {
+  display: flex;
+  margin: 1.5rem 0;
+  align-items: center;
+  flex-direction: row;
+}
+
+.atc {
+  margin: 0 1rem;
+  height: 100%;
+  width: 100%;
+  font-weight: 700;
+  background: var(--primary);
+  color: var(--white);
+  border: 0px;
+  border-radius: 0.35rem;
+  cursor: pointer;
+  transition: opacity 0.25s box-shadow 0.25s;
+  box-shadow: var(--shadow-base);
+}
+
+.atc:hover {
+  opacity: 0.5;
+  box-shadow: var(--shadow-dark);
 }

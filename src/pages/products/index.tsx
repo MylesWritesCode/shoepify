@@ -16,9 +16,13 @@
 import { useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { shopConfig } from "@config/shop";
+import QuantityWidget from "@components/QuantityWidget";
 import { formatPercentage, formatCurrency } from "@utils";
 
+// Config
+import { shopConfig } from "@config/shop";
+
+// Styles
 import styles from "./Products.module.css";
 
 // Types
@@ -39,9 +43,7 @@ const Products: NextPage = () => {
         </title>
       </Head>
       <div className={styles.container}>
-        <div className={`${styles.section}`}>
-          {/* image impl */}
-        </div>
+        <div className={`${styles.section}`}>{/* image impl */}</div>
         <div className={`${styles.section}`}>
           {/* info impl */}
           <div className={styles.company}>{company}</div>
@@ -63,7 +65,10 @@ const Products: NextPage = () => {
             </div>
           </div>
 
-          <div className={styles["qty-and-atc"]}>0 Add to cart</div>
+          <div className={styles["qty-and-atc"]}>
+            <QuantityWidget />
+            <button className={styles.atc}>Add to cart</button>
+          </div>
         </div>
       </div>
     </>
