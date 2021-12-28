@@ -20,12 +20,20 @@
 }
 
 .cart {
+  height: 20px;
+  width: 20px;
   margin: 0 2rem;
+  background-color: var(--grey);
+  mask-size: contain;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-image: url('/icon-cart.svg');
   cursor: pointer;
+  transition: all 0.25s;
 }
 
-#cart:hover {
-  fill: hsl(220, 13%, 13%);
+.cart:hover {
+  background-color: var(--secondary);
 }
 
 .profile {

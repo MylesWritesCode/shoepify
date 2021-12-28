@@ -23,7 +23,6 @@ const Info: React.FC<InfoProps> = ({ pictureUrl, ...props }) => {
   return (
     <div className={styles.container}>
       <div className={styles.cart}>
-        <img src="/icon-cart.svg" />
       </div>
       <div className={styles.profile}>
         <img src={pictureUrl} />
