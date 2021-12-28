@@ -17,10 +17,13 @@ import React from "react";
 import { shopConfig } from "@config/shop";
 import NavbarLink from "./NavbarLink";
 import Info from "./Info";
+import { profile } from "console";
 
-interface NavbarProps {}
+interface NavbarProps {
+  profilePictureUrl?: string;
+}
 
-const Navbar: React.FC<NavbarProps> = ({ ...props }) => {
+const Navbar: React.FC<NavbarProps> = ({ profilePictureUrl, ...props }) => {
   return (
     <div className={styles.container}>
       <div className={styles.left}>
@@ -34,7 +37,13 @@ const Navbar: React.FC<NavbarProps> = ({ ...props }) => {
         </div>
       </div>
       <div className={styles.info}>
-        <Info />
+        <Info
+          pictureUrl={
+            profilePictureUrl
+              ? profilePictureUrl
+              : shopConfig.defaultProfile.picture
+          }
+        />
       </div>
     </div>
   );

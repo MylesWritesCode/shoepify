@@ -1,8 +1,8 @@
 /**
  * File: /src/components/Navbar/Info.tsx
  * Project: govalo-store-playground
- * Purpose: Contains the dropdown cart and profile picture on the navbar
- * 
+ * Purpose: Contains the dropdown cart and profile picture on the navbar.
+ *
  * @author Myles Berueda
  * @date   Monday December 27th 2021
  * -----
@@ -11,13 +11,25 @@
  * Copyright (c) 2021 MylesWritesCode
  * -----
  * HISTORY
-**/
-import React from 'react';
+ **/
+import styles from "./Info.module.css";
+import React from "react";
 
-interface InfoProps {}
-
-const Info: React.FC<InfoProps> = ({...props}) => {
-  return (<div>this works lmao</div>);
+interface InfoProps {
+  pictureUrl: string;
 }
+
+const Info: React.FC<InfoProps> = ({ pictureUrl, ...props }) => {
+  return (
+    <div className={styles.container}>
+      <div className={styles.cart}>
+        <img src="/icon-cart.svg" />
+      </div>
+      <div className={styles.profile}>
+        <img src={pictureUrl} />
+      </div>
+    </div>
+  );
+};
 
 export default Info;

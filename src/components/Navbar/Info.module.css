@@ -1,0 +1,48 @@
+/**
+ * File: /src/components/Navbar/Info.module.css
+ * Project: govalo-store-playground
+ * Purpose: // TODO: Add the purpose of the file here.
+ * 
+ * @author Myles Berueda
+ * @date   Monday December 27th 2021
+ * -----
+ * Modified: Monday December 27th 2021 9:47:39 am
+ * -----
+ * Copyright (c) 2021 MylesWritesCode
+ * -----
+ * HISTORY
+**/
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.cart {
+  margin: 0 2rem;
+  cursor: pointer;
+}
+
+#cart:hover {
+  fill: hsl(220, 13%, 13%);
+}
+
+.profile {
+  display: flex;
+  width: 25%;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+
+  transition: box-shadow 0.5s;
+}
+
+.profile:hover {
+  box-shadow: 0 0 0 2.5px hsl(26, 100%, 55%);
+}
+
+.profile img {
+  width: 100%;
+}
