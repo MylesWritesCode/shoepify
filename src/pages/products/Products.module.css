@@ -5,11 +5,11 @@
  * 
  * @author Myles Berueda
  * @date   Tuesday December 28th 2021
- * -----
+ * *****
  * Modified: Tuesday December 28th 2021 7:14:13 am
- * -----
+ * *****
  * Copyright (c) 2021 MylesWritesCode
- * -----
+ * *****
  * HISTORY
 **/
 .container {
@@ -19,15 +19,6 @@
   align-items: center;
   flex-direction: row;
   margin: 3rem 2rem;
-
-  --primary: hsl(26, 100%, 55%);
-  --primary-pale: hsl(26, 94%, 86%);
-  --secondary: hsl(220, 13%, 13%);
-  --dark-grey: hsl(219, 9%, 45%);
-  --grey: hsl(220, 14%, 75%);
-  --light-grey: hsl(223, 64%, 98%);
-  --white: hsl(0, 0%, 100%);
-  --black: hsl(0, 0%, 0%);
 }
 
 .section {
