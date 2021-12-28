@@ -65,4 +65,8 @@ Shopify's backend.
 **Dec 22, 2021** More general notes and todos.
 - I should probably set up `@shopify/hydrogen` to see how it works. Tomorrow
 will probably be doc reading time
-- Pull in assets from an ecommerce project on frontendmentor.io
+- ~~Pull in assets from an ecommerce project on frontendmentor.io~~
+
+**Dec 27, 2021**
+- Style out the rest of the InfoBox component
+- Add in hardcoded product to index.tsx
