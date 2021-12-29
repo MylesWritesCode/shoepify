@@ -121,7 +121,7 @@ will probably be doc reading time~~
 
 **Dec 28, 2021** This should probably be in a NOTES.md or something, but I'll
 just leave this in here for now. Anyway - notes for tomorrow:
-- Styles for general layout. Expanding the full width looks bad on big monitors
+- ~~Styles for general layout. Expanding the full width looks bad on big monitors~~
 - Implement product gallery - I'm pretty sure this'll be a component on its own
 - Find more assets to upload to Shopify - probably just going to take mock 
 content from Nike or Footlocker or something
