@@ -17,6 +17,7 @@ data. All of this can be found in your store settings.
 ```
 cp shopify.config.example.js shopify.config.js
 ```
+
 ### Store variables
 For ease of use, I've created a config file - `src/config/shop.ts`. This file
 can be modified to change different variables throughout the app. Right now it's
