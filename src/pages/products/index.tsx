@@ -2,7 +2,7 @@
  * File: /src/pages/products/index.tsx
  * Project: shoepify
  * Purpose: // TODO: Add the purpose of the file here.
- * 
+ *
  * @author Myles Berueda
  * @date   Tuesday December 28th 2021
  * *****
@@ -11,7 +11,7 @@
  * Copyright (c) 2021 MylesWritesCode
  * *****
  * HISTORY
-**/
+ **/
 import { useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -66,7 +66,11 @@ const Products: NextPage = () => {
           </div>
 
           <div className={styles["qty-and-atc"]}>
-            <QuantityWidget state={quantity} setState={setQuantity} />
+            <QuantityWidget
+              state={quantity}
+              setState={setQuantity}
+              min={-100}
+            />
             <button className={styles.atc}>
               {quantity >= 0 ? "Add to cart" : "Return product"}
             </button>

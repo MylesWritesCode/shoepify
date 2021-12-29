@@ -19,33 +19,44 @@ import styles from "./QuantityWidget.module.css";
 interface QuantityWidgetProps {
   state: number;
   setState: (state: number) => void;
+  min?: number;
+  max?: number;
 }
 
-const QuantityWidget: React.FC<QuantityWidgetProps> = ({ 
+const QuantityWidget: React.FC<QuantityWidgetProps> = ({
   state: quantity,
   setState,
-  ...props 
+  min = 0,
+  max = 20,
+  ...props
 }) => {
   // Just some render testing. Keeping here so I remember.
   useEffect(() => {
     // Will be fired on component mount. Note no dependencies in dep array.
-    console.log('component mounted');
+    console.log("component mounted");
     return () => {
       // Will be fired when the component unmounts.
-      console.log('component unmounted');
-    }
+      console.log("component unmounted");
+    };
   }, []);
 
   return (
     <div className={styles.container}>
-      <button id="minus" onClick={() => {
-        // if (quantity > 0) setState(quantity - 1);
-        setState(quantity - 1);
-      }}>
+      <button
+        id="minus"
+        onClick={() => {
+          if (quantity > min) setState(quantity - 1);
+        }}
+      >
         <div className={`${styles.icon} ${styles.minus}`}></div>
       </button>
       <div className={styles.qty}>{quantity}</div>
-      <button id="plus" onClick={() => setState(quantity + 1)}>
+      <button
+        id="plus"
+        onClick={() => {
+          if (quantity < max) setState(quantity + 1);
+        }}
+      >
         <div className={`${styles.icon} ${styles.plus}`}></div>
       </button>
     </div>
