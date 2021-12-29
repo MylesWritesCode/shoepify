@@ -28,18 +28,11 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div>
-        <div className="attribution">
-          Challenge by{" "}
-          <a
-            href="https://www.frontendmentor.io?ref=challenge"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Frontend Mentor
-          </a>
-          . Coded by <a href="#">Your Name Here</a>.
-        </div>
+      <div className={styles.container}>
+        <h1 className={styles["call-to-action"]}>
+          I need to test the{"\n"}<span className={styles.lobster}>production</span>{" "}
+          branch :)
+        </h1>
       </div>
     </div>
   );
