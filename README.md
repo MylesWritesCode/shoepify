@@ -46,8 +46,9 @@ To properly use this script, here's the workflow:
 1. Write out some super sick GraphQL code in a file that lives in `src/graphql`
 2. Run `yarn generate:graphql`. This will create/update a file in 
 `src/generated` 
-3. Open the component/page you're working on then import the generated file like
-below. You should be able to use the hook in the component. Here's an example
+3. Open the component/page you're working on, then import the generated file 
+like below. You should be able to use the hook in the component. Here's an 
+example
 
 ```graphql
 # In GetShopName.graphql
@@ -58,7 +59,7 @@ query getShopName {
 }
 ```
 
-```ts
+```tsx
 // In SomeComponent.tsx
 import { useGetShopName } from "@generated/graphql";
 
