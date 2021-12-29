@@ -13,7 +13,9 @@
  * HISTORY
 **/
 export const shopConfig = {
+  // Will show where ever branding needs to exist
   name: "shoepify",
+  // Links to various pages in the webapp
   links: [
     {
       name: "Collections",
@@ -36,6 +38,8 @@ export const shopConfig = {
       link: "#"
     },
   ],
+  // I'm keeping this here just to make it easier for me to find out the colors
+  // laid out by Frontend Mentor. Probably not so useful because CSS vars exist
   colors: {
     orange: "hsl(26, 100%, 55%)",
     paleOrange: "hsl(25, 100%, 94%)",
@@ -46,6 +50,7 @@ export const shopConfig = {
     white: "hsl(0, 0%, 100%)",
     black: "hsl(0, 0%, 0%)",
   },
+  // The default profile picture that will show in the top right of the app
   defaultProfile: {
     picture: "/image-avatar.png",
   }
