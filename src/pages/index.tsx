@@ -2,7 +2,7 @@
  * File: /src/pages/index.tsx
  * Project: govalo-store-playground
  * Purpose: // TODO: Add the purpose of the file here.
- * 
+ *
  * @author Myles Berueda
  * @date   Tuesday December 21st 2021
  * *****
@@ -11,7 +11,7 @@
  * Copyright (c) 2021 MylesWritesCode
  * *****
  * HISTORY
-**/
+ **/
 import styles from "../styles/Home.module.css";
 
 import type { NextPage } from "next";
@@ -30,8 +30,15 @@ const Home: NextPage = () => {
       </Head>
       <div>
         <div className="attribution">
-          Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-          Coded by <a href="#">Your Name Here</a>.
+          Challenge by{" "}
+          <a
+            href="https://www.frontendmentor.io?ref=challenge"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Frontend Mentor
+          </a>
+          . Coded by <a href="#">Your Name Here</a>.
         </div>
       </div>
     </div>

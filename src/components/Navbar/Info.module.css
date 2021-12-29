@@ -22,7 +22,6 @@
 .cart {
   height: 20px;
   width: 20px;
-  margin: 0 2rem;
   background-color: var(--grey);
   mask-size: contain;
   mask-position: center;
@@ -38,7 +37,7 @@
 
 .profile {
   display: flex;
-  width: 25%;
+  margin: 0 1rem 0 2rem;
   justify-content: center;
   align-items: center;
   border-radius: 50%;

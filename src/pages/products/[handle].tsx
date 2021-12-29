@@ -33,10 +33,13 @@ import { getShopifyData } from "@utils/getShopifyData";
 
 export const Product: NextPage = ({ data }: any) => {
   return (
-    <ShopifyProduct product={data.product}>
-      {
-        // other stuff
-      }
-    </ShopifyProduct>
+    <div>this is so broken lmao</div>
+    // <ShopifyProduct product={data.product}>
+    //   {
+    //     // other stuff
+    //   }
+    // </ShopifyProduct>
   );
 };
+
+export default Product;

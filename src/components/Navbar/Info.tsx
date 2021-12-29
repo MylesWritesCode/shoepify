@@ -14,6 +14,7 @@
  **/
 import styles from "./Info.module.css";
 import React from "react";
+import Image from 'next/image';
 
 interface InfoProps {
   pictureUrl: string;
@@ -25,7 +26,7 @@ const Info: React.FC<InfoProps> = ({ pictureUrl, ...props }) => {
       <div className={styles.cart}>
       </div>
       <div className={styles.profile}>
-        <img src={pictureUrl} />
+        <Image src={pictureUrl} alt="Profile picture" width="45%" height="45%"/>
       </div>
     </div>
   );
