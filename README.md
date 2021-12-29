@@ -74,6 +74,8 @@ const SomeComponent: React.FC<SomeComponentProps> = ({...props}) => {
     // ...more template code...
   );
 }
+
+export default SomeComponent;
 ```
 This is a contrived example, but you can look in `generated/graphql.tsx` and
 search for your generated GraphQL call by looking for your query/mutation name.
