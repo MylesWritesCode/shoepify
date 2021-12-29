@@ -12,10 +12,11 @@ npm install
 
 ## Config
 ### Shopify
-Make sure to copy and configure `shopify.config.example.js` with your Shopify
-data. All of this can be found in your store settings.
+Make sure to copy and configure `.env` with your Shopify data. All of this data 
+can be found in your store settings. 
+
 ```
-cp shopify.config.example.js shopify.config.js
+cp .env.example .env
 ```
 
 ### Store variables
@@ -27,10 +28,10 @@ file lol.
 ### GraphQL codegen
 ~~Modify `codegen.yml` with your GraphQL endpoint on Shopify.~~
 
-**Update** I've updated this to just pull from your `shopify.config.js`, so 
-make sure to configure that. After that, build out your GraphQL code in 
-`/graphql`, then run the graphql codegen script below. For building out your
-queries and mutations, check this reference:
+**Update** I've updated this to just pull from your `.env`, so make sure to
+configure that. After that, build out your GraphQL code in `/graphql`, then run 
+the graphql codegen script below. For building out your queries and mutations,
+check this reference:
 
 https://shopify-graphiql-app.shopifycloud.com/
 
@@ -49,7 +50,7 @@ yarn generate:graphql
 ```
 To properly use this script, here's the workflow:
 
-0. Make sure that your `shopify.config.js` is properly configured
+0. Make sure that your `.env` is properly configured
 1. Write out some super sick GraphQL code in a file that lives in `src/graphql`
 2. Run `yarn generate:graphql`. This will create/update a file in 
 `src/generated` 

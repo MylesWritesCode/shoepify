@@ -17,7 +17,17 @@ import type { AppProps } from "next/app";
 import { ShopifyServerProvider, DefaultRoutes } from "@shopify/hydrogen";
 import Navbar from "@components/Navbar/Navbar";
 
-import shopifyConfig from "../../shopify.config";
+
+// const shopifyConfig = {
+//   locale: process.env.locale ?? "",
+//   storeDomain: process.env.storeDomain ?? "",
+//   storefrontToken: process.env.storefrontToken ?? "",
+//   graphqlApiVersion: process.env.graphqlApiVersion ?? "",
+// };
+
+import shopifyConfig from "shopify.config";
+
+console.log(shopifyConfig);
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
