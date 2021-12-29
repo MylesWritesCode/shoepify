@@ -15,7 +15,7 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { ShopifyServerProvider, DefaultRoutes } from "@shopify/hydrogen";
-import Navbar from "@components/Navbar/Navbar";
+import Navbar from "@components/navbar/Navbar";
 
 import shopifyConfig from "shopify.config";
 

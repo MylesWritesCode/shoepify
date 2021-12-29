@@ -15,16 +15,12 @@
 import { useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
+import ProductGallery from "@components/products/ProductGallery";
 import QuantityWidget from "@components/QuantityWidget";
 import { formatPercentage, formatCurrency } from "@utils";
 
-// Config
 import { shopConfig } from "@config/shop";
-
-// Styles
 import styles from "./Products.module.css";
-
-// Types
 import type { Product } from "@type/product.type";
 
 // Mock data
@@ -34,13 +30,31 @@ const Products: NextPage = () => {
   const [product, setProduct] = useState<Product>(defaultProduct);
   const [quantity, setQuantity] = useState<number>(1);
   const { title, company, description, price, discount } = product;
-  
+
   const generateATCButtonText = (): string => {
     if (quantity > 0) return "Add to cart";
     if (quantity == 0) return "Select a quantity";
     if (quantity < 0) return "Return product";
     return "";
-  }
+  };
+  
+  const testSrcs = [
+    "this",
+    "is",
+    "a",
+    "test",
+    "from",
+    "testSrcs"
+  ];
+
+  const testThumbSrcs = [
+    "this",
+    "is",
+    "a",
+    "test",
+    "from",
+    "testThumbSrcs"
+  ];
 
   return (
     <>
@@ -50,9 +64,12 @@ const Products: NextPage = () => {
         </title>
       </Head>
       <div className={styles.container}>
-        <div className={`${styles.section}`}>{/* image impl */}</div>
         <div className={`${styles.section}`}>
-          {/* info impl */}
+          {/* gallery implementation */}
+          <ProductGallery srcs={testSrcs} thumbSrcs={testThumbSrcs}/>
+        </div>
+        <div className={`${styles.section}`}>
+          {/* info implementation */}
           <div className={styles.company}>{company}</div>
           <div className={styles.title}>
             <h1>{title}</h1>
