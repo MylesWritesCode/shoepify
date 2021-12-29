@@ -78,8 +78,8 @@ const Products: NextPage = () => {
               setState={setQuantity}
               min={-100}
             />
-            <button className={styles.atc}>
-              {generateATCButtonText()}
+            <button className={styles.atc} disabled={quantity == 0}>
+              <div className={styles.icon} /> {generateATCButtonText()}
             </button>
           </div>
         </div>
