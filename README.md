@@ -102,8 +102,8 @@ Shopify's backend.
 2. Nextjs
 3. [Hydrogen](https://shopify.dev/custom-storefronts/hydrogen/getting-started/create)
 4. GraphQL (if using manual GraphQL calls)
-  1. Apollo (needed for @graphql-codegen)
-  2. GraphQL Codegen (creates hooks based on gql calls)
+    1. Apollo (needed for @graphql-codegen)
+    2. GraphQL Codegen (creates hooks based on gql calls)
 
 # Notes
 **Dec 21, 2021** Some general todos to remind myself tomorrow.
