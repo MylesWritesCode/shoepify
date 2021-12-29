@@ -42,8 +42,9 @@ yarn generate:graphql
 ```
 To properly use this script, here's the workflow:
 0. Make sure that your `codegen.yml` is properly configured
-1. Write out some super sick GraphQL code in a file that lives in src/graphql
-2. Run `yarn generate:graphql`. This will create/update a file in src/generated 
+1. Write out some super sick GraphQL code in a file that lives in `src/graphql`
+2. Run `yarn generate:graphql`. This will create/update a file in 
+`src/generated` 
 3. Open the component/page you're working on then import the generated file like
 below. You should be able to use the hook in the component. Here's an example
 
