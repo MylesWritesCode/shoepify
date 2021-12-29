@@ -1,6 +1,16 @@
 # Overview
 This is a small learning project meant to use the Shopify API as the backend.
 
+### Branches
+I've deployed this to Vercel @ https://shoepify.vercel.app where the only route
+that matters so far is [the products index](https://shoepify.vercel.app/products). 
+This creates a few problems for me: I don't want Vercel to rebuild this every 
+time I sync master. I'm left with two options: Create a production branch, or 
+create a dev branch. I'm opting for the production branch instead; I just gotta
+remember to merge into that when I want it deployed.
+
+- Created production branch that pushes to Vercel
+
 # Installation
 ```
 # yarn
