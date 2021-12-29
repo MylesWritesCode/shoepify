@@ -39,8 +39,9 @@ const QuantityWidget: React.FC<QuantityWidgetProps> = ({
   return (
     <div className={styles.container}>
       <button id="minus" onClick={() => {
-        if (quantity > 0) setState(quantity - 1);
-        }}>
+        // if (quantity > 0) setState(quantity - 1);
+        setState(quantity - 1);
+      }}>
         <div className={`${styles.icon} ${styles.minus}`}></div>
       </button>
       <div className={styles.qty}>{quantity}</div>

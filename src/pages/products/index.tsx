@@ -1,18 +1,17 @@
 /**
  * File: /src/pages/products/index.tsx
- * Project: govalo-store-playground
- * Purpose: Eventually will become the products page. For now, I'm using this
- *          for rapid development.
- *
+ * Project: shoepify
+ * Purpose: // TODO: Add the purpose of the file here.
+ * 
  * @author Myles Berueda
  * @date   Tuesday December 28th 2021
- * -----
+ * *****
  * Modified: Tuesday December 28th 2021 7:04:39 am
- * -----
+ * *****
  * Copyright (c) 2021 MylesWritesCode
- * -----
+ * *****
  * HISTORY
- **/
+**/
 import { useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -67,8 +66,10 @@ const Products: NextPage = () => {
           </div>
 
           <div className={styles["qty-and-atc"]}>
-            <QuantityWidget state={quantity} setState={setQuantity}/>
-            <button className={styles.atc}>Add to cart</button>
+            <QuantityWidget state={quantity} setState={setQuantity} />
+            <button className={styles.atc}>
+              {quantity >= 0 ? "Add to cart" : "Return product"}
+            </button>
           </div>
         </div>
       </div>
