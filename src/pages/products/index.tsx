@@ -34,6 +34,13 @@ const Products: NextPage = () => {
   const [product, setProduct] = useState<Product>(defaultProduct);
   const [quantity, setQuantity] = useState<number>(1);
   const { title, company, description, price, discount } = product;
+  
+  const generateATCButtonText = (): string => {
+    if (quantity > 0) return "Add to cart";
+    if (quantity == 0) return "Select a quantity";
+    if (quantity < 0) return "Return product";
+    return "";
+  }
 
   return (
     <>
@@ -72,7 +79,7 @@ const Products: NextPage = () => {
               min={-100}
             />
             <button className={styles.atc}>
-              {quantity >= 0 ? "Add to cart" : "Return product"}
+              {generateATCButtonText()}
             </button>
           </div>
         </div>
