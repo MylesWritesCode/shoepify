@@ -37,14 +37,45 @@ The app should be accessible via browser @ http://localhost:3000
 
 # Scripts
 **GraphQL Codegen**
-```
-# First, build out your *.graphql code in /graphql
-# Once you have the queries/mutations you want, run this:
+```bash
 yarn generate:graphql
 ```
-This will generate code that you can call from `/generated` as hooks. If you're
-curious, I'd suggest looking for the name pattern `use<query name>` in the 
-generated file; there's some pretty good generated documentation in there.
+To properly use this script, here's the workflow:
+0. Make sure that your `codegen.yml` is properly configured
+1. Write out some super sick GraphQL code in a file that lives in src/graphql
+2. Run `yarn generate:graphql`. This will create/update a file in src/generated 
+3. Open the component/page you're working on then import the generated file like
+below. You should be able to use the hook in the component. Here's an example
+
+```graphql
+# In GetShopName.graphql
+query getShopName {
+  shop {
+    name
+  }
+}
+```
+
+```ts
+// In SomeComponent.tsx
+import { useGetShopName } from "@generated/graphql";
+
+// ...some code...
+
+const SomeComponent: React.FC<SomeComponentProps> = ({...props}) => {
+  const { data, loading, error } = useGetShopName();
+  // ...some more code...
+  return (
+    // ...template code...
+    <div>{data}</div>
+    // ...more template code...
+  );
+}
+```
+This is a contrived example, but you can look in `generated/graphql.tsx` and
+search for your generated GraphQL call by looking for your query/mutation name.
+In the above case, it was GetShopName. There's some pretty good documentation in
+there on how to use each generated hook.
 
 # Frontend Mentor
 Because I don't want to make any of my own assets, I'm going to be using
