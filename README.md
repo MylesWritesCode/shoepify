@@ -41,6 +41,7 @@ The app should be accessible via browser @ http://localhost:3000
 yarn generate:graphql
 ```
 To properly use this script, here's the workflow:
+
 0. Make sure that your `codegen.yml` is properly configured
 1. Write out some super sick GraphQL code in a file that lives in `src/graphql`
 2. Run `yarn generate:graphql`. This will create/update a file in 
