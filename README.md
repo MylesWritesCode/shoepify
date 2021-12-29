@@ -17,6 +17,12 @@ data. All of this can be found in your store settings.
 ```
 cp shopify.config.example.js shopify.config.js
 ```
+### Store variables
+For ease of use, I've created a config file - `src/config/shop.ts`. This file
+can be modified to change different variables throughout the app. Right now it's
+being used to generate the links and brand text in the navbar. Just open the
+file lol.
+
 ### GraphQL codegen
 ~~Modify `codegen.yml` with your GraphQL endpoint on Shopify.~~
 
@@ -77,10 +83,10 @@ const SomeComponent: React.FC<SomeComponentProps> = ({...props}) => {
 
 export default SomeComponent;
 ```
-This is a contrived example, but you can look in `generated/graphql.tsx` and
-search for your generated GraphQL call by looking for your query/mutation name.
-In the above case, it was GetShopName. There's some pretty good documentation in
-there on how to use each generated hook.
+This is a contrived example, but if you're feeling adventurous you can look in
+`generated/graphql.tsx` and search for your generated GraphQL call by looking 
+for your query/mutation name. In the above case, it was `GetShopName`. There's 
+some pretty good documentation in there on how to use each generated hook.
 
 # Frontend Mentor
 Because I don't want to make any of my own assets, I'm going to be using

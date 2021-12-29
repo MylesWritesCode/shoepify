@@ -1,18 +1,17 @@
 /**
  * File: /src/config/shop.ts
- * Project: govalo-store-playground
- * Purpose: General purpose config for the store
+ * Project: shoepify
+ * Purpose: // TODO: Add the purpose of the file here.
  * 
  * @author Myles Berueda
  * @date   Monday December 27th 2021
- * -----
+ * *****
  * Modified: Monday December 27th 2021 8:14:55 am
- * -----
+ * *****
  * Copyright (c) 2021 MylesWritesCode
- * -----
+ * *****
  * HISTORY
 **/
-
 export const shopConfig = {
   name: "shoepify",
   links: [
