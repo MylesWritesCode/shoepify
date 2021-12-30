@@ -64,10 +64,10 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
           // to basic img tags and just ignoring the dumb warnings.
           return (
             <div
+              key={i}
               className={`${styles.thumbnail} ${i == index ? styles.selected : ""}`}
             >
               <img
-                key={i}
                 alt={thumb}
                 src={thumb}
                 onClick={() => {
