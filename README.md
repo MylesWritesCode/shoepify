@@ -112,7 +112,8 @@ Shopify's backend.
 1. React a la Typescript
 2. Nextjs
 3. [Hydrogen](https://shopify.dev/custom-storefronts/hydrogen/getting-started/create)
-4. GraphQL (if using manual GraphQL calls)
+4. swr (data fetching -> hook)
+5. GraphQL (if using manual GraphQL calls)
     1. Apollo (needed for @graphql-codegen)
     2. GraphQL Codegen (creates hooks based on gql calls)
 
@@ -142,3 +143,14 @@ content from Nike or Footlocker or something
 right now. It looks like the first thing that needs to be properly styled 
 (responsively), is the navbar.~~
 
+**Dec 30, 2021** Responsiveness is done...for now. I now need to focus on 
+getting products from Shopify into the app. I have two options - using GraphQL 
+codegen to just generate the hook myself via the Storefront API and the plethora
+of endpoints available, or using the Shopify node package. On the one hand, I've
+already set up codegen and all I'll have to do is look for the endpoints in the
+Storefront API docs. On the other hand, I kinda want to learn how to use the
+Shopify package anyway.
+- Pull something from the Shopify backend
+- Move code from `products/index.tsx` to `products/[id].tsx` or something. 
+- Either get mock data for a full collection, or just upload a bunch of stuff
+  to the backend so I have data to play with while styling the collection grid.
