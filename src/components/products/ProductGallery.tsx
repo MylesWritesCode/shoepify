@@ -63,15 +63,18 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
           // image. I don't want 4 nodes per image. That's insane. I'm reverting
           // to basic img tags and just ignoring the dumb warnings.
           return (
-            <img
-              key={i}
-              alt={thumb}
-              src={thumb}
-              className={`${i == index ? styles.selected : ""}`}
-              onClick={() => {
-                setIndex(i);
-              }}
-            />
+            <div
+              className={`${styles.thumbnail} ${i == index ? styles.selected : ""}`}
+            >
+              <img
+                key={i}
+                alt={thumb}
+                src={thumb}
+                onClick={() => {
+                  setIndex(i);
+                }}
+              />
+            </div>
           );
         })}
       </div>
