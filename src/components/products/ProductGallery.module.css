@@ -44,7 +44,7 @@
 
 .thumbnails img {
   /* NextJS is a big meanie about images */
-  width: calc((90% / 4) - 0.25rem - 2px);
+  width: calc((90% / 4) - 0.25rem);
   margin: 0 0.5rem;
   border-radius: 0.5rem;
 }
