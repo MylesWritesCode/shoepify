@@ -32,7 +32,7 @@ import styles from "./ProductGallery.module.css";
 import defaultProduct from "@mock/default-product";
 
 interface ProductGalleryProps {
-  srcs: string[] | ProductImage[];
+  srcs: ProductImage[] | string[];
   defaultIndex?: number;
 }
 
@@ -48,19 +48,24 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
   defaultIndex = 0,
   ...props
 }) => {
+  const [index, setIndex] = useState(defaultIndex);
   return (
     <div className={styles.container}>
-      <div className={styles.featured}></div>
+      <div className={styles.featured}>
+        <Image
+          src={(srcs[index] as ProductImage).src ?? srcs[index]}
+          height={375}
+          width={375}
+          alt="featured"
+        />
+      </div>
       <div className={styles.thumbnails}>
         {srcs.map((image, index) => {
-          // I have to do all of this cause otherwise TS gets super mad at me.
-          const thumbnail = typeof image === "string" ? image : image.thumbnail;
-
           return (
             <Image
               key={index}
               // Again, like, 😡😡😡 👈 that mad
-              src={(thumbnail as string) ?? image}
+              src={(image as ProductImage).thumbnail as string ?? image}
               height={50}
               width={50}
               alt="thumbnail"

@@ -12,3 +12,16 @@
  * *****
  * HISTORY
 **/
+.container {
+  background: green;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.featured {
+  display: flex;
+  margin: 2rem 0;
+}
