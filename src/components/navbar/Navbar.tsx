@@ -12,7 +12,7 @@
  * -----
  * HISTORY
  **/
-import React from "react";
+import React, { useState } from "react";
 import NextLink from "next/link";
 import NavbarLink from "./NavbarLink";
 import Info from "./Info";
@@ -25,15 +25,28 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ profilePictureUrl, ...props }) => {
+  const [isMenuShowing, setIsMenuShowing] = useState<boolean>(false);
+
   return (
     <div className={styles.container}>
       <div className={styles.left}>
+        <div
+          className={`${styles["icon"]} ${styles["menu-icon"]}`}
+          onClick={() => setIsMenuShowing(!isMenuShowing)}
+        />
         <NextLink href="/">
           <div className={styles.brand}>
             <h1>{shopConfig.name}</h1>
           </div>
         </NextLink>
-        <div className={styles.links}>
+        <div
+          className={styles.links}
+          style={isMenuShowing ? { display: "flex" } : { display: "none" }}
+        >
+          <div
+            className={`${styles["icon"]} ${styles["close-icon"]}`}
+            onClick={() => setIsMenuShowing(!isMenuShowing)}
+          />
           {shopConfig.links.map((link, index) => {
             return <NavbarLink key={index} text={link.name} link={link.link} />;
           })}

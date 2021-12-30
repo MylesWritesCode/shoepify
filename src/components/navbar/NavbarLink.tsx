@@ -12,8 +12,10 @@
  * -----
  * HISTORY
  **/
-import styles from "./NavbarLink.module.css";
 import React from "react";
+import NextLink from "next/link";
+
+import styles from "./NavbarLink.module.css";
 
 interface NavbarLinkProps {
   text: string;
@@ -22,9 +24,11 @@ interface NavbarLinkProps {
 
 const NavbarLink: React.FC<NavbarLinkProps> = ({ text, link, ...props }) => {
   return (
-    <a className={styles.container} href={link}>
-      {text}
-    </a>
+    <NextLink href={link}>
+      <a className={styles.container}>
+        {text}
+      </a>
+    </NextLink>
   );
 };
 
