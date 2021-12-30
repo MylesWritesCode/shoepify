@@ -136,9 +136,9 @@ just leave this in here for now. Anyway - notes for tomorrow:
 - Implement product gallery - I'm pretty sure this'll be a component on its own
 - Find more assets to upload to Shopify - probably just going to take mock 
 content from Nike or Footlocker or something
-- By the end of the week: Pull a product from Shopify - either via my own
-GraphQL implementation using the Storefront API, or using the @shopify package
 
 **Dec 29, 2021**
 - Really need to work on responsive styles on mobile. Wew lad it's a mess there
-right now.
+right now. It looks like the first thing that needs to be properly styled 
+(responsively), is the navbar.
+
