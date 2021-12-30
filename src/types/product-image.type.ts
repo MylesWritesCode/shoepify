@@ -24,7 +24,7 @@
  * @param { string } src
  * @param { string } [thumbnail]
  */
-export interface ProductImage {
+export type ProductImage {
   type: 'ProductImage'
   src: string;
   thumbnail?: string;

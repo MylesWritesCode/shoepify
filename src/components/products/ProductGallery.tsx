@@ -48,21 +48,19 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
   defaultIndex = 0,
   ...props
 }) => {
-  // If the first element if srcs is NOT of type string, we assume that it's of
-  // type ProductImage and it does have the associated thumbnails. I'll still
-  // probably check for truthy values on thumbs as well later in the template.
-  const hasThumbs = typeof srcs[0] !== "string";
-
   return (
     <div className={styles.container}>
       <div className={styles.featured}></div>
       <div className={styles.thumbnails}>
         {srcs.map((image, index) => {
-          console.log(image);
+          // I have to do all of this cause otherwise TS gets super mad at me.
+          const thumbnail = typeof image === "string" ? image : image.thumbnail;
+
           return (
             <Image
               key={index}
-              src={image.thumbnail ?? image}
+              // Again, like, 😡😡😡 👈 that mad
+              src={(thumbnail as string) ?? image}
               height={50}
               width={50}
               alt="thumbnail"
