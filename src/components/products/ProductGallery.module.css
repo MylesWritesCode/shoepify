@@ -47,6 +47,7 @@
   width: calc((90% / 4) - 0.25rem);
   margin: 0 0.5rem;
   border-radius: 0.5rem;
+  transition: all 0.25s;
 }
 
 .thumbnails .selected {

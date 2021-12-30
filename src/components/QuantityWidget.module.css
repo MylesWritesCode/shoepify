@@ -14,24 +14,15 @@
 **/
 .container {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   background: var(--light-grey);
   border-radius: 0.5rem;
-
-  --primary: hsl(26, 100%, 55%);
-  --primary-pale: hsl(25, 100%, 94%);
-  --secondary: hsl(220, 13%, 13%);
-  --dark-grey: hsl(219, 9%, 45%);
-  --grey: hsl(220, 14%, 75%);
-  --light-grey: hsl(223, 64%, 98%);
-  --white: hsl(0, 0%, 100%);
-  --black: hsl(0, 0%, 0%);
 }
 
 .container button {
   height: 100%;
-  width: 100%;
+  /* width: 100%; */
   padding: 1rem 0.75rem;
   cursor: pointer;
   border: unset;
@@ -52,16 +43,33 @@
 }
 
 .minus {
+  margin-left: 0.5rem;
   mask-image: url("/icon-minus.svg");
 }
 
 .plus {
+  margin-right: 0.5rem;
   mask-image: url("/icon-plus.svg");
 }
 
 .qty {
-  color: var(--secondary);
-  font-weight: 700;
+  display: flex;
   margin: 0 1rem;
-  width: 20px
+  min-width: 20px;
+  width: 20px;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  color: var(--secondary);
+}
+
+@media only screen and (max-width: 768px) {
+  .container {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .qty {
+    width: 100%;
+  }
 }

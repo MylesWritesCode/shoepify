@@ -1,7 +1,8 @@
 /**
  * File: /src/pages/products/index.tsx
  * Project: shoepify
- * Purpose: // TODO: Add the purpose of the file here.
+ * Purpose: Currently being used for rapid development, but will eventually pull
+ *          all products from Shopify and display them as a grid.
  *
  * @author Myles Berueda
  * @date   Tuesday December 28th 2021
@@ -37,14 +38,6 @@ const Products: NextPage = () => {
     if (quantity < 0) return "Return product";
     return "";
   };
-  
-  const arr = [];
-
-  for (const image of defaultProduct.images) {
-    arr.push(image.src);
-  }
-  
-  console.log(arr);
   
   return (
     <>

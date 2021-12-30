@@ -116,3 +116,15 @@
 .atc:hover:disabled {
   cursor: no-drop;
 }
+
+@media only screen and (max-width: 768px) {
+  .qty-and-atc {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .atc {
+    width: 100%;
+    margin: unset;
+  }
+}
