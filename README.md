@@ -138,3 +138,7 @@ just leave this in here for now. Anyway - notes for tomorrow:
 content from Nike or Footlocker or something
 - By the end of the week: Pull a product from Shopify - either via my own
 GraphQL implementation using the Storefront API, or using the @shopify package
+
+**Dec 29, 2021**
+- Really need to work on responsive styles on mobile. Wew lad it's a mess there
+right now.
