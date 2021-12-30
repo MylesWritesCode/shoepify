@@ -47,7 +47,7 @@
 }
 
 .profile:hover {
-  box-shadow: 0 0 0 2.5px hsl(26, 100%, 55%);
+  box-shadow: 0 0 0 2.5px var(--primary);
 }
 
 .profile img {

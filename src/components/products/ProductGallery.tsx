@@ -36,8 +36,7 @@ interface ProductGalleryProps {
   defaultIndex?: number;
 }
 
-/**
- *
+/** ProductGallery component
  * @param { string[] | ProductImage[] } srcs - Either a string[] of full-sized
  * images, or a ProductImage[] of full-sized images along with their respective
  * thumbnails.
@@ -52,23 +51,24 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
   return (
     <div className={styles.container}>
       <div className={styles.featured}>
-        <Image
+        <img
           src={(srcs[index] as ProductImage).src ?? srcs[index]}
-          height={375}
-          width={375}
-          alt="featured"
+          alt={(srcs[index] as ProductImage).src ?? srcs[index]}
         />
       </div>
       <div className={styles.thumbnails}>
-        {srcs.map((image, index) => {
+        {srcs.map((image, i) => {
+          const thumb = ((image as ProductImage).thumbnail as string) ?? image;
+          // NextJS is mean about using next/image, but it creates 4 nodes per
+          // image. I don't want 4 nodes per image. That's insane. I'm reverting
+          // to basic img tags and just ignoring the dumb warnings.
           return (
-            <Image
-              key={index}
-              // Again, like, 😡😡😡 👈 that mad
-              src={(image as ProductImage).thumbnail as string ?? image}
-              height={50}
-              width={50}
-              alt="thumbnail"
+            <img
+              key={i}
+              alt={thumb}
+              src={thumb}
+              className={`${i == index ? styles.selected : ""}`}
+              onClick={() => {setIndex(i)}}
             />
           );
         })}
