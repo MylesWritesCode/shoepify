@@ -12,12 +12,13 @@
  * -----
  * HISTORY
  **/
-import styles from "./Navbar.module.css";
 import React from "react";
-import { shopConfig } from "@config/shop";
+import NextLink from "next/link";
 import NavbarLink from "./NavbarLink";
 import Info from "./Info";
-import { profile } from "console";
+
+import { shopConfig } from "@config/shop";
+import styles from "./Navbar.module.css";
 
 interface NavbarProps {
   profilePictureUrl?: string;
@@ -27,9 +28,11 @@ const Navbar: React.FC<NavbarProps> = ({ profilePictureUrl, ...props }) => {
   return (
     <div className={styles.container}>
       <div className={styles.left}>
-        <div className={styles.brand}>
-          <h1>{shopConfig.name}</h1>
-        </div>
+        <NextLink href="/">
+          <div className={styles.brand}>
+            <h1>{shopConfig.name}</h1>
+          </div>
+        </NextLink>
         <div className={styles.links}>
           {shopConfig.links.map((link, index) => {
             return <NavbarLink key={index} text={link.name} link={link.link} />;
