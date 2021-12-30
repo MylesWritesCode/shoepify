@@ -14,18 +14,16 @@
  * -----
  * HISTORY
  **/
-const {
-  storeDomain,
-  storefrontToken,
-} = require("./shopify.config.js");
+const dotenv = require('dotenv');
+dotenv.config();
 
 module.exports = {
   schema: [
     {
       // Sick. We can dyncamically assign keys like this. Thanks Nick.
-      [`https://${storeDomain}/api/graphql`]: {
+      [`https://${process.env.storeDomain}/api/graphql`]: {
         headers: {
-          "X-Shopify-Storefront-Access-Token": storefrontToken,
+          "X-Shopify-Storefront-Access-Token": process.env.storefrontToken,
         },
       },
     },

@@ -156,3 +156,6 @@ Shopify package anyway.
   to the backend so I have data to play with while styling the collection grid.
 - Set up API endpoint on the Next server side to make sensitive calls (e.g.,
   calls that contain API keys)
+
+### Considerations
+- Need to think about SSR, because it'll be better overall for SEO
