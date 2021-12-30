@@ -26,7 +26,7 @@ const Info: React.FC<InfoProps> = ({ pictureUrl, ...props }) => {
       <div className={styles.cart}>
       </div>
       <div className={styles.profile}>
-        <Image src={pictureUrl} alt="Profile picture" width="45%" height="45%"/>
+        <Image src={pictureUrl} alt="Profile picture" width={36} height={36}/>
       </div>
     </div>
   );

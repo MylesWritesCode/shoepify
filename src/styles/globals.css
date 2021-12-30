@@ -36,5 +36,6 @@ a {
 }
 
 .content {
-  max-width: 1080px;
+  max-width: 72rem;
+  width: 100%;
 }

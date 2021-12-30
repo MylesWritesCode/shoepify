@@ -56,3 +56,27 @@
   color: hsl(219, 9%, 45%);
   font-size: 14px;
 }
+
+/* Tablet */
+@media only screen and (max-width: 768px) {
+  .container {
+    border: unset;
+  }
+
+  .brand {
+    margin: 0;
+    padding: 0.5rem;
+    flex: 1 0 100%;
+  }
+
+  .left {
+    flex-wrap: wrap;
+  }
+  
+  .links {
+    display: none;
+  }
+}
+
+/* Phone */
+@media only screen and (max-width: 640px) { }

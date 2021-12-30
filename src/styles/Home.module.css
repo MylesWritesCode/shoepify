@@ -15,6 +15,8 @@
 .container {
   display: flex;
   min-height: 80vh;
+  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -22,12 +24,13 @@
 .call-to-action {
   display: flex;
   padding: 1rem;
+  flex: 1 1 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   font-size: 3rem;
 
-  /* Gradient this guy */
+  /* Text Gradient */
   background: linear-gradient(45deg, rgba(238,26,223,1) 0%, rgba(9,120,121,1) 50%, rgba(0,212,255,1) 100%);
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -38,3 +41,16 @@
   font-family: "Lobster";
   font-size: 8rem;
 }
+
+/* Tablet */
+@media only screen and (max-width: 768px) {
+  .call-to-action {
+    font-size: 2.5rem;
+  }
+
+  .lobster {
+    font-size: 5rem;
+  }
+}
+
+@media only screen and (max-width: 640px) { }
