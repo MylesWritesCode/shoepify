@@ -12,7 +12,7 @@
  * -----
  * HISTORY
  **/
-import React, { useState } from "react";
+import React, { CSSProperties, useState } from "react";
 import NextLink from "next/link";
 import NavbarLink from "./NavbarLink";
 import Info from "./Info";
@@ -40,8 +40,9 @@ const Navbar: React.FC<NavbarProps> = ({ profilePictureUrl, ...props }) => {
           </div>
         </NextLink>
         <div
-          className={styles.links}
-          style={isMenuShowing ? { display: "flex" } : { display: "none" }}
+          className={`${styles.links} ${
+            isMenuShowing ? styles.hide : styles.show
+          }`}
         >
           <div
             className={`${styles["icon"]} ${styles["close-icon"]}`}
