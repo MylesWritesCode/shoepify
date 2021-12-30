@@ -38,24 +38,14 @@ const Products: NextPage = () => {
     return "";
   };
   
-  const testSrcs = [
-    "this",
-    "is",
-    "a",
-    "test",
-    "from",
-    "testSrcs"
-  ];
+  const arr = [];
 
-  const testThumbSrcs = [
-    "this",
-    "is",
-    "a",
-    "test",
-    "from",
-    "testThumbSrcs"
-  ];
-
+  for (const image of defaultProduct.images) {
+    arr.push(image.src);
+  }
+  
+  console.log(arr);
+  
   return (
     <>
       <Head>
@@ -66,7 +56,7 @@ const Products: NextPage = () => {
       <div className={styles.container}>
         <div className={`${styles.section}`}>
           {/* gallery implementation */}
-          <ProductGallery srcs={testSrcs} thumbSrcs={testThumbSrcs}/>
+          <ProductGallery srcs={defaultProduct.images} />
         </div>
         <div className={`${styles.section}`}>
           {/* info implementation */}

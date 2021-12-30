@@ -8,7 +8,7 @@
  *          picture in this gallery setup, though I'd like some functionality
  *          that allows a developer to display another picture - picked through
  *          indexing.
- *          
+ *
  *          To thumbnail, or not to thumbnail? I'd like some functionality where
  *          the dev can just send in the full blown images to this component,
  *          but optimizations can be made with thumbnails available. I'll keep
@@ -23,36 +23,55 @@
  * *****
  * HISTORY
  **/
-import React from "react";
-
+import React, { useState } from "react";
+import Image from "next/image";
+import type { ProductImage } from "@type/product-image.type";
 import styles from "./ProductGallery.module.css";
 
-/** ProductGalleryProps
- * Idk if this will populate a helpful window in vscode, because I might be 
- * documenting the wrong thing.
- * @param { srcs } string[] An array containing the hrefs of images. The first
- * image will be defaulted to the featured image.
- * @param { thumbSrcs } string[] An array of thumbnails. They should be in the
- * same order as their respective srcs. I'm contemplating just turning this guy
- * into an object.
- * @param { defaultIndex } number The index you would like the featured image to
- * be on load. May be useful, idk.
- */
+// Mock data
+import defaultProduct from "@mock/default-product";
+
 interface ProductGalleryProps {
-  srcs: string[];
-  thumbSrcs?: string[];
+  srcs: string[] | ProductImage[];
   defaultIndex?: number;
 }
 
+/**
+ *
+ * @param { string[] | ProductImage[] } srcs - Either a string[] of full-sized
+ * images, or a ProductImage[] of full-sized images along with their respective
+ * thumbnails.
+ * @param { number } defaultIndex
+ */
 const ProductGallery: React.FC<ProductGalleryProps> = ({
-  srcs,
-  thumbSrcs = [],
+  srcs = defaultProduct.images,
   defaultIndex = 0,
   ...props
 }) => {
-  console.log("srcs: ", srcs);
-  console.log("thumbSrcs: ", thumbSrcs);
-  return <div>greetings from the product gallery, my fellow dude</div>;
+  // If the first element if srcs is NOT of type string, we assume that it's of
+  // type ProductImage and it does have the associated thumbnails. I'll still
+  // probably check for truthy values on thumbs as well later in the template.
+  const hasThumbs = typeof srcs[0] !== "string";
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.featured}></div>
+      <div className={styles.thumbnails}>
+        {srcs.map((image, index) => {
+          console.log(image);
+          return (
+            <Image
+              key={index}
+              src={image.thumbnail ?? image}
+              height={50}
+              width={50}
+              alt="thumbnail"
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
 };
 
 export default ProductGallery;
