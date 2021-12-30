@@ -151,6 +151,8 @@ already set up codegen and all I'll have to do is look for the endpoints in the
 Storefront API docs. On the other hand, I kinda want to learn how to use the
 Shopify package anyway.
 - Pull something from the Shopify backend
-- Move code from `products/index.tsx` to `products/[id].tsx` or something. 
+- ~~Move code from `products/index.tsx` to `products/[id].tsx` or something.~~
 - Either get mock data for a full collection, or just upload a bunch of stuff
   to the backend so I have data to play with while styling the collection grid.
+- Set up API endpoint on the Next server side to make sensitive calls (e.g.,
+  calls that contain API keys)
