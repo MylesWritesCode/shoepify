@@ -32,7 +32,7 @@ const Navbar: React.FC<NavbarProps> = ({ profilePictureUrl, ...props }) => {
       <div className={styles.left}>
         <div
           className={`${styles["icon"]} ${styles["menu-icon"]}`}
-          onClick={() => setIsMenuShowing(!isMenuShowing)}
+          onClick={() => setIsMenuShowing(true)}
         />
         <NextLink href="/">
           <div className={styles.brand}>
@@ -41,12 +41,12 @@ const Navbar: React.FC<NavbarProps> = ({ profilePictureUrl, ...props }) => {
         </NextLink>
         <div
           className={`${styles.links} ${
-            isMenuShowing ? styles.hide : styles.show
+            isMenuShowing ? styles.show : styles.hide
           }`}
         >
           <div
             className={`${styles["icon"]} ${styles["close-icon"]}`}
-            onClick={() => setIsMenuShowing(!isMenuShowing)}
+            onClick={() => setIsMenuShowing(false)}
           />
           {shopConfig.links.map((link, index) => {
             return <NavbarLink key={index} text={link.name} link={link.link} />;

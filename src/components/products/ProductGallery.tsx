@@ -68,7 +68,9 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
               alt={thumb}
               src={thumb}
               className={`${i == index ? styles.selected : ""}`}
-              onClick={() => {setIndex(i)}}
+              onClick={() => {
+                setIndex(i);
+              }}
             />
           );
         })}

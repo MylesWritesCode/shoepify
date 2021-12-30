@@ -50,10 +50,29 @@
   transition: all 0.25s;
 }
 
-.thumbnails .selected {
+.selected {
   box-shadow: 0 0 0 2px var(--primary);
 }
 
+.selected:after {
+  content: "";
+  position: relative;
+  top: -10px;
+  left: -2px;
+  right: 0;
+  bottom: 0;
+  background-color: red;
+  z-index: 100000;
+}
+
+
 @media only screen and (max-width: 768px) {
-  
+  .featured { 
+    margin-top: 0;
+  }
+
+  .featured img {
+    width: 100%;
+    border-radius: 0;
+  }
 }

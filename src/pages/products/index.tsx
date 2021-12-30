@@ -51,7 +51,7 @@ const Products: NextPage = () => {
           {/* gallery implementation */}
           <ProductGallery srcs={defaultProduct.images} />
         </div>
-        <div className={`${styles.section}`}>
+        <div className={`${styles.section} ${styles.right}`}>
           {/* info implementation */}
           <div className={styles.company}>{company}</div>
           <div className={styles.title}>
