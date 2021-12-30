@@ -24,8 +24,7 @@
  * @param { string } src
  * @param { string } [thumbnail]
  */
-export type ProductImage {
-  type: 'ProductImage'
+export type ProductImage = {
   src: string;
   thumbnail?: string;
 }
