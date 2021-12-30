@@ -14,10 +14,10 @@
 **/
 .container {
   display: flex;
-  height: 80vh;
   justify-content: center;
   align-items: center;
   flex-direction: row;
+  flex-wrap: wrap;
   margin: 3rem 2rem;
 }
 
@@ -75,6 +75,7 @@
 .qty-and-atc {
   display: flex;
   margin: 1.5rem 0;
+  height: 44px;
   align-items: center;
   flex-direction: row;
 }
@@ -97,8 +98,8 @@
 }
 
 .atc .icon {
-  height: 14px;
-  width: 14px;
+  height: 16px;
+  width: 16px;
   margin: 0 0.5rem;
   mask-size: contain;
   mask-position: center;
