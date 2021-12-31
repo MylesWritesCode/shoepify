@@ -20,9 +20,9 @@ module.exports = {
   schema: [
     {
       // Sick. We can dyncamically assign keys like this. Thanks Nick.
-      [`https://${process.env.STORE_DOMAIN}/api/graphql`]: {
+      [`https://${process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN}/api/graphql`]: {
         headers: {
-          "X-Shopify-Storefront-Access-Token": process.env.STOREFRONT_TOKEN,
+          "X-Shopify-Storefront-Access-Token": process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN,
         },
       },
     },
