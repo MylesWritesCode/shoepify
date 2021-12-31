@@ -1,6 +1,6 @@
 /**
  * File: /src/hooks/getShopifyData.ts
- * Project: govalo-store-playground
+ * Project: shoepify
  * Purpose: Gets data from Shopify w/ authentication
  *
  * Source: https://shopify.dev/custom-storefronts/hydrogen/components#limitations
