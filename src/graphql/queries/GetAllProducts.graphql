@@ -1,0 +1,24 @@
+###
+# File: /src/graphql/queries/GetAllProducts.graphql
+# Project: shoepify
+# Purpose: // TODO: Add the purpose of the file here.
+#
+# @author Myles Berueda
+# @date   Friday December 31st 2021
+# *****
+# Modified: Friday December 31st 2021 1:03:10 am
+# *****
+# Copyright (c) 2021 MylesWritesCode
+# *****
+# HISTORY
+###
+query getAllProducts(
+  $first: Int = 250
+  $query: String = ""
+  $sortKey: ProductSortKeys = RELEVANCE
+  $reverse: Boolean = false
+) {
+  products(first: $first, sortKey: $sortKey, reverse: $reverse, query: $query) {
+    ...productConnection
+  }
+}

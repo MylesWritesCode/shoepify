@@ -30,16 +30,6 @@ const QuantityWidget: React.FC<QuantityWidgetProps> = ({
   max = 20,
   ...props
 }) => {
-  // Just some render testing. Keeping here so I remember.
-  useEffect(() => {
-    // Will be fired on component mount. Note no dependencies in dep array.
-    console.log("component mounted");
-    return () => {
-      // Will be fired when the component unmounts.
-      console.log("component unmounted");
-    };
-  }, []);
-
   return (
     <div className={styles.container}>
       <button

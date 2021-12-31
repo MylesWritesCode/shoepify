@@ -1,9 +1,9 @@
 /**
  * File: /codegen.js
  * Project: shoepify
- * Purpose: Config for graphql-codegen. Updated to use env vars instead of 
+ * Purpose: Config for graphql-codegen. Updated to use env vars instead of
  *          pulling from `shopify.config.js`
- * 
+ *
  * @author Myles Berueda
  * @date   Wednesday December 22nd 2021
  * *****
@@ -12,8 +12,8 @@
  * Copyright (c) 2021 MylesWritesCode
  * *****
  * HISTORY
-**/
-const dotenv = require('dotenv');
+ **/
+const dotenv = require("dotenv");
 dotenv.config();
 
 module.exports = {
@@ -22,7 +22,8 @@ module.exports = {
       // Sick. We can dyncamically assign keys like this. Thanks Nick.
       [`https://${process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN}/api/graphql`]: {
         headers: {
-          "X-Shopify-Storefront-Access-Token": process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN,
+          "X-Shopify-Storefront-Access-Token":
+            process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN,
         },
       },
     },
@@ -30,15 +31,16 @@ module.exports = {
   documents: ["src/graphql/**/*.graphql"],
   overwrite: true,
   generates: {
-    "src/generated/graphql.tsx": {
-      plugins: [
-        "typescript",
-        "typescript-operations",
-        "typescript-react-apollo",
-      ],
+    "src/generated/schema.d.ts": {
+      plugins: ["typescript", "typescript-operations"],
+      config: {
+        scalars: {
+          ID: "string",
+        },
+      },
     },
-    "graphql.schema.json": {
-      plugins: ["introspection"],
+    "src/generated/schema.graphql": {
+      plugins: ["schema-ast"],
     },
   },
 };

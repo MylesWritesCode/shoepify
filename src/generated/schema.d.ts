@@ -1,11 +1,8 @@
-import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -5356,6 +5353,18 @@ export enum WeightUnit {
   Pounds = 'POUNDS'
 }
 
+export type ProductConnectionFragment = { __typename?: 'ProductConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean }, edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', id: string, title: string, vendor: string, handle: string, priceRange: { __typename?: 'ProductPriceRange', minVariantPrice: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } }, images: { __typename?: 'ImageConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean }, edges: Array<{ __typename?: 'ImageEdge', node: { __typename?: 'Image', originalSrc: any, altText?: string | null | undefined, width?: number | null | undefined, height?: number | null | undefined } }> } } }> };
+
+export type GetAllProductsQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']>;
+  query?: InputMaybe<Scalars['String']>;
+  sortKey?: InputMaybe<ProductSortKeys>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
+}>;
+
+
+export type GetAllProductsQuery = { __typename?: 'QueryRoot', products: { __typename?: 'ProductConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean }, edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', id: string, title: string, vendor: string, handle: string, priceRange: { __typename?: 'ProductPriceRange', minVariantPrice: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } }, images: { __typename?: 'ImageConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean }, edges: Array<{ __typename?: 'ImageEdge', node: { __typename?: 'Image', originalSrc: any, altText?: string | null | undefined, width?: number | null | undefined, height?: number | null | undefined } }> } } }> } };
+
 export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -5365,80 +5374,3 @@ export type GetShopNameQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetShopNameQuery = { __typename?: 'QueryRoot', shop: { __typename?: 'Shop', name: string } };
-
-
-export const GetProductsDocument = gql`
-    query getProducts {
-  products(first: 20) {
-    edges {
-      node {
-        id
-        handle
-        title
-        description
-      }
-    }
-  }
-}
-    `;
-
-/**
- * __useGetProductsQuery__
- *
- * To run a query within a React component, call `useGetProductsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetProductsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetProductsQuery(baseOptions?: Apollo.QueryHookOptions<GetProductsQuery, GetProductsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetProductsQuery, GetProductsQueryVariables>(GetProductsDocument, options);
-      }
-export function useGetProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProductsQuery, GetProductsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetProductsQuery, GetProductsQueryVariables>(GetProductsDocument, options);
-        }
-export type GetProductsQueryHookResult = ReturnType<typeof useGetProductsQuery>;
-export type GetProductsLazyQueryHookResult = ReturnType<typeof useGetProductsLazyQuery>;
-export type GetProductsQueryResult = Apollo.QueryResult<GetProductsQuery, GetProductsQueryVariables>;
-export const GetShopNameDocument = gql`
-    query getShopName {
-  shop {
-    name
-  }
-}
-    `;
-
-/**
- * __useGetShopNameQuery__
- *
- * To run a query within a React component, call `useGetShopNameQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetShopNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetShopNameQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetShopNameQuery(baseOptions?: Apollo.QueryHookOptions<GetShopNameQuery, GetShopNameQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetShopNameQuery, GetShopNameQueryVariables>(GetShopNameDocument, options);
-      }
-export function useGetShopNameLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetShopNameQuery, GetShopNameQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetShopNameQuery, GetShopNameQueryVariables>(GetShopNameDocument, options);
-        }
-export type GetShopNameQueryHookResult = ReturnType<typeof useGetShopNameQuery>;
-export type GetShopNameLazyQueryHookResult = ReturnType<typeof useGetShopNameLazyQuery>;
-export type GetShopNameQueryResult = Apollo.QueryResult<GetShopNameQuery, GetShopNameQueryVariables>;

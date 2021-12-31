@@ -68,4 +68,5 @@ const getAllProductsQuery = /* GraphQL */ `
 
   ${productConnectionFragment}
 `;
+
 export default getAllProductsQuery;

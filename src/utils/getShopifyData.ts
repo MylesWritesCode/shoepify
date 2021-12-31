@@ -16,17 +16,18 @@
 
 /**
  * Retrieves data from the Shopify backend.
+ * @param { string } url
  * @param { string } query
  * @param { Object } variables
- * @param { string } url 
- * @returns { Object } The response from the backend. 
+ * @returns { Object } The response from the backend.
  */
-export const getShopifyData = async ({ query, variables, url }: any) => {
+export const getShopifyData = async ({ url, query, variables }: any) => {
   const res = await fetch(url, {
     method: "POST",
     body: JSON.stringify({ query, variables }),
     headers: {
-      "X-Shopify-Storefront-Access-Token": process.env.SHOPIFY_STOREFRONT_TOKEN,
+      "X-Shopify-Storefront-Access-Token":
+        process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN!,
       "Content-Type": "application/json",
     },
   });
