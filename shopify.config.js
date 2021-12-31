@@ -15,7 +15,7 @@
 
 module.exports = {
   locale: process.env.locale ?? "",
-  storeDomain: process.env.storeDomain ?? "",
-  storefrontToken: process.env.storefrontToken ?? "",
-  graphqlApiVersion: process.env.graphqlApiVersion ?? "",
+  storeDomain: process.env.SHOPIFY_STORE_DOMAIN ?? "",
+  storefrontToken: process.env.SHOPIFY_STOREFRONT_TOKEN ?? "",
+  graphqlApiVersion: process.env.SHOPIFY_GRAPHQL_API_VERSION ?? "",
 };

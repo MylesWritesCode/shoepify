@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate:graphql": "graphql-codegen --config codegen.js"
+    "generate:graphql": "graphql-codegen --config codegen.js",
+    "generate:env": "npx gen-env-types .env -o src/types/env.d.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.5.6",
