@@ -120,7 +120,7 @@ Shopify's backend.
 # Notes
 **Dec 21, 2021** Some general todos to remind myself tomorrow.
 - ~~Set up graphql-codegen: I'm fairly certain I just need the right schema URL~~
-- Finish `getShopifyData.ts`
+- ~~Finish `getShopifyData.ts`~~
 
 **Dec 22, 2021** More general notes and todos.
 - ~~I should probably set up `@shopify/hydrogen` to see how it works. Tomorrow
@@ -159,3 +159,6 @@ Shopify package anyway.
 
 ### Considerations
 - Need to think about SSR, because it'll be better overall for SEO
+- Think about handling errors in `getShopifyData`, instead of giving that 
+  responsibility to the caller. Maybe it can throw an error that can be logged
+  or something.
