@@ -14,17 +14,12 @@
  * HISTORY
  **/
 import { useState } from "react";
-import type {
-  NextPage,
-  GetStaticPropsContext,
-  InferGetStaticPropsType,
-} from "next";
+import type { NextPage } from "next";
 import Head from "next/head";
 import ProductGallery from "@components/products/ProductGallery";
 import QuantityWidget from "@components/QuantityWidget";
-import { formatPercentage, formatCurrency, getShopifyData } from "@utils";
+import { formatPercentage, formatCurrency } from "@utils";
 
-import getAllProductsQuery from "@utils/queries/get-all-products-query";
 import type { Product } from "@type/product.type";
 
 import { API_URL } from "@/const";
@@ -34,57 +29,23 @@ import styles from "./Products.module.css";
 // Mock data
 import defaultProduct from "@mock/default-product";
 
-export const getStaticProps = async ({}) => {
-  const data = await fetch(
-    "http://localhost:3000/api/operations/get-all-products"
-  );
-
-  console.log(await data.json());
-
-  const res = await getShopifyData({
-    query: getAllProductsQuery,
-    variables: {},
-    url: API_URL,
-  });
-
-  // This return is insane. I'd like to come up with a way to clean up this data
-  // before I pass it along to the page. Perhaps this is better done in the
-  // getShopifyData fn, rather than here, though.
-  const productsRes = res.data.products.edges;
-  const products: any[] = [];
-
-  for (const product of productsRes) {
-    const { images, ...rest } = product.node;
-    const imgs: string[] = [];
-
-    for (const image of images.edges) {
-      imgs.push(image.node.originalSrc);
-    }
-
-    const p = {
-      ...rest,
-      imgs,
-    };
-
-    products.push(p);
-  }
-
-  // Oh my god it goes on. There's an images object that has metadata with it
-  // as well. There's gotta be an easier way to clean all this up. For now, I'll
-  // just go back into the for-loop and try to extract the images.
-  // console.log(products);
+export const getStaticProps = async () => {
+  const res = await fetch(`${API_URL}/api/operations/get-all-products`);
+  const data = await res.json();
 
   return {
     props: {
-      products,
+      data,
     },
   };
 };
 
-const Products: NextPage = ({ ...props }) => {
+const Products: NextPage = ({ ...props }: any) => {
   const [product, setProduct] = useState<Product>(defaultProduct);
   const [quantity, setQuantity] = useState<number>(1);
   const { title, company, description, price, discount } = product;
+
+  const { data } = props;
 
   const generateATCButtonText = (): string => {
     if (quantity > 0) return "Add to cart";

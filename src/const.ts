@@ -12,9 +12,17 @@
  * *****
  * HISTORY
  **/
+// General application variables
+const app = {
+  url: process.env.NEXT_PUBLIC_API_URL,
+}
 
-// I really don't want to deal with these long names:
-const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
-const apiVer = process.env.NEXT_PUBLIC_SHOPIFY_GRAPHQL_API_VERSION;
+// Shopify variables
+const s = {
+  url: process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN,         // Shopify domain
+  ver: process.env.NEXT_PUBLIC_SHOPIFY_GRAPHQL_API_VERSION,  // API version
+}
 
-export const API_URL = `https://${domain}/api/${apiVer}/graphql.json`;
+export const API_URL = `${app.url}`
+export const SHOPIFY_API_URL = `https://${s.url}/api/${s.ver}/graphql.json`;
+

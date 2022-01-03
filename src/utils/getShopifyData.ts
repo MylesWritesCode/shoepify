@@ -21,7 +21,11 @@
  * @param { Object } variables
  * @returns { Object } The response from the backend.
  */
-export const getShopifyData = async ({ url, query, variables }: any) => {
+export const getShopifyData = async (
+  url: string,
+  query: string,
+  variables: Object
+) => {
   const res = await fetch(url, {
     method: "POST",
     body: JSON.stringify({ query, variables }),
@@ -31,7 +35,7 @@ export const getShopifyData = async ({ url, query, variables }: any) => {
       "Content-Type": "application/json",
     },
   });
-  
+
   // Think about handling errors here.
   return await res.json();
 };

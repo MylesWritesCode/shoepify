@@ -13,8 +13,15 @@
  * HISTORY
  **/
 import type { NextApiRequest, NextApiResponse } from "next";
+import { SHOPIFY_API_URL } from "@/const";
+import { getShopifyData } from "@utils";
+import getAllProductsQuery from "@utils/queries/get-all-products-query";
 
-const handler = (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const data = await getShopifyData(SHOPIFY_API_URL, getAllProductsQuery, {});
+  
+  console.log("get-all-products:", data);
+  
   res.status(200).json({
     products: [
       {
