@@ -66,7 +66,7 @@ To properly use this script, here's the workflow:
 `src/generated` 
 3. Open the component/page you're working on, then import the generated file 
 like below. You should be able to use the hook in the component. Here's an 
-example
+example:
 
 ```graphql
 # In GetShopName.graphql
@@ -105,7 +105,7 @@ Alternatively, if using `getShopifyData` (i.e., you need to pull data via
 
 ```tsx
 // In pages/api/operations/get-shop-name.ts
-import { GetAllProductsDocument } from "@generated/schema";
+import { GetShopNameDocument } from "@generated/schema";
 
 // ...code...
 
@@ -115,7 +115,7 @@ const handler = async (
 ) => {
   const shopifyResponse = await getShopifyData(
     SHOPIFY_API_URL,
-    GetAllProductsDocument
+    GetShopNameDocument
   );
 
   // ...more code...
