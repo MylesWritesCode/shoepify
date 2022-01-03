@@ -16,23 +16,57 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { SHOPIFY_API_URL } from "@/const";
 import { getShopifyData } from "@utils";
 import getAllProductsQuery from "@utils/queries/get-all-products-query";
+import { title } from "process";
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const data = await getShopifyData(SHOPIFY_API_URL, getAllProductsQuery, {});
-  
-  console.log("get-all-products:", data);
-  
+type GetAllProductsResponseType = {
+  pageInfo: {
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+  };
+
+  // I'm still unsure of what I want in each product for this call. In the
+  // meantime, I'm just gonna inline the object here; note that this is a
+  // Product[], not a single Product
+  products?: {
+    id: string;
+    title: string;
+    vendor: string;
+    handle: string;
+    images: string[];
+  }[];
+};
+
+const handler = async (
+  req: NextApiRequest,
+  res: NextApiResponse<GetAllProductsResponseType>
+) => {
+  const shopifyResponse = await getShopifyData(
+    SHOPIFY_API_URL,
+    getAllProductsQuery
+  );
+
+  const products: any[] = [];
+
+  const { pageInfo, edges } = shopifyResponse.data.products;
+
+  edges.map(({ node }: any) => {
+    console.log("node:", node);
+    products.push({
+      id: node.id,
+      title: node.title,
+      vendor: node.vendor,
+      handle: node.handle,
+      images: node.images.edges.map((image: any) => {
+        return image.node.originalSrc;
+      }),
+    });
+  });
+
+  // console.log("get-all-products:", JSON.stringify(data, null, 2));
+
   res.status(200).json({
-    products: [
-      {
-        name: "product 1",
-        data: "data 1",
-      },
-      {
-        name: "product 2",
-        data: "data 2",
-      },
-    ],
+    pageInfo,
+    products,
   });
 };
 

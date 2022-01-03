@@ -24,7 +24,7 @@
 export const getShopifyData = async (
   url: string,
   query: string,
-  variables: Object
+  variables?: Object
 ) => {
   const res = await fetch(url, {
     method: "POST",
