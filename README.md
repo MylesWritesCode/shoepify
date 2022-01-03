@@ -79,7 +79,7 @@ query getShopName {
 
 ```tsx
 // In SomeComponent.tsx
-import { useGetShopName } from "@generated/graphql";
+import { useGetShopName } from "@generated/schema.ts";
 
 // ...some code...
 
@@ -100,6 +100,62 @@ This is a contrived example, but if you're feeling adventurous you can look in
 for your query/mutation name. In the above case, it was `GetShopName`. There's 
 some pretty good documentation in there on how to use each generated hook.
 
+Alternatively, if using `getShopifyData` (i.e., you need to pull data via
+`getStaticProps`), you can pass the generated document to `getShopifyData`.
+
+```tsx
+// In pages/api/operations/get-shop-name.ts
+import { GetAllProductsDocument } from "@generated/schema";
+
+// ...code...
+
+const handler = async (
+  req: NextApiRequest,
+  res: NextApiResponse<GetAllProductsResponseType>
+) => {
+  const shopifyResponse = await getShopifyData(
+    SHOPIFY_API_URL,
+    GetAllProductsDocument
+  );
+
+  // ...more code...
+
+  res.status(200).json(response);
+};
+
+export default handler;
+
+```
+
+```tsx
+// In pages/SomeComponent.tsx
+import { GetShopNameDocument } from "@generated/schema.ts";
+
+// ...code...
+export const getStaticProps = async () => {
+  const res = await fetch(url);
+
+  const data = await res.json();
+
+  return {
+    props: {
+      data,
+    },
+  };
+}
+
+```
+
+For a code example of this workflow:
+```md
+1. Wrote graphql code 
+   > src/graphql/queries/GetAllProducts.graphql
+2. Ran `yarn generate:graphql`
+3. Wrote API route for server side call
+   > src/pages/api/operations/get-all-products.ts
+4. Wrote `getStaticProps()` fn to call API
+   > src/pages/products/index.tsx
+```
 # Frontend Mentor
 Because I don't want to make any of my own assets, I'm going to be using
 [Frontend Mentor](https://www.frontendmentor.io/challenges/ecommerce-product-page-UPsZ9MJp6) for all of my frontend assets. I don't have
