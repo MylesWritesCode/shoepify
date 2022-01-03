@@ -162,3 +162,6 @@ Shopify package anyway.
 - Think about handling errors in `getShopifyData`, instead of giving that 
   responsibility to the caller. Maybe it can throw an error that can be logged
   or something.
+- It might be better to just call via the REST API, cause holy moly lord
+  almighty that response you get back is gross. It's so bloated. Either come up
+  with a way to clean this data on entry, or look for another fetching solution.
