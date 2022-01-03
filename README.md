@@ -159,9 +159,14 @@ will probably be doc reading time~~
 
 ### Considerations
 - Need to think about SSR, because it'll be better overall for SEO
-- Think about handling errors in `getShopifyData`, instead of giving that 
+- ~~Think about handling errors in `getShopifyData`, instead of giving that 
   responsibility to the caller. Maybe it can throw an error that can be logged
-  or something.
+  or something.~~
+  > I'm going to handle this in the app API rather than the util
 - It might be better to just call via the REST API, cause holy moly lord
   almighty that response you get back is gross. It's so bloated. Either come up
   with a way to clean this data on entry, or look for another fetching solution.
+- Dev vs prod builds with respect to the API url - I should make this dynamic at
+  some point. the API URL and the store domain are essentially the same thing in
+  prod, but they're different in dev (localhost vs store domain). Not high prio
+  right now so I'm just moving on.
