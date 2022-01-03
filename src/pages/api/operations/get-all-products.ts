@@ -47,7 +47,8 @@ const handler = async (
   const products: any[] = [];
 
   const { pageInfo, edges } = shopifyResponse.data.products;
-
+  
+  // Normalize all the data coming from the Shopify response
   edges.map(({ node }: any) => {
     products.push({
       id: node.id,
@@ -59,8 +60,6 @@ const handler = async (
       }),
     });
   });
-
-  // console.log("get-all-products:", JSON.stringify(data, null, 2));
 
   res.status(200).json({
     pageInfo,

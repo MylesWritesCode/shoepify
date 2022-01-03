@@ -28,7 +28,16 @@ export const getShopifyData = async (
   query: string | DocumentNode,
   variables?: Object
 ) => {
-  if (typeof query !== 'string' && typeof query === 'object') {
+  // General check to make sure we have a Storefront token
+  if (!process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN) {
+    console.error(
+      `ERROR: \`process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN\` is ${process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN}, and invalid. Aborting operation.`
+    );
+    return;
+  }
+
+  // And a check to determine what type of gql query we're dealing with
+  if (typeof query !== "string" && typeof query === "object") {
     if (query.loc) {
       query = query.loc?.source.body;
     } else {
@@ -36,12 +45,13 @@ export const getShopifyData = async (
     }
   }
 
+  // With all that out of the way, actually make the call to Shopify
   const res = await fetch(url, {
     method: "POST",
     body: JSON.stringify({ query, variables }),
     headers: {
       "X-Shopify-Storefront-Access-Token":
-        process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN!,
+        process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN,
       "Content-Type": "application/json",
     },
   });
