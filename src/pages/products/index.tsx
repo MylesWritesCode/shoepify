@@ -35,6 +35,12 @@ import styles from "./Products.module.css";
 import defaultProduct from "@mock/default-product";
 
 export const getStaticProps = async ({}) => {
+  const data = await fetch(
+    "http://localhost:3000/api/operations/get-all-products"
+  );
+
+  console.log(await data.json());
+
   const res = await getShopifyData({
     query: getAllProductsQuery,
     variables: {},
@@ -50,23 +56,23 @@ export const getStaticProps = async ({}) => {
   for (const product of productsRes) {
     const { images, ...rest } = product.node;
     const imgs: string[] = [];
-    
+
     for (const image of images.edges) {
       imgs.push(image.node.originalSrc);
     }
 
     const p = {
       ...rest,
-      imgs
-    }
-    
+      imgs,
+    };
+
     products.push(p);
   }
 
   // Oh my god it goes on. There's an images object that has metadata with it
   // as well. There's gotta be an easier way to clean all this up. For now, I'll
   // just go back into the for-loop and try to extract the images.
-  console.log(products);
+  // console.log(products);
 
   return {
     props: {
@@ -75,7 +81,7 @@ export const getStaticProps = async ({}) => {
   };
 };
 
-const Products: NextPage = () => {
+const Products: NextPage = ({ ...props }) => {
   const [product, setProduct] = useState<Product>(defaultProduct);
   const [quantity, setQuantity] = useState<number>(1);
   const { title, company, description, price, discount } = product;

@@ -118,31 +118,6 @@ Shopify's backend.
     2. GraphQL Codegen (creates hooks based on gql calls)
 
 # Notes
-**Dec 21, 2021** Some general todos to remind myself tomorrow.
-- ~~Set up graphql-codegen: I'm fairly certain I just need the right schema URL~~
-- ~~Finish `getShopifyData.ts`~~
-
-**Dec 22, 2021** More general notes and todos.
-- ~~I should probably set up `@shopify/hydrogen` to see how it works. Tomorrow
-will probably be doc reading time~~
-- ~~Pull in assets from an ecommerce project on frontendmentor.io~~
-
-**Dec 27, 2021**
-- ~~Style out the rest of the InfoBox component~~
-- ~~Add in hardcoded product to index.tsx~~
-
-**Dec 28, 2021** This should probably be in a NOTES.md or something, but I'll
-just leave this in here for now. Anyway - notes for tomorrow:
-- ~~Styles for general layout. Expanding the full width looks bad on big monitors~~
-- ~~Implement product gallery - I'm pretty sure this'll be a component on its own~~
-- Find more assets to upload to Shopify - probably just going to take mock 
-content from Nike or Footlocker or something
-
-**Dec 29, 2021**
-- ~~Really need to work on responsive styles on mobile. Wew lad it's a mess there
-right now. It looks like the first thing that needs to be properly styled 
-(responsively), is the navbar.~~
-
 **Dec 30, 2021** Responsiveness is done...for now. I now need to focus on 
 getting products from Shopify into the app. I have two options - using GraphQL 
 codegen to just generate the hook myself via the Storefront API and the plethora
@@ -156,6 +131,31 @@ Shopify package anyway.
   to the backend so I have data to play with while styling the collection grid.
 - Set up API endpoint on the Next server side to make sensitive calls (e.g.,
   calls that contain API keys)
+
+**Dec 29, 2021**
+- ~~Really need to work on responsive styles on mobile. Wew lad it's a mess there
+right now. It looks like the first thing that needs to be properly styled 
+(responsively), is the navbar.~~
+
+**Dec 28, 2021** This should probably be in a NOTES.md or something, but I'll
+just leave this in here for now. Anyway - notes for tomorrow:
+- ~~Styles for general layout. Expanding the full width looks bad on big monitors~~
+- ~~Implement product gallery - I'm pretty sure this'll be a component on its own~~
+- Find more assets to upload to Shopify - probably just going to take mock 
+content from Nike or Footlocker or something
+
+**Dec 27, 2021**
+- ~~Style out the rest of the InfoBox component~~
+- ~~Add in hardcoded product to index.tsx~~
+
+**Dec 22, 2021** More general notes and todos.
+- ~~I should probably set up `@shopify/hydrogen` to see how it works. Tomorrow
+will probably be doc reading time~~
+- ~~Pull in assets from an ecommerce project on frontendmentor.io~~
+
+**Dec 21, 2021** Some general todos to remind myself tomorrow.
+- ~~Set up graphql-codegen: I'm fairly certain I just need the right schema URL~~
+- ~~Finish `getShopifyData.ts`~~
 
 ### Considerations
 - Need to think about SSR, because it'll be better overall for SEO
