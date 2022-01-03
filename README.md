@@ -149,12 +149,17 @@ export const getStaticProps = async () => {
 For a code example of this workflow:
 ```md
 1. Wrote graphql code 
-   > src/graphql/queries/GetAllProducts.graphql
+   - src/graphql/queries/GetAllProducts.graphql
+
 2. Ran `yarn generate:graphql`
+
 3. Wrote API route for server side call
-   > src/pages/api/operations/get-all-products.ts
+   - src/pages/api/operations/get-all-products.ts
+
 4. Wrote `getStaticProps()` fn to call API
-   > src/pages/products/index.tsx
+   - src/pages/products/index.tsx
+
+5. Used data as props from `getStaticProps()` in Products component
 ```
 # Frontend Mentor
 Because I don't want to make any of my own assets, I'm going to be using
