@@ -15,8 +15,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { SHOPIFY_API_URL } from "@/const";
 import { getShopifyData } from "@utils";
-import getAllProductsQuery from "@utils/queries/get-all-products-query";
-import { title } from "process";
+import { GetAllProductsDocument } from "@generated/schema";
 
 type GetAllProductsResponseType = {
   pageInfo: {
@@ -42,7 +41,7 @@ const handler = async (
 ) => {
   const shopifyResponse = await getShopifyData(
     SHOPIFY_API_URL,
-    getAllProductsQuery
+    GetAllProductsDocument
   );
 
   const products: any[] = [];
@@ -50,7 +49,6 @@ const handler = async (
   const { pageInfo, edges } = shopifyResponse.data.products;
 
   edges.map(({ node }: any) => {
-    console.log("node:", node);
     products.push({
       id: node.id,
       title: node.title,

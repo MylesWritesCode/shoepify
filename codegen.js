@@ -31,8 +31,12 @@ module.exports = {
   documents: ["src/graphql/**/*.graphql"],
   overwrite: true,
   generates: {
-    "src/generated/schema.d.ts": {
-      plugins: ["typescript", "typescript-operations"],
+    "src/generated/schema.ts": {
+      plugins: [
+        "typescript",
+        "typescript-operations",
+        "typescript-react-apollo",
+      ],
       config: {
         scalars: {
           ID: "string",

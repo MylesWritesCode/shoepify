@@ -14,18 +14,28 @@
  * HISTORY
  **/
 
+import { DocumentNode } from "@apollo/client";
+
 /**
  * Retrieves data from the Shopify backend.
  * @param { string } url
- * @param { string } query
+ * @param { string | DocumentNode } query
  * @param { Object } variables
  * @returns { Object } The response from the backend.
  */
 export const getShopifyData = async (
   url: string,
-  query: string,
+  query: string | DocumentNode,
   variables?: Object
 ) => {
+  if (typeof query !== 'string' && typeof query === 'object') {
+    if (query.loc) {
+      query = query.loc?.source.body;
+    } else {
+      console.warn(`ERROR: Query targeting URL ${url} is invalid.`);
+    }
+  }
+
   const res = await fetch(url, {
     method: "POST",
     body: JSON.stringify({ query, variables }),

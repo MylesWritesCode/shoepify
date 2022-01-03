@@ -1,8 +1,11 @@
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -453,6 +456,8 @@ export type Checkout = Node & {
   taxExempt: Scalars['Boolean'];
   /** Specifies if taxes are included in the line item and shipping line prices. */
   taxesIncluded: Scalars['Boolean'];
+  /** The sum of all the duties applied to the line items in the checkout. */
+  totalDuties?: Maybe<MoneyV2>;
   /**
    * The sum of all the prices of all the items in the checkout, taxes and discounts included.
    * @deprecated Use `totalPriceV2` instead
@@ -1752,7 +1757,9 @@ export enum CountryCode {
   /** Zambia. */
   Zm = 'ZM',
   /** Zimbabwe. */
-  Zw = 'ZW'
+  Zw = 'ZW',
+  /** Unknown Region. */
+  Zz = 'ZZ'
 }
 
 /** Credit card information used for a payment. */
@@ -2682,6 +2689,8 @@ export type ExternalVideo = Media & Node & {
    * @deprecated Use `originUrl` instead
    */
   embeddedUrl: Scalars['URL'];
+  /** The host of the external video. */
+  host: MediaHost;
   /** A globally-unique identifier. */
   id: Scalars['ID'];
   /** The media content type. */
@@ -3091,6 +3100,14 @@ export type MediaEdge = {
   /** The item at the end of MediaEdge. */
   node: Media;
 };
+
+/** Host for a Media Resource. */
+export enum MediaHost {
+  /** Host for Vimeo embedded videos. */
+  Vimeo = 'VIMEO',
+  /** Host for YouTube embedded videos. */
+  Youtube = 'YOUTUBE'
+}
 
 /** Represents a Shopify hosted image. */
 export type MediaImage = Media & Node & {
@@ -3710,6 +3727,8 @@ export type Order = Node & {
   currencyCode: CurrencyCode;
   /** The subtotal of line items and their discounts, excluding line items that have been removed. Does not contain order-level discounts, duties, shipping costs, or shipping discounts. Taxes are not included unless the order is a taxes-included order. */
   currentSubtotalPrice: MoneyV2;
+  /** The total cost of duties for the order, including refunds. */
+  currentTotalDuties?: Maybe<MoneyV2>;
   /** The total amount of the order, including duties, taxes and discounts, minus amounts for line items that have been removed. */
   currentTotalPrice: MoneyV2;
   /** The total of all taxes applied to the order, excluding taxes for returned line items. */
@@ -3740,6 +3759,8 @@ export type Order = Node & {
   name: Scalars['String'];
   /** A unique numeric identifier for the order for use by shop owner and customer. */
   orderNumber: Scalars['Int'];
+  /** The total cost of duties charged at checkout. */
+  originalTotalDuties?: Maybe<MoneyV2>;
   /** The total price of the order before any applied edits. */
   originalTotalPrice: MoneyV2;
   /** The customer's phone number for receiving SMS notifications. */
@@ -5374,3 +5395,153 @@ export type GetShopNameQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetShopNameQuery = { __typename?: 'QueryRoot', shop: { __typename?: 'Shop', name: string } };
+
+export const ProductConnectionFragmentDoc = gql`
+    fragment productConnection on ProductConnection {
+  pageInfo {
+    hasNextPage
+    hasPreviousPage
+  }
+  edges {
+    node {
+      id
+      title
+      vendor
+      handle
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      images(first: 1) {
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+        }
+        edges {
+          node {
+            originalSrc
+            altText
+            width
+            height
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+export const GetAllProductsDocument = gql`
+    query getAllProducts($first: Int = 250, $query: String = "", $sortKey: ProductSortKeys = RELEVANCE, $reverse: Boolean = false) {
+  products(first: $first, sortKey: $sortKey, reverse: $reverse, query: $query) {
+    ...productConnection
+  }
+}
+    ${ProductConnectionFragmentDoc}`;
+
+/**
+ * __useGetAllProductsQuery__
+ *
+ * To run a query within a React component, call `useGetAllProductsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllProductsQuery({
+ *   variables: {
+ *      first: // value for 'first'
+ *      query: // value for 'query'
+ *      sortKey: // value for 'sortKey'
+ *      reverse: // value for 'reverse'
+ *   },
+ * });
+ */
+export function useGetAllProductsQuery(baseOptions?: Apollo.QueryHookOptions<GetAllProductsQuery, GetAllProductsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllProductsQuery, GetAllProductsQueryVariables>(GetAllProductsDocument, options);
+      }
+export function useGetAllProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllProductsQuery, GetAllProductsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllProductsQuery, GetAllProductsQueryVariables>(GetAllProductsDocument, options);
+        }
+export type GetAllProductsQueryHookResult = ReturnType<typeof useGetAllProductsQuery>;
+export type GetAllProductsLazyQueryHookResult = ReturnType<typeof useGetAllProductsLazyQuery>;
+export type GetAllProductsQueryResult = Apollo.QueryResult<GetAllProductsQuery, GetAllProductsQueryVariables>;
+export const GetProductsDocument = gql`
+    query getProducts {
+  products(first: 20) {
+    edges {
+      node {
+        id
+        handle
+        title
+        description
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetProductsQuery__
+ *
+ * To run a query within a React component, call `useGetProductsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetProductsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetProductsQuery(baseOptions?: Apollo.QueryHookOptions<GetProductsQuery, GetProductsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetProductsQuery, GetProductsQueryVariables>(GetProductsDocument, options);
+      }
+export function useGetProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProductsQuery, GetProductsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetProductsQuery, GetProductsQueryVariables>(GetProductsDocument, options);
+        }
+export type GetProductsQueryHookResult = ReturnType<typeof useGetProductsQuery>;
+export type GetProductsLazyQueryHookResult = ReturnType<typeof useGetProductsLazyQuery>;
+export type GetProductsQueryResult = Apollo.QueryResult<GetProductsQuery, GetProductsQueryVariables>;
+export const GetShopNameDocument = gql`
+    query getShopName {
+  shop {
+    name
+  }
+}
+    `;
+
+/**
+ * __useGetShopNameQuery__
+ *
+ * To run a query within a React component, call `useGetShopNameQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetShopNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetShopNameQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetShopNameQuery(baseOptions?: Apollo.QueryHookOptions<GetShopNameQuery, GetShopNameQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetShopNameQuery, GetShopNameQueryVariables>(GetShopNameDocument, options);
+      }
+export function useGetShopNameLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetShopNameQuery, GetShopNameQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetShopNameQuery, GetShopNameQueryVariables>(GetShopNameDocument, options);
+        }
+export type GetShopNameQueryHookResult = ReturnType<typeof useGetShopNameQuery>;
+export type GetShopNameLazyQueryHookResult = ReturnType<typeof useGetShopNameLazyQuery>;
+export type GetShopNameQueryResult = Apollo.QueryResult<GetShopNameQuery, GetShopNameQueryVariables>;
