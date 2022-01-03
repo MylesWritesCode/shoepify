@@ -11,10 +11,13 @@
  * Copyright (c) 2021 MylesWritesCode
  * *****
  * HISTORY
- **/
+***/
+const isDev = process.env.NODE_ENV === 'development';
+
 // General application variables
 const app = {
-  url: process.env.NEXT_PUBLIC_API_URL,
+  url: isDev ? process.env.NEXT_PUBLIC_HOSTED_URL : process.env.NEXT_PUBLIC_API_URL,
+  // url: isDev ? process.env.NEXT_PUBLIC_API_URL : process.env.NEXT_PUBLIC_HOSTED_URL,
 }
 
 // Shopify variables
