@@ -23,9 +23,30 @@ const app = {
 
 // Shopify variables
 const s = {
-  url: process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN,        // Shopify domain
+  url: process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN, // Shopify domain
   ver: process.env.NEXT_PUBLIC_SHOPIFY_GRAPHQL_API_VERSION, // API version
 };
 
-export const API_URL = app.url;
-export const SHOPIFY_API_URL = `https://${s.url}/api/${s.ver}/graphql.json`;
+// Log warnings for missing variables
+if (!app.url) {
+  console.warn(
+    `ERROR: ${app.url} is not a valid url. Check your NEXT_PUBLIC_API_URL and NEXT_PUBLIC_HOSTED_URL environment variables`
+  );
+}
+
+if (!s.url) {
+  console.warn(
+    `ERROR: ${s.url} is not a valid url. Check your NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN environment variables`
+  );
+}
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_operator
+// Basically this is `app.url ? app.url : ""`
+const API_URL = app.url || "";
+
+console.log(API_URL);
+
+const SHOPIFY_API_URL =
+  s.url && s.ver ? `https://${s.url}/api/${s.ver}/graphql.json` : "";
+
+export { API_URL, SHOPIFY_API_URL };
