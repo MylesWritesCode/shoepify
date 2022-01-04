@@ -15,7 +15,7 @@
  * HISTORY
  **/
 import { useState } from "react";
-import type { NextPage } from "next";
+import type { InferGetStaticPropsType, NextPage } from "next";
 import { GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import Head from "next/head";
@@ -44,7 +44,13 @@ export const getStaticPaths = async () => {
   return { paths, fallback: false };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+interface StaticProps {
+  product: Product;
+}
+
+export const getStaticProps: GetStaticProps<StaticProps> = async ({
+  params,
+}) => {
   const { handle } = params || {};
   const product = await getProductByHandle(handle as string);
 
@@ -55,11 +61,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   };
 };
 
-const Product: NextPage = () => {
-  const [product, setProduct] = useState<Product>(defaultProduct);
+const Product: NextPage<StaticProps> = ({
+  product,
+  ...props
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [quantity, setQuantity] = useState<number>(1);
 
-  const { title, vendor, description, priceRange } = product;
+  const { title, vendor, description, priceRange, images } = product;
   const { minVariantPrice } = priceRange;
 
   // There's a better way to do this, and I'm gonna figure it out later.
@@ -82,7 +90,7 @@ const Product: NextPage = () => {
       <div className={styles.container}>
         <div className={`${styles.section}`}>
           {/* gallery implementation */}
-          <ProductGallery srcs={defaultProduct.images} />
+          <ProductGallery srcs={images} />
         </div>
         <div className={`${styles.section} ${styles.right}`}>
           {/* info implementation */}
