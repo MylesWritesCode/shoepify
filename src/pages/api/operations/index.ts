@@ -14,3 +14,4 @@
  * HISTORY
  **/
 export { getAllProducts } from "./get-all-products";
+export { getProductByHandle } from "./get-product-by-handle";

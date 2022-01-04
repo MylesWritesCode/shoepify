@@ -16,11 +16,15 @@
  **/
 import { useState } from "react";
 import type { NextPage } from "next";
-import { useRouter } from 'next/router';
+import { GetStaticProps } from "next";
+import { useRouter } from "next/router";
 import Head from "next/head";
+import { getAllProducts } from "@pages/api/operations";
 import ProductGallery from "@components/products/ProductGallery";
 import QuantityWidget from "@components/QuantityWidget";
 import { formatPercentage, formatCurrency } from "@utils";
+
+import { getProductByHandle } from "@pages/api/operations";
 
 import { shopConfig } from "@config/shop";
 import styles from "./Products.module.css";
@@ -29,12 +33,36 @@ import type { Product } from "@type/product.type";
 // Mock data
 import defaultProduct from "@mock/default-product";
 
+export const getStaticPaths = async () => {
+  // Get all the product paths
+  const { products } = await getAllProducts();
+  const paths = products.map((product) => {
+    return `/products/${product.handle}`;
+  });
+
+  // { fallback = false } -> other routes should 404
+  return { paths, fallback: false };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { handle } = params || {};
+  const data = await getProductByHandle(handle as string);
+
+  // console.log(data);
+  
+  return {
+    props: {
+      // data,
+    },
+  };
+};
+
 const Product: NextPage = () => {
   const [product, setProduct] = useState<Product>(defaultProduct);
   const [quantity, setQuantity] = useState<number>(1);
   const router = useRouter();
 
-  console.log("router.query: ", router.query);
+  // console.log("router.query: ", router.query);
 
   const { title, company, description, price, discount } = product;
 
@@ -44,7 +72,7 @@ const Product: NextPage = () => {
     if (quantity < 0) return "Return product";
     return "";
   };
-  
+
   return (
     <>
       <Head>
