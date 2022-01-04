@@ -23,7 +23,7 @@ const app = {
 
 // Shopify variables
 const s = {
-  url: process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN, // Shopify domain
+  url: process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN,        // Shopify domain
   ver: process.env.NEXT_PUBLIC_SHOPIFY_GRAPHQL_API_VERSION, // API version
 };
 
@@ -42,11 +42,6 @@ if (!s.url) {
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_operator
 // Basically this is `app.url ? app.url : ""`
-const API_URL = app.url || "";
-
-console.log(API_URL);
-
-const SHOPIFY_API_URL =
+export const API_URL = app.url || "";
+export const SHOPIFY_API_URL =
   s.url && s.ver ? `https://${s.url}/api/${s.ver}/graphql.json` : "";
-
-export { API_URL, SHOPIFY_API_URL };
