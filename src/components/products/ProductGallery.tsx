@@ -58,7 +58,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
       </div>
       <div className={styles.thumbnails}>
         {srcs.map((image, i) => {
-          const thumb = ((image as ProductImage).thumbnail as string) ?? image;
+          const thumb = ((image as ProductImage).url as string) ?? image;
           // NextJS is mean about using next/image, but it creates 4 nodes per
           // image. I don't want 4 nodes per image. That's insane. I'm reverting
           // to basic img tags and just ignoring the dumb warnings.

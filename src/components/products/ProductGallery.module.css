@@ -49,11 +49,15 @@
   margin: 0 0.5rem;
   border-radius: 0.5rem;
   transition: all 0.25s;
+  overflow: hidden;
 }
 
 .thumbnail img {
-  height: 100%;
-  width: 100%;
+  position: relative;
+  height: 120%;
+  width: 120%;
+  top: -10%;
+  left: -10%;
   border-radius: 0.5rem;
 }
 
