@@ -44,6 +44,7 @@ the graphql codegen script below. For building out your queries and mutations,
 check this reference:
 
 To install: https://shopify-graphiql-app.shopifycloud.com/login
+
 Read-only explorer: https://shopify.dev/graphiql/admin-graphiql
 
 ## To run
