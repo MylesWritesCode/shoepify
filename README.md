@@ -180,6 +180,15 @@ Shopify's backend.
     2. GraphQL Codegen (creates hooks based on gql calls)
 
 # Notes
+**Jan 3, 2022** Spent most (all) of the day figuring out what I'd consider the
+best way to pull data down from Shopify that doesn't burn through my API
+throttling threshold. I've updated the docs (this readme) to show what my
+workflow looks like when trying to pull data from the backend. Now, some todos
+and notes for tomorrow:
+- Work on [handle] route to pull a single product and display it using the
+  template.
+- Build out template for products index page (collection of all products)
+
 **Dec 30, 2021** Responsiveness is done...for now. I now need to focus on 
 getting products from Shopify into the app. I have two options - using GraphQL 
 codegen to just generate the hook myself via the Storefront API and the plethora
@@ -187,12 +196,12 @@ of endpoints available, or using the Shopify node package. On the one hand, I've
 already set up codegen and all I'll have to do is look for the endpoints in the
 Storefront API docs. On the other hand, I kinda want to learn how to use the
 Shopify package anyway.
-- Pull something from the Shopify backend
+- ~~Pull something from the Shopify backend~~
 - ~~Move code from `products/index.tsx` to `products/[id].tsx` or something.~~
 - Either get mock data for a full collection, or just upload a bunch of stuff
   to the backend so I have data to play with while styling the collection grid.
-- Set up API endpoint on the Next server side to make sensitive calls (e.g.,
-  calls that contain API keys)
+- ~~Set up API endpoint on the Next server side to make sensitive calls (e.g.,
+  calls that contain API keys)~~
 
 **Dec 29, 2021**
 - ~~Really need to work on responsive styles on mobile. Wew lad it's a mess there
@@ -220,15 +229,24 @@ will probably be doc reading time~~
 - ~~Finish `getShopifyData.ts`~~
 
 ### Considerations
-- Need to think about SSR, because it'll be better overall for SEO
+- ~~Need to think about SSR, because it'll be better overall for SEO~~
+  > The app uses static generation for pages that *need* SEO (e.g. product and
+  > collection pages), and I don't think I'll need static generation for the
+  > cart or user profiles (when I eventually get there)
 - ~~Think about handling errors in `getShopifyData`, instead of giving that 
   responsibility to the caller. Maybe it can throw an error that can be logged
   or something.~~
   > I'm going to handle this in the app API rather than the util
-- It might be better to just call via the REST API, cause holy moly lord
+- ~~It might be better to just call via the REST API, cause holy moly lord
   almighty that response you get back is gross. It's so bloated. Either come up
-  with a way to clean this data on entry, or look for another fetching solution.
-- Dev vs prod builds with respect to the API url - I should make this dynamic at
+  with a way to clean this data on entry, or look for another fetching solution.~~
+  > It wasn't as bad as I initially thought, especially cause I could split the
+  > code up between the template/normalize logic/data fetch functions.
+- ~~Dev vs prod builds with respect to the API url - I should make this dynamic at
   some point. the API URL and the store domain are essentially the same thing in
   prod, but they're different in dev (localhost vs store domain). Not high prio
-  right now so I'm just moving on.
+  right now so I'm just moving on.~~
+  > Turns out I went down the wrong rabbithole; I just ended up calling the fn
+  > directly, rather than trying to use `fetch` for no reason. The server 
+  > doesn't/shouldn't need to call itself to get data; that doesn't make sense.
+  > View the graphql-codegen example above to see the workflow I've adopted.
