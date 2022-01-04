@@ -17,9 +17,6 @@ import { useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { getAllProducts } from '@pages/api/operations';
-import ProductGallery from "@components/products/ProductGallery";
-import QuantityWidget from "@components/QuantityWidget";
-import { formatPercentage, formatCurrency } from "@utils";
 
 import type { Product } from "@type/product.type";
 
@@ -30,6 +27,7 @@ import styles from "./Products.module.css";
 import defaultProduct from "@mock/default-product";
 
 export const getStaticProps = async () => {
+  
   const data = await getAllProducts();
   
   return {
@@ -40,19 +38,9 @@ export const getStaticProps = async () => {
 };
 
 const Products: NextPage = ({ ...props }: any) => {
-  const [product, setProduct] = useState<Product>(defaultProduct);
-  const [quantity, setQuantity] = useState<number>(1);
-  const { title, company, description, price, discount } = product;
-
   const { data } = props;
-
-  const generateATCButtonText = (): string => {
-    if (quantity > 0) return "Add to cart";
-    if (quantity == 0) return "Select a quantity";
-    if (quantity < 0) return "Return product";
-    return "";
-  };
-
+  const title = "Products";
+  
   return (
     <>
       <Head>
@@ -60,44 +48,7 @@ const Products: NextPage = ({ ...props }: any) => {
           {shopConfig.name} | {title}
         </title>
       </Head>
-      <div className={styles.container}>
-        <div className={`${styles.section}`}>
-          {/* gallery implementation */}
-          <ProductGallery srcs={defaultProduct.images} />
-        </div>
-        <div className={`${styles.section} ${styles.right}`}>
-          {/* info implementation */}
-          <div className={styles.company}>{company}</div>
-          <div className={styles.title}>
-            <h1>{title}</h1>
-          </div>
-
-          <div className={styles.description}>{description}</div>
-
-          <div className={styles.pricing}>
-            <div className={styles["price-and-discount"]}>
-              <h1>{formatCurrency(price * discount)}</h1>
-              <div className={styles["discount-percentage"]}>
-                {formatPercentage(discount)}
-              </div>
-            </div>
-            <div className={styles["original-price"]}>
-              {formatCurrency(price)}
-            </div>
-          </div>
-
-          <div className={styles["qty-and-atc"]}>
-            <QuantityWidget
-              state={quantity}
-              setState={setQuantity}
-              min={-100}
-            />
-            <button className={styles.atc} disabled={quantity == 0}>
-              <div className={styles.icon} /> {generateATCButtonText()}
-            </button>
-          </div>
-        </div>
-      </div>
+      <div>lmao</div>
     </>
   );
 };

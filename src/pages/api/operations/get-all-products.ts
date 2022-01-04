@@ -40,7 +40,7 @@ export const getAllProducts = async () => {
     SHOPIFY_API_URL,
     GetAllProductsDocument
   );
-
+  
   const products: any[] = [];
   
   const { pageInfo, edges } = data.products;
