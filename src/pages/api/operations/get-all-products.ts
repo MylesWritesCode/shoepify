@@ -36,26 +36,18 @@ type GetAllProductsResponseType = {
 };
 
 export const getAllProducts = async () => {
-  const shopifyResponse = await getShopifyData(
+  const { data } = await getShopifyData(
     SHOPIFY_API_URL,
     GetAllProductsDocument
   );
 
   const products: any[] = [];
-
-  const { pageInfo, edges } = shopifyResponse.data.products;
-
+  
+  const { pageInfo, edges } = data.products;
+  
   // Normalize all the data coming from the Shopify response
   edges.map(({ node }: any) => {
-    products.push({
-      id: node.id,
-      title: node.title,
-      vendor: node.vendor,
-      handle: node.handle,
-      images: node.images.edges.map((image: any) => {
-        return image.node.originalSrc;
-      }),
-    });
+    products.push(node);
   });
 
   return {

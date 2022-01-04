@@ -6318,7 +6318,7 @@ export enum WeightUnit {
   Pounds = 'POUNDS'
 }
 
-export type ProductConnectionFragment = { __typename?: 'ProductConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean }, edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', id: string, title: string, vendor: string, handle: string, priceRange: { __typename?: 'ProductPriceRange', minVariantPrice: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } }, featuredImage?: { __typename?: 'Image', url: any, altText?: string | null | undefined } | null | undefined } }> };
+export type ProductConnectionFragment = { __typename?: 'ProductConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean }, edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', id: string, title: string, vendor: string, handle: string, featuredImage?: { __typename?: 'Image', url: any, altText?: string | null | undefined } | null | undefined, priceRange: { __typename?: 'ProductPriceRange', minVariantPrice: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } } } }> };
 
 export type GetAllProductsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
@@ -6328,7 +6328,7 @@ export type GetAllProductsQueryVariables = Exact<{
 }>;
 
 
-export type GetAllProductsQuery = { __typename?: 'QueryRoot', products: { __typename?: 'ProductConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean }, edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', id: string, title: string, vendor: string, handle: string, priceRange: { __typename?: 'ProductPriceRange', minVariantPrice: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } }, featuredImage?: { __typename?: 'Image', url: any, altText?: string | null | undefined } | null | undefined } }> } };
+export type GetAllProductsQuery = { __typename?: 'QueryRoot', products: { __typename?: 'ProductConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean }, edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', id: string, title: string, vendor: string, handle: string, featuredImage?: { __typename?: 'Image', url: any, altText?: string | null | undefined } | null | undefined, priceRange: { __typename?: 'ProductPriceRange', minVariantPrice: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } } } }> } };
 
 export type GetProductByHandleQueryVariables = Exact<{
   handle?: InputMaybe<Scalars['String']>;
@@ -6354,15 +6354,15 @@ export const ProductConnectionFragmentDoc = gql`
       title
       vendor
       handle
+      featuredImage {
+        url
+        altText
+      }
       priceRange {
         minVariantPrice {
           amount
           currencyCode
         }
-      }
-      featuredImage {
-        url
-        altText
       }
     }
   }

@@ -23,7 +23,7 @@ const app = {
 
 // Shopify variables
 const s = {
-  url: process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN, // Shopify domain
+  url: process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN,        // Shopify domain
   ver: process.env.NEXT_PUBLIC_SHOPIFY_GRAPHQL_API_VERSION, // API version
 };
 

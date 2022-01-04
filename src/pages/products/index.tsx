@@ -45,7 +45,7 @@ const Products: NextPage = ({ ...props }: any) => {
   const { title, company, description, price, discount } = product;
 
   const { data } = props;
-  console.log("product data:", data);
+  console.log("product data:", JSON.stringify(data, null, 2));
 
   const generateATCButtonText = (): string => {
     if (quantity > 0) return "Add to cart";

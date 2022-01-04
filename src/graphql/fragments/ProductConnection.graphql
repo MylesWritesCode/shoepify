@@ -23,15 +23,15 @@ fragment productConnection on ProductConnection {
       title
       vendor
       handle
+      featuredImage {
+        url
+        altText
+      }
       priceRange {
         minVariantPrice {
           amount
           currencyCode
         }
-      }
-      featuredImage {
-        url
-        altText
       }
     }
   }
