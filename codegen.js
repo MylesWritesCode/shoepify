@@ -16,11 +16,14 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
+const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
+const version = process.env.NEXT_PUBLIC_SHOPIFY_GRAPHQL_API_VERSION;
+
 module.exports = {
   schema: [
     {
       // Sick. We can dyncamically assign keys like this. Thanks Nick.
-      [`https://${process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN}/api/graphql`]: {
+      [`https://${domain}/api/${version}/graphql`]: {
         headers: {
           "X-Shopify-Storefront-Access-Token":
             process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN,

@@ -43,7 +43,8 @@ configure that. After that, build out your GraphQL code in `/graphql`, then run
 the graphql codegen script below. For building out your queries and mutations,
 check this reference:
 
-https://shopify-graphiql-app.shopifycloud.com/
+To install: https://shopify-graphiql-app.shopifycloud.com/login
+Read-only explorer: https://shopify.dev/graphiql/admin-graphiql
 
 ## To run
 ```
