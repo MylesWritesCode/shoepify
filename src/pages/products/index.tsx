@@ -16,15 +16,13 @@
 import { useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
+import ProductWidget from '@components/products/ProductWidget';
 import { getAllProducts } from '@pages/api/operations';
 
 import type { Product } from "@type/product.type";
 
 import { shopConfig } from "@config/shop";
 import styles from "./Products.module.css";
-
-// Mock data
-import defaultProduct from "@mock/default-product";
 
 export const getStaticProps = async () => {
   
@@ -38,7 +36,7 @@ export const getStaticProps = async () => {
 };
 
 const Products: NextPage = ({ ...props }: any) => {
-  const { data } = props;
+  const { pageInfo, products } = props.data;
   const title = "Products";
   
   return (
@@ -48,7 +46,13 @@ const Products: NextPage = ({ ...props }: any) => {
           {shopConfig.name} | {title}
         </title>
       </Head>
-      <div>lmao</div>
+      <div className={styles.container}>
+        {
+          products.map((product: Product, i: number) => {
+            return <ProductWidget product={product}/>;
+          })
+        }
+      </div>
     </>
   );
 };
