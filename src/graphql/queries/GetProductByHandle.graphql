@@ -1,0 +1,56 @@
+###
+# File: /src/graphql/queries/GetProductByHandle.graphql
+# Project: shoepify
+# Purpose: Consider turning this into a fragment
+# 
+# @author Myles Berueda
+# @date   Tuesday January 4th 2022
+# *****
+# Modified: Tuesday January 4th 2022 6:24:07 am
+# *****
+# Copyright (c) 2022 MylesWritesCode
+# *****
+# HISTORY
+###
+query GetProductByHandle($handle: String) {
+  # Consider turning parts of this into a fragment
+  product(handle: $handle) {
+    id
+    title
+    handle
+    priceRange {
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+    images(first: 12) {
+      edges {
+        node {
+          url
+          altText
+        }
+      }
+    }
+    variants(first: 12) {
+      edges {
+        node {
+          title
+          availableForSale
+          image {
+            url
+            altText
+          }
+          selectedOptions {
+            name
+            value
+          }
+          priceV2 {
+            amount
+            currencyCode
+          }
+        }
+      }
+    }
+  }
+}

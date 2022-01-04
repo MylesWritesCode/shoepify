@@ -9,6 +9,17 @@ directive @accessRestricted(
   reason: String = null
 ) on FIELD_DEFINITION | OBJECT
 
+"""
+Contextualizes data based on the additional information provided by the directive. For example, you can use the `@inContext(country: CA)` directive to [query a product's price](https://shopify.dev/custom-storefronts/products/international-pricing#query-product-prices) in a storefront within the context of Canada.
+"""
+directive @inContext(
+  """The country code for context. For example, `CA`."""
+  country: CountryCode
+
+  """The identifier of the customer's preferred location."""
+  preferredLocationId: ID
+) on MUTATION | QUERY
+
 "A version of the API, as defined by [Shopify API versioning](https://shopify.dev/api/usage/versioning).\nVersions are commonly referred to by their handle (for example, `2021-10`).\n"
 type ApiVersion {
   """The human-readable name of the version."""
@@ -50,7 +61,7 @@ type AppliedGiftCard implements Node {
 }
 
 """An article in an online store blog."""
-type Article implements Node {
+type Article implements HasMetafields & Node & OnlineStorePublishable {
   """The article's author."""
   author: ArticleAuthor! @deprecated(reason: "Use `authorV2` instead")
 
@@ -103,27 +114,42 @@ type Article implements Node {
   id: ID!
 
   """The image associated with the article."""
-  image(
-    """
-    Crops the image according to the specified region. This argument is deprecated: Use `crop` on `Image.transformedSrc` instead.
-    """
-    crop: CropRegion
+  image: Image
 
-    """
-    Image height in pixels between 1 and 2048. This argument is deprecated: Use `maxHeight` on `Image.transformedSrc` instead.
-    """
-    maxHeight: Int
+  """Returns a metafield found by namespace and key."""
+  metafield(
+    """Identifier for the metafield (maximum of 30 characters)."""
+    key: String!
 
-    """
-    Image width in pixels between 1 and 2048. This argument is deprecated: Use `maxWidth` on `Image.transformedSrc` instead.
-    """
-    maxWidth: Int
+    """Container for a set of metafields (maximum of 20 characters)."""
+    namespace: String!
+  ): Metafield
 
-    """
-    Image size multiplier for high-resolution retina displays. Must be between 1 and 3. This argument is deprecated: Use `scale` on `Image.transformedSrc` instead.
-    """
-    scale: Int = 1
-  ): Image
+  """A paginated list of metafields associated with the resource."""
+  metafields(
+    """Returns the elements that come after the specified cursor."""
+    after: String
+
+    """Returns the elements that come before the specified cursor."""
+    before: String
+
+    """Returns up to the first `n` elements from the list."""
+    first: Int
+
+    """Returns up to the last `n` elements from the list."""
+    last: Int
+
+    """Container for a set of metafields (maximum of 20 characters)."""
+    namespace: String
+
+    """Reverse the order of the underlying list."""
+    reverse: Boolean = false
+  ): MetafieldConnection! @deprecated(reason: "The `metafields` field will be removed in the future in favor of using [aliases](https://graphql.org/learn/queries/#aliases) with the `metafield` field.\n")
+
+  """
+  The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel.
+  """
+  onlineStoreUrl: URL
 
   """The date and time when the article was published."""
   publishedAt: DateTime!
@@ -136,9 +162,6 @@ type Article implements Node {
 
   """The article’s name."""
   title: String!
-
-  """The url pointing to the article accessible from the web."""
-  url: URL! @deprecated(reason: "Use `onlineStoreUrl` instead")
 }
 
 """The author of an article."""
@@ -249,7 +272,7 @@ type AvailableShippingRates {
 }
 
 """An online store blog."""
-type Blog implements Node {
+type Blog implements HasMetafields & Node & OnlineStorePublishable {
   """Find an article by its handle."""
   articleByHandle(
     """The handle of the article."""
@@ -289,14 +312,46 @@ type Blog implements Node {
   """A globally-unique identifier."""
   id: ID!
 
+  """Returns a metafield found by namespace and key."""
+  metafield(
+    """Identifier for the metafield (maximum of 30 characters)."""
+    key: String!
+
+    """Container for a set of metafields (maximum of 20 characters)."""
+    namespace: String!
+  ): Metafield
+
+  """A paginated list of metafields associated with the resource."""
+  metafields(
+    """Returns the elements that come after the specified cursor."""
+    after: String
+
+    """Returns the elements that come before the specified cursor."""
+    before: String
+
+    """Returns up to the first `n` elements from the list."""
+    first: Int
+
+    """Returns up to the last `n` elements from the list."""
+    last: Int
+
+    """Container for a set of metafields (maximum of 20 characters)."""
+    namespace: String
+
+    """Reverse the order of the underlying list."""
+    reverse: Boolean = false
+  ): MetafieldConnection! @deprecated(reason: "The `metafields` field will be removed in the future in favor of using [aliases](https://graphql.org/learn/queries/#aliases) with the `metafield` field.\n")
+
+  """
+  The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel.
+  """
+  onlineStoreUrl: URL
+
   """The blog's SEO information."""
   seo: SEO
 
   """The blogs’s title."""
   title: String!
-
-  """The url pointing to the blog accessible from the web."""
-  url: URL! @deprecated(reason: "Use `onlineStoreUrl` instead")
 }
 
 "An auto-generated type for paginating through multiple Blogs.\n"
@@ -356,6 +411,380 @@ enum CardBrand {
 }
 
 """
+A cart represents the merchandise that a buyer intends to purchase, and the estimated cost associated with the cart. To learn how to interact with a cart during a customer's session, refer to the [Cart guide](https://shopify.dev/custom-storefronts/cart).
+"""
+type Cart implements Node {
+  """
+  The attributes associated with the cart. Attributes are represented as key-value pairs.
+  """
+  attributes: [Attribute!]!
+
+  """Information about the buyer that is interacting with the cart."""
+  buyerIdentity: CartBuyerIdentity!
+
+  """The URL of the checkout for the cart."""
+  checkoutUrl: URL!
+
+  """The date and time when the cart was created."""
+  createdAt: DateTime!
+
+  """The discount codes that have been applied to the cart."""
+  discountCodes: [CartDiscountCode!]!
+
+  """
+  The estimated costs that the buyer will pay at checkout. The estimated costs are subject to change and changes will be reflected at checkout.
+  """
+  estimatedCost: CartEstimatedCost!
+
+  """A globally-unique identifier."""
+  id: ID!
+
+  """
+  A list of lines containing information about the items the customer intends to purchase.
+  """
+  lines(
+    """Returns the elements that come after the specified cursor."""
+    after: String
+
+    """Returns the elements that come before the specified cursor."""
+    before: String
+
+    """Returns up to the first `n` elements from the list."""
+    first: Int
+
+    """Returns up to the last `n` elements from the list."""
+    last: Int
+
+    """Reverse the order of the underlying list."""
+    reverse: Boolean = false
+  ): CartLineConnection!
+
+  """
+  A note that is associated with the cart. For example, the note can be a personalized message to the buyer.
+  """
+  note: String
+
+  """The date and time when the cart was updated."""
+  updatedAt: DateTime!
+}
+
+"""Return type for `cartAttributesUpdate` mutation."""
+type CartAttributesUpdatePayload {
+  """The updated cart."""
+  cart: Cart
+
+  """The list of errors that occurred from executing the mutation."""
+  userErrors: [CartUserError!]!
+}
+
+"""
+The discounts automatically applied to the cart line based on prerequisites that have been met.
+"""
+type CartAutomaticDiscountAllocation implements CartDiscountAllocation {
+  """The discounted amount that has been applied to the cart line."""
+  discountedAmount: MoneyV2!
+
+  """The title of the allocated discount."""
+  title: String!
+}
+
+"""
+Represents information about the buyer that is interacting with the cart.
+"""
+type CartBuyerIdentity {
+  """The country where the buyer is located."""
+  countryCode: CountryCode
+
+  """The customer account associated with the cart."""
+  customer: Customer
+
+  """The email address of the buyer that is interacting with the cart."""
+  email: String
+
+  """The phone number of the buyer that is interacting with the cart."""
+  phone: String
+}
+
+"""
+Specifies the input fields to update the buyer information associated with a cart.
+"""
+input CartBuyerIdentityInput {
+  """The country where the buyer is located."""
+  countryCode: CountryCode
+
+  """
+  The access token used to identify the customer associated with the cart.
+  """
+  customerAccessToken: String
+
+  """The email address of the buyer that is interacting with the cart."""
+  email: String
+
+  """The phone number of the buyer that is interacting with the cart."""
+  phone: String
+}
+
+"""Return type for `cartBuyerIdentityUpdate` mutation."""
+type CartBuyerIdentityUpdatePayload {
+  """The updated cart."""
+  cart: Cart
+
+  """The list of errors that occurred from executing the mutation."""
+  userErrors: [CartUserError!]!
+}
+
+"""
+The discount that has been applied to the cart line using a discount code.
+"""
+type CartCodeDiscountAllocation implements CartDiscountAllocation {
+  """The code used to apply the discount."""
+  code: String!
+
+  """The discounted amount that has been applied to the cart line."""
+  discountedAmount: MoneyV2!
+}
+
+"""Return type for `cartCreate` mutation."""
+type CartCreatePayload {
+  """The new cart."""
+  cart: Cart
+
+  """The list of errors that occurred from executing the mutation."""
+  userErrors: [CartUserError!]!
+}
+
+"""The discounts that have been applied to the cart line."""
+interface CartDiscountAllocation {
+  """The discounted amount that has been applied to the cart line."""
+  discountedAmount: MoneyV2!
+}
+
+"""The discount codes applied to the cart."""
+type CartDiscountCode {
+  """
+  Whether the discount code is applicable to the cart's current contents.
+  """
+  applicable: Boolean!
+
+  """The code for the discount."""
+  code: String!
+}
+
+"""Return type for `cartDiscountCodesUpdate` mutation."""
+type CartDiscountCodesUpdatePayload {
+  """The updated cart."""
+  cart: Cart
+
+  """The list of errors that occurred from executing the mutation."""
+  userErrors: [CartUserError!]!
+}
+
+"""Possible error codes that can be returned by `CartUserError`."""
+enum CartErrorCode {
+  """The input value is invalid."""
+  INVALID
+
+  """Merchandise line was not found in cart."""
+  INVALID_MERCHANDISE_LINE
+
+  """The input value should be less than the maximum value allowed."""
+  LESS_THAN
+
+  """Missing discount code."""
+  MISSING_DISCOUNT_CODE
+
+  """Missing note."""
+  MISSING_NOTE
+}
+
+"""The estimated costs that the buyer will pay at checkout."""
+type CartEstimatedCost {
+  """
+  The estimated amount, before taxes and discounts, for the customer to pay at checkout.
+  """
+  subtotalAmount: MoneyV2!
+
+  """The estimated total amount for the customer to pay at checkout."""
+  totalAmount: MoneyV2!
+
+  """The estimated duty amount for the customer to pay at checkout."""
+  totalDutyAmount: MoneyV2
+
+  """The estimated tax amount for the customer to pay at checkout."""
+  totalTaxAmount: MoneyV2
+}
+
+"""Specifies the input fields to create a cart."""
+input CartInput {
+  """
+  An array of key-value pairs that contains additional information about the cart.
+  """
+  attributes: [AttributeInput!]
+
+  """The customer associated with the cart."""
+  buyerIdentity: CartBuyerIdentityInput
+
+  """The discount codes to apply to the cart."""
+  discountCodes: [String!]
+
+  """A list of merchandise lines to add to the cart."""
+  lines: [CartLineInput!]
+
+  """
+  A note that is associated with the cart. For example, the note can be a personalized message to the buyer.
+  """
+  note: String
+}
+
+"""Represents information about the merchandise in the cart."""
+type CartLine implements Node {
+  """
+  The attributes associated with the cart line. Attributes are represented as key-value pairs.
+  """
+  attributes: [Attribute!]!
+
+  """The discounts that have been applied to the cart line."""
+  discountAllocations: [CartDiscountAllocation!]!
+
+  """
+  The estimated cost of the merchandise that the buyer will pay for at checkout. The estimated costs are subject to change and changes will be reflected at checkout.
+  """
+  estimatedCost: CartLineEstimatedCost!
+
+  """A globally-unique identifier."""
+  id: ID!
+
+  """The merchandise that the buyer intends to purchase."""
+  merchandise: Merchandise!
+
+  """The quantity of the merchandise that the customer intends to purchase."""
+  quantity: Int!
+
+  """
+  The selling plan associated with the cart line and the effect that each selling plan has on variants when they're purchased.
+  """
+  sellingPlanAllocation: SellingPlanAllocation
+}
+
+"An auto-generated type for paginating through multiple CartLines.\n"
+type CartLineConnection {
+  """A list of edges."""
+  edges: [CartLineEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+}
+
+"An auto-generated type which holds one CartLine and a cursor during pagination.\n"
+type CartLineEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of CartLineEdge."""
+  node: CartLine!
+}
+
+"""
+The estimated cost of the merchandise line that the buyer will pay at checkout.
+"""
+type CartLineEstimatedCost {
+  """The estimated cost of the merchandise line before discounts."""
+  subtotalAmount: MoneyV2!
+
+  """The estimated total cost of the merchandise line."""
+  totalAmount: MoneyV2!
+}
+
+"""Specifies the input fields to create a merchandise line on a cart."""
+input CartLineInput {
+  """
+  An array of key-value pairs that contains additional information about the merchandise line.
+  """
+  attributes: [AttributeInput!]
+
+  """The identifier of the merchandise that the buyer intends to purchase."""
+  merchandiseId: ID!
+
+  """The quantity of the merchandise."""
+  quantity: Int = 1
+
+  """
+  The identifier of the selling plan that the merchandise is being purchased with.
+  """
+  sellingPlanId: ID
+}
+
+"""Specifies the input fields to update a line item on a cart."""
+input CartLineUpdateInput {
+  """
+  An array of key-value pairs that contains additional information about the merchandise line.
+  """
+  attributes: [AttributeInput!]
+
+  """The identifier of the merchandise line."""
+  id: ID!
+
+  """The identifier of the merchandise for the line item."""
+  merchandiseId: ID
+
+  """The quantity of the line item."""
+  quantity: Int
+
+  """
+  The identifier of the selling plan that the merchandise is being purchased with.
+  """
+  sellingPlanId: ID
+}
+
+"""Return type for `cartLinesAdd` mutation."""
+type CartLinesAddPayload {
+  """The updated cart."""
+  cart: Cart
+
+  """The list of errors that occurred from executing the mutation."""
+  userErrors: [CartUserError!]!
+}
+
+"""Return type for `cartLinesRemove` mutation."""
+type CartLinesRemovePayload {
+  """The updated cart."""
+  cart: Cart
+
+  """The list of errors that occurred from executing the mutation."""
+  userErrors: [CartUserError!]!
+}
+
+"""Return type for `cartLinesUpdate` mutation."""
+type CartLinesUpdatePayload {
+  """The updated cart."""
+  cart: Cart
+
+  """The list of errors that occurred from executing the mutation."""
+  userErrors: [CartUserError!]!
+}
+
+"""Return type for `cartNoteUpdate` mutation."""
+type CartNoteUpdatePayload {
+  """The updated cart."""
+  cart: Cart
+
+  """The list of errors that occurred from executing the mutation."""
+  userErrors: [CartUserError!]!
+}
+
+"""Represents an error that happens during execution of a cart mutation."""
+type CartUserError implements DisplayableError {
+  """The error code."""
+  code: CartErrorCode
+
+  """The path to the input field that caused the error."""
+  field: [String!]
+
+  """The error message."""
+  message: String!
+}
+
+"""
 A container for all the information required to checkout items and pay.
 """
 type Checkout implements Node {
@@ -364,6 +793,9 @@ type Checkout implements Node {
 
   "The available shipping rates for this Checkout.\nShould only be used when checkout `requiresShipping` is `true` and\nthe shipping address is valid.\n"
   availableShippingRates: AvailableShippingRates
+
+  """The identity of the customer associated with the checkout."""
+  buyerIdentity: CheckoutBuyerIdentity!
 
   """The date and time when the checkout was completed."""
   completedAt: DateTime
@@ -376,9 +808,6 @@ type Checkout implements Node {
 
   """A list of extra information that is added to the checkout."""
   customAttributes: [Attribute!]!
-
-  """The customer associated with the checkout."""
-  customer: Customer @deprecated(reason: "This field will always return null. If you have an authentication token for the customer, you can use the `customer` field on the query root to retrieve it.")
 
   """Discounts that have been applied on the checkout."""
   discountApplications(
@@ -563,6 +992,18 @@ type CheckoutAttributesUpdateV2Payload {
   userErrors: [UserError!]! @deprecated(reason: "Use `checkoutUserErrors` instead")
 }
 
+"""The identity of the customer associated with the checkout."""
+type CheckoutBuyerIdentity {
+  """The country code for the checkout. For example, `CA`."""
+  countryCode: CountryCode
+}
+
+"""Specifies the identity of the customer associated with the checkout."""
+input CheckoutBuyerIdentityInput {
+  "The country code of one of the shop's\n[enabled countries](https://help.shopify.com/en/manual/payments/shopify-payments/multi-currency/setup).\nFor example, `CA`. Including this field creates a checkout in the specified country's currency.\n"
+  countryCode: CountryCode!
+}
+
 """Return type for `checkoutCompleteFree` mutation."""
 type CheckoutCompleteFreePayload {
   """The updated checkout object."""
@@ -655,6 +1096,9 @@ input CheckoutCreateInput {
   "Allows setting partial addresses on a Checkout, skipping the full validation of attributes.\nThe required attributes are city, province, and country.\nFull validation of addresses is still done at completion time. Defaults to `null`.\n"
   allowPartialAddresses: Boolean
 
+  """The identity of the customer associated with the checkout."""
+  buyerIdentity: CheckoutBuyerIdentityInput
+
   """A list of extra information that is added to the checkout."""
   customAttributes: [AttributeInput!]
 
@@ -690,6 +1134,9 @@ type CheckoutCreatePayload {
 
   """The list of errors that occurred from executing the mutation."""
   checkoutUserErrors: [CheckoutUserError!]!
+
+  """The checkout queue token. Available only to selected stores."""
+  queueToken: String
 
   """The list of errors that occurred from executing the mutation."""
   userErrors: [UserError!]! @deprecated(reason: "Use `checkoutUserErrors` instead")
@@ -841,6 +1288,9 @@ enum CheckoutErrorCode {
   """Checkout is already completed."""
   EMPTY
 
+  """Queue token has expired."""
+  EXPIRED_QUEUE_TOKEN
+
   """Gift card has already been applied."""
   GIFT_CARD_ALREADY_APPLIED
 
@@ -873,6 +1323,9 @@ enum CheckoutErrorCode {
   """The input value is invalid."""
   INVALID
 
+  """Cannot specify country and presentment currency code."""
+  INVALID_COUNTRY_AND_CURRENCY
+
   """Input Zip is invalid for country provided."""
   INVALID_FOR_COUNTRY
 
@@ -881,6 +1334,9 @@ enum CheckoutErrorCode {
 
   """Invalid province in country."""
   INVALID_PROVINCE_IN_COUNTRY
+
+  """Queue token is invalid."""
+  INVALID_QUEUE_TOKEN
 
   """Invalid region in country."""
   INVALID_REGION_IN_COUNTRY
@@ -916,6 +1372,9 @@ enum CheckoutErrorCode {
 
   """Shipping rate expired."""
   SHIPPING_RATE_EXPIRED
+
+  """Throttled during checkout."""
+  THROTTLED_DURING_CHECKOUT
 
   """The input value is too long."""
   TOO_LONG
@@ -1150,7 +1609,7 @@ type CheckoutUserError implements DisplayableError {
 """
 A collection represents a grouping of products that a shop owner can create to organize them or make their shops easier to browse.
 """
-type Collection implements Node {
+type Collection implements HasMetafields & Node & OnlineStorePublishable {
   """
   Stripped description of the collection, single line with HTML tags removed.
   """
@@ -1169,27 +1628,42 @@ type Collection implements Node {
   id: ID!
 
   """Image associated with the collection."""
-  image(
-    """
-    Crops the image according to the specified region. This argument is deprecated: Use `crop` on `Image.transformedSrc` instead.
-    """
-    crop: CropRegion
+  image: Image
 
-    """
-    Image height in pixels between 1 and 2048. This argument is deprecated: Use `maxHeight` on `Image.transformedSrc` instead.
-    """
-    maxHeight: Int
+  """Returns a metafield found by namespace and key."""
+  metafield(
+    """Identifier for the metafield (maximum of 30 characters)."""
+    key: String!
 
-    """
-    Image width in pixels between 1 and 2048. This argument is deprecated: Use `maxWidth` on `Image.transformedSrc` instead.
-    """
-    maxWidth: Int
+    """Container for a set of metafields (maximum of 20 characters)."""
+    namespace: String!
+  ): Metafield
 
-    """
-    Image size multiplier for high-resolution retina displays. Must be between 1 and 3. This argument is deprecated: Use `scale` on `Image.transformedSrc` instead.
-    """
-    scale: Int = 1
-  ): Image
+  """A paginated list of metafields associated with the resource."""
+  metafields(
+    """Returns the elements that come after the specified cursor."""
+    after: String
+
+    """Returns the elements that come before the specified cursor."""
+    before: String
+
+    """Returns up to the first `n` elements from the list."""
+    first: Int
+
+    """Returns up to the last `n` elements from the list."""
+    last: Int
+
+    """Container for a set of metafields (maximum of 20 characters)."""
+    namespace: String
+
+    """Reverse the order of the underlying list."""
+    reverse: Boolean = false
+  ): MetafieldConnection! @deprecated(reason: "The `metafields` field will be removed in the future in favor of using [aliases](https://graphql.org/learn/queries/#aliases) with the `metafield` field.\n")
+
+  """
+  The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel.
+  """
+  onlineStoreUrl: URL
 
   """List of products in the collection."""
   products(
@@ -1198,6 +1672,9 @@ type Collection implements Node {
 
     """Returns the elements that come before the specified cursor."""
     before: String
+
+    """Returns a subset of products matching all product filters."""
+    filters: [ProductFilter!]
 
     """Returns up to the first `n` elements from the list."""
     first: Int
@@ -1295,6 +1772,21 @@ type CommentEdge {
 
   """The item at the end of CommentEdge."""
   node: Comment!
+}
+
+"""A country."""
+type Country {
+  """The currency of the country."""
+  currency: Currency!
+
+  """The ISO code of the country."""
+  isoCode: CountryCode!
+
+  """The name of the country."""
+  name: String!
+
+  """The unit system used in the country."""
+  unitSystem: UnitSystem!
 }
 
 """ISO 3166-1 alpha-2 country codes with some differences."""
@@ -2120,6 +2612,18 @@ enum CropRegion {
   TOP
 }
 
+"""A currency."""
+type Currency {
+  """The ISO code of the currency."""
+  isoCode: CurrencyCode!
+
+  """The name of the currency."""
+  name: String!
+
+  """The symbol of the currency."""
+  symbol: String!
+}
+
 "The three-letter currency codes that represent the world currencies used in stores. These include standard ISO 4217 codes, legacy codes,\nand non-standard codes.\n"
 enum CurrencyCode {
   """United Arab Emirates Dirham (AED)."""
@@ -2587,6 +3091,9 @@ enum CurrencyCode {
   """CFP Franc (XPF)."""
   XPF
 
+  """Unrecognized currency."""
+  XXX
+
   """Yemeni Rial (YER)."""
   YER
 
@@ -2600,7 +3107,7 @@ enum CurrencyCode {
 """
 A customer represents a customer account with the shop. Customer accounts store contact information for the customer, saving logged-in customers the trouble of having to provide it at every checkout.
 """
-type Customer {
+type Customer implements HasMetafields {
   """
   Indicates whether the customer has consented to be sent marketing material via email.
   """
@@ -2647,6 +3154,36 @@ type Customer {
 
   """The customer’s last name."""
   lastName: String
+
+  """Returns a metafield found by namespace and key."""
+  metafield(
+    """Identifier for the metafield (maximum of 30 characters)."""
+    key: String!
+
+    """Container for a set of metafields (maximum of 20 characters)."""
+    namespace: String!
+  ): Metafield
+
+  """A paginated list of metafields associated with the resource."""
+  metafields(
+    """Returns the elements that come after the specified cursor."""
+    after: String
+
+    """Returns the elements that come before the specified cursor."""
+    before: String
+
+    """Returns up to the first `n` elements from the list."""
+    first: Int
+
+    """Returns up to the last `n` elements from the list."""
+    last: Int
+
+    """Container for a set of metafields (maximum of 20 characters)."""
+    namespace: String
+
+    """Reverse the order of the underlying list."""
+    reverse: Boolean = false
+  ): MetafieldConnection! @deprecated(reason: "The `metafields` field will be removed in the future in favor of using [aliases](https://graphql.org/learn/queries/#aliases) with the `metafield` field.\n")
 
   """The orders associated with the customer."""
   orders(
@@ -3180,6 +3717,45 @@ type ExternalVideo implements Media & Node {
   previewImage: Image
 }
 
+"""A filter that is supported on the parent field."""
+type Filter {
+  """A unique identifier."""
+  id: String!
+
+  """A human-friendly string for this filter."""
+  label: String!
+
+  """An enumeration that denotes the type of data this filter represents."""
+  type: FilterType!
+
+  """The list of values for this filter."""
+  values: [FilterValue!]!
+}
+
+"""Denotes the type of data this filter group represents."""
+enum FilterType {
+  """A list of selectable values."""
+  LIST
+
+  """A range of prices."""
+  PRICE_RANGE
+}
+
+"""A selectable value within a filter."""
+type FilterValue {
+  """The number of results that match this filter value."""
+  count: Int!
+
+  """A unique identifier."""
+  id: String!
+
+  "An input object that can be used to filter by this value on the parent field.\n\nThe value is provided as a helper for building dynamic filtering UI. For example, if you have a list of selected `FilterValue` objects, you can combine their respective `input` values to use in a subsequent query.\n"
+  input: JSON!
+
+  """A human-friendly string for this filter value."""
+  label: String!
+}
+
 """Represents a single fulfillment in an order."""
 type Fulfillment {
   """List of the fulfillment's line items."""
@@ -3246,6 +3822,15 @@ type FulfillmentTrackingInfo {
 
   """The URL to track the fulfillment."""
   url: URL
+}
+
+"""Used to specify a geographical location."""
+input GeoCoordinateInput {
+  """The coordinate's latitude value."""
+  latitude: Float!
+
+  """The coordinate's longitude value."""
+  longitude: Float!
 }
 
 "A string containing HTML code. Refer to the [HTML spec](https://html.spec.whatwg.org/#elements-3) for a\ncomplete list of HTML elements.\n\nExample value: `\"<p>Grey cotton knit sweater.</p>\"`.\n"
@@ -3327,6 +3912,12 @@ type Image {
     scale: Int = 1
   ): URL! @deprecated(reason: "Use `url(transform:)` instead")
 
+  "The location of the image as a URL.\n\nIf no transform options are specified, then the original image will be preserved including any pre-applied transforms.\n\nAll transformation options are considered \"best-effort\". Any transformation that the original image type doesn't support will be ignored.\n\nIf you need multiple variations of the same image, then you can use [GraphQL field aliases](https://graphql.org/learn/queries/#aliases). For example:\n\n```graphql\n{\n  ... on Image {\n    original: url\n    thumbnail: url(transform: { maxWidth: 80, maxHeight: 80 })\n    retina: url(transform: { scale: 2 })\n  }\n}\n```\n"
+  url(
+    """A set of options to transform the original image."""
+    transform: ImageTransformInput
+  ): URL!
+
   """
   The original width of the image in pixels. Returns `null` if the image is not hosted by Shopify.
   """
@@ -3361,6 +3952,122 @@ type ImageEdge {
 
   """The item at the end of ImageEdge."""
   node: Image!
+}
+
+"The available options for transforming an image.\n\nAll transformation options are considered \"best-effort\". Any transformation that the original image type doesn't support will be ignored.\n"
+input ImageTransformInput {
+  """Crop the image according to the specified region."""
+  crop: CropRegion
+
+  "Image height in pixels between 1 and 5760.\n"
+  maxHeight: Int
+
+  "Image width in pixels between 1 and 5760.\n"
+  maxWidth: Int
+
+  "Convert the source image into the preferred content type.\nSupported conversions: `.svg` to `.png`, any file type to `.jpg`, and any file type to `.webp`.\n"
+  preferredContentType: ImageContentType
+
+  "Image size multiplier for high-resolution retina displays. Must be within 1..3.\n"
+  scale: Int = 1
+}
+
+"A [JSON](https://www.json.org/json-en.html) object.\n\nExample value:\n`{\n  \"product\": {\n    \"id\": \"gid://shopify/Product/1346443542550\",\n    \"title\": \"White T-shirt\",\n    \"options\": [{\n      \"name\": \"Size\",\n      \"values\": [\"M\", \"L\"]\n    }]\n  }\n}`\n"
+scalar JSON
+
+"""Information about the localized experiences configured for the shop."""
+type Localization {
+  """List of countries with enabled localized experiences."""
+  availableCountries: [Country!]!
+
+  """
+  The country of the active localized experience. Use the `@inContext` directive to change this value.
+  """
+  country: Country!
+}
+
+"""Represents a location where product inventory is held."""
+type Location implements Node {
+  """The address of the location."""
+  address: LocationAddress!
+
+  """A globally-unique identifier."""
+  id: ID!
+
+  """The name of the location."""
+  name: String!
+}
+
+"Represents the address of the location.\n"
+type LocationAddress {
+  """The first line of the address for the location."""
+  address1: String
+
+  """The second line of the address for the location."""
+  address2: String
+
+  """The city of the location."""
+  city: String
+
+  """The country of the location."""
+  country: String
+
+  """The two-letter country code of the location."""
+  countryCode: String
+
+  """A formatted version of the location address."""
+  formatted: [String!]!
+
+  """The latitude coordinates of the location."""
+  latitude: Float
+
+  """The longitude coordinates of the location."""
+  longitude: Float
+
+  """The phone number of the location."""
+  phone: String
+
+  """The province of the location."""
+  province: String
+
+  "The code for the region of the address, such as the province, state, or district.\nFor example QC for Quebec, Canada.\n"
+  provinceCode: String
+
+  """The ZIP code of the location."""
+  zip: String
+}
+
+"An auto-generated type for paginating through multiple Locations.\n"
+type LocationConnection {
+  """A list of edges."""
+  edges: [LocationEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+}
+
+"An auto-generated type which holds one Location and a cursor during pagination.\n"
+type LocationEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of LocationEdge."""
+  node: Location!
+}
+
+"""The set of valid sort keys for the Location query."""
+enum LocationSortKeys {
+  """Sort by the `city` value."""
+  CITY
+
+  """Sort by the `distance` value."""
+  DISTANCE
+
+  """Sort by the `id` value."""
+  ID
+
+  """Sort by the `name` value."""
+  NAME
 }
 
 """Represents a mailing address for customers and shipping."""
@@ -3577,6 +4284,9 @@ type MediaImage implements Media & Node {
   previewImage: Image
 }
 
+"""The merchandise to be purchased at checkout."""
+union Merchandise = ProductVariant
+
 "Metafields represent custom metadata attached to a resource. Metafields can be sorted into namespaces and are\ncomprised of keys, values, and value types.\n"
 type Metafield implements Node {
   """The date and time when the storefront metafield was created."""
@@ -3597,14 +4307,19 @@ type Metafield implements Node {
   """The parent object that the metafield belongs to."""
   parentResource: MetafieldParentResource!
 
+  """
+  Returns a reference object if the metafield definition's type is a resource reference.
+  """
+  reference: MetafieldReference
+
+  "The type name of the metafield.\nSee the list of [supported types](https://shopify.dev/apps/metafields/definitions/types).\n"
+  type: String!
+
   """The date and time when the storefront metafield was updated."""
   updatedAt: DateTime!
 
   """The value of a metafield."""
   value: String!
-
-  """Represents the metafield value type."""
-  valueType: MetafieldValueType! @deprecated(reason: "`valueType` is deprecated and replaced by `type` in API version 2021-07.")
 }
 
 "An auto-generated type for paginating through multiple Metafields.\n"
@@ -3625,23 +4340,23 @@ type MetafieldEdge {
   node: Metafield!
 }
 
-"""A resource that the metafield belongs to."""
-union MetafieldParentResource = Product | ProductVariant
+"A filter used to view a subset of products in a collection matching a specific metafield value.\n\nOnly the following metafield types are currently supported:\n- `number_integer`\n- `number_decimal`\n- `single_line_text_field`\n"
+input MetafieldFilter {
+  """The key of the metafield to filter on."""
+  key: String!
 
-"""Metafield value types."""
-enum MetafieldValueType {
-  """A boolean metafield."""
-  BOOLEAN
+  """The namespace of the metafield to filter on."""
+  namespace: String!
 
-  """An integer metafield."""
-  INTEGER
-
-  """A json string metafield."""
-  JSON_STRING
-
-  """A string metafield."""
-  STRING
+  """The value of the metafield."""
+  value: String!
 }
+
+"""A resource that the metafield belongs to."""
+union MetafieldParentResource = Article | Blog | Collection | Customer | Order | Page | Product | ProductVariant | Shop
+
+"Returns the resource which is being referred to by a metafield.\n"
+union MetafieldReference = MediaImage | Page | Product | ProductVariant
 
 """Represents a Shopify hosted 3D model."""
 type Model3d implements Media & Node {
@@ -3699,28 +4414,81 @@ type MoneyV2 {
   currencyCode: CurrencyCode!
 }
 
-"An auto-generated type for paginating through multiple MoneyV2s.\n"
-type MoneyV2Connection {
-  """A list of edges."""
-  edges: [MoneyV2Edge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-}
-
-"An auto-generated type which holds one MoneyV2 and a cursor during pagination.\n"
-type MoneyV2Edge {
-  """A cursor for use in pagination."""
-  cursor: String!
-
-  """The item at the end of MoneyV2Edge."""
-  node: MoneyV2!
-}
-
 """
 The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start.
 """
 type Mutation {
+  """Updates the attributes on a cart."""
+  cartAttributesUpdate(
+    """
+    An array of key-value pairs that contains additional information about the cart.
+    """
+    attributes: [AttributeInput!]!
+
+    """The ID of the cart."""
+    cartId: ID!
+  ): CartAttributesUpdatePayload
+
+  """Updates customer information associated with a cart."""
+  cartBuyerIdentityUpdate(
+    """The customer associated with the cart."""
+    buyerIdentity: CartBuyerIdentityInput!
+
+    """The ID of the cart."""
+    cartId: ID!
+  ): CartBuyerIdentityUpdatePayload
+
+  """Creates a new cart."""
+  cartCreate(
+    """The fields used to create a cart."""
+    input: CartInput
+  ): CartCreatePayload
+
+  """Updates the discount codes applied to the cart."""
+  cartDiscountCodesUpdate(
+    """The ID of the cart."""
+    cartId: ID!
+
+    """The discount codes to apply to the cart."""
+    discountCodes: [String!]
+  ): CartDiscountCodesUpdatePayload
+
+  """Adds a merchandise line to the cart."""
+  cartLinesAdd(
+    """The ID of the cart."""
+    cartId: ID!
+
+    """A list of merchandise lines to add to the cart."""
+    lines: [CartLineInput!]!
+  ): CartLinesAddPayload
+
+  """Removes one or more merchandise lines from the cart."""
+  cartLinesRemove(
+    """The ID of the cart."""
+    cartId: ID!
+
+    """The merchandise line IDs to remove."""
+    lineIds: [ID!]!
+  ): CartLinesRemovePayload
+
+  """Updates one or more merchandise lines on a cart."""
+  cartLinesUpdate(
+    """The ID of the cart."""
+    cartId: ID!
+
+    """The merchandise lines to update."""
+    lines: [CartLineUpdateInput!]!
+  ): CartLinesUpdatePayload
+
+  """Updates the note on the cart."""
+  cartNoteUpdate(
+    """The ID of the cart."""
+    cartId: ID!
+
+    """The note on the cart."""
+    note: String
+  ): CartNoteUpdatePayload
+
   """
   Updates the attributes of a checkout if `allowPartialAddresses` is `true`.
   """
@@ -3802,6 +4570,9 @@ type Mutation {
   checkoutCreate(
     """The fields used to create a checkout."""
     input: CheckoutCreateInput!
+
+    """The checkout queue token. Available only to selected stores."""
+    queueToken: String
   ): CheckoutCreatePayload
 
   """Associates a customer to the checkout."""
@@ -4115,9 +4886,19 @@ interface Node {
 }
 
 """
+Represents a resource that can be published to the Online Store sales channel.
+"""
+interface OnlineStorePublishable {
+  """
+  The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel.
+  """
+  onlineStoreUrl: URL
+}
+
+"""
 An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information.
 """
-type Order implements Node {
+type Order implements HasMetafields & Node {
   """
   The reason for the order's cancellation. Returns `null` if the order wasn't canceled.
   """
@@ -4205,6 +4986,36 @@ type Order implements Node {
     """Reverse the order of the underlying list."""
     reverse: Boolean = false
   ): OrderLineItemConnection!
+
+  """Returns a metafield found by namespace and key."""
+  metafield(
+    """Identifier for the metafield (maximum of 30 characters)."""
+    key: String!
+
+    """Container for a set of metafields (maximum of 20 characters)."""
+    namespace: String!
+  ): Metafield
+
+  """A paginated list of metafields associated with the resource."""
+  metafields(
+    """Returns the elements that come after the specified cursor."""
+    after: String
+
+    """Returns the elements that come before the specified cursor."""
+    before: String
+
+    """Returns up to the first `n` elements from the list."""
+    first: Int
+
+    """Returns up to the last `n` elements from the list."""
+    last: Int
+
+    """Container for a set of metafields (maximum of 20 characters)."""
+    namespace: String
+
+    """Reverse the order of the underlying list."""
+    reverse: Boolean = false
+  ): MetafieldConnection! @deprecated(reason: "The `metafields` field will be removed in the future in favor of using [aliases](https://graphql.org/learn/queries/#aliases) with the `metafield` field.\n")
 
   "Unique identifier for the order that appears on the order.\nFor example, _#1000_ or _Store1001.\n"
   name: String!
@@ -4351,6 +5162,11 @@ enum OrderFulfillmentStatus {
   IN_PROGRESS
 
   """
+  Displayed as **On hold**. All of the unfulfilled items in this order are on hold.
+  """
+  ON_HOLD
+
+  """
   Displayed as **Open**. None of the items in the order have been fulfilled. Replaced by "UNFULFILLED" status.
   """
   OPEN
@@ -4454,7 +5270,7 @@ enum OrderSortKeys {
 """
 Shopify merchants can create pages to hold static HTML content. Each Page object represents a custom page on the online store.
 """
-type Page implements Node {
+type Page implements HasMetafields & Node & OnlineStorePublishable {
   """The description of the page, complete with HTML formatting."""
   body: HTML!
 
@@ -4472,6 +5288,41 @@ type Page implements Node {
   """A globally-unique identifier."""
   id: ID!
 
+  """Returns a metafield found by namespace and key."""
+  metafield(
+    """Identifier for the metafield (maximum of 30 characters)."""
+    key: String!
+
+    """Container for a set of metafields (maximum of 20 characters)."""
+    namespace: String!
+  ): Metafield
+
+  """A paginated list of metafields associated with the resource."""
+  metafields(
+    """Returns the elements that come after the specified cursor."""
+    after: String
+
+    """Returns the elements that come before the specified cursor."""
+    before: String
+
+    """Returns up to the first `n` elements from the list."""
+    first: Int
+
+    """Returns up to the last `n` elements from the list."""
+    last: Int
+
+    """Container for a set of metafields (maximum of 20 characters)."""
+    namespace: String
+
+    """Reverse the order of the underlying list."""
+    reverse: Boolean = false
+  ): MetafieldConnection! @deprecated(reason: "The `metafields` field will be removed in the future in favor of using [aliases](https://graphql.org/learn/queries/#aliases) with the `metafield` field.\n")
+
+  """
+  The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel.
+  """
+  onlineStoreUrl: URL
+
   """The page's SEO information."""
   seo: SEO
 
@@ -4480,9 +5331,6 @@ type Page implements Node {
 
   """The timestamp of the latest page update."""
   updatedAt: DateTime!
-
-  """The url pointing to the page accessible from the web."""
-  url: URL! @deprecated(reason: "Use `onlineStoreUrl` instead")
 }
 
 "An auto-generated type for paginating through multiple Pages.\n"
@@ -4611,8 +5459,22 @@ enum PaymentTokenType {
   """Shopify Pay token type."""
   SHOPIFY_PAY
 
+  """Stripe token type."""
+  STRIPE_VAULT_TOKEN
+
   """Vault payment token type."""
   VAULT
+}
+
+"""
+A filter used to view a subset of products in a collection matching a specific price range.
+"""
+input PriceRangeFilter {
+  """The maximum price in the range. Empty indicates no max price."""
+  max: Float
+
+  """The minimum price in the range. Defaults to zero."""
+  min: Float = 0
 }
 
 """The value of the percentage pricing object."""
@@ -4628,7 +5490,7 @@ union PricingValue = MoneyV2 | PricingPercentageValue
 A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
 For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
 """
-type Product implements HasMetafields & Node {
+type Product implements HasMetafields & Node & OnlineStorePublishable {
   """Indicates if at least one product variant is available for sale."""
   availableForSale: Boolean!
 
@@ -4667,6 +5529,9 @@ type Product implements HasMetafields & Node {
   """The description of the product, complete with HTML formatting."""
   descriptionHtml: HTML!
 
+  "The featured image for the product.\n\nThis field is functionally equivalent to `images(first: 1)`.\n"
+  featuredImage: Image
+
   "A human-friendly unique string for the Product automatically generated from its title.\nThey are used by the Liquid templating language to refer to objects.\n"
   handle: String!
 
@@ -4681,34 +5546,14 @@ type Product implements HasMetafields & Node {
     """Returns the elements that come before the specified cursor."""
     before: String
 
-    """
-    Crops the image according to the specified region. This argument is deprecated: Use `crop` on `Image.transformedSrc` instead.
-    """
-    crop: CropRegion
-
     """Returns up to the first `n` elements from the list."""
     first: Int
 
     """Returns up to the last `n` elements from the list."""
     last: Int
 
-    """
-    Image height in pixels between 1 and 2048. This argument is deprecated: Use `maxHeight` on `Image.transformedSrc` instead.
-    """
-    maxHeight: Int
-
-    """
-    Image width in pixels between 1 and 2048. This argument is deprecated: Use `maxWidth` on `Image.transformedSrc` instead.
-    """
-    maxWidth: Int
-
     """Reverse the order of the underlying list."""
     reverse: Boolean = false
-
-    """
-    Image size multiplier for high-resolution retina displays. Must be between 1 and 3. This argument is deprecated: Use `scale` on `Image.transformedSrc` instead.
-    """
-    scale: Int = 1
 
     """Sort the underlying list by the given key."""
     sortKey: ProductImageSortKeys = POSITION
@@ -4776,8 +5621,24 @@ type Product implements HasMetafields & Node {
     first: Int
   ): [ProductOption!]!
 
-  """List of price ranges in the presentment currencies for this shop."""
-  presentmentPriceRanges(
+  """The price range."""
+  priceRange: ProductPriceRange!
+
+  """
+  A categorization that a product can be tagged with, commonly used for filtering and searching.
+  """
+  productType: String!
+
+  """The date and time when the product was published to the channel."""
+  publishedAt: DateTime!
+
+  """Whether the product can only be purchased with a selling plan."""
+  requiresSellingPlan: Boolean!
+
+  """
+  A list of a product's available selling plan groups. A selling plan group represents a selling method. For example, 'Subscribe and save' is a selling method where customers pay for goods or services per delivery. A selling plan group contains individual selling plans.
+  """
+  sellingPlanGroups(
     """Returns the elements that come after the specified cursor."""
     after: String
 
@@ -4790,23 +5651,9 @@ type Product implements HasMetafields & Node {
     """Returns up to the last `n` elements from the list."""
     last: Int
 
-    """Specifies the presentment currencies to return a price range in."""
-    presentmentCurrencies: [CurrencyCode!]
-
     """Reverse the order of the underlying list."""
     reverse: Boolean = false
-  ): ProductPriceRangeConnection! @deprecated(reason: "Use `@inContext` instead.")
-
-  """The price range."""
-  priceRange: ProductPriceRange!
-
-  """
-  A categorization that a product can be tagged with, commonly used for filtering and searching.
-  """
-  productType: String!
-
-  """The date and time when the product was published to the channel."""
-  publishedAt: DateTime!
+  ): SellingPlanGroupConnection!
 
   """The product's SEO information."""
   seo: SEO!
@@ -4886,6 +5733,9 @@ type ProductConnection {
   """A list of edges."""
   edges: [ProductEdge!]!
 
+  """A list of available filters."""
+  filters: [Filter!]!
+
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 }
@@ -4897,6 +5747,30 @@ type ProductEdge {
 
   """The item at the end of ProductEdge."""
   node: Product!
+}
+
+"""A filter used to view a subset of products in a collection."""
+input ProductFilter {
+  """Filter on if the product is available for sale."""
+  available: Boolean
+
+  """A range of prices to filter with-in."""
+  price: PriceRangeFilter
+
+  """A product metafield to filter on."""
+  productMetafield: MetafieldFilter
+
+  """The product type to filter on."""
+  productType: String
+
+  """The product vendor to filter on."""
+  productVendor: String
+
+  """A variant metafield to filter on."""
+  variantMetafield: MetafieldFilter
+
+  """A variant option to filter on."""
+  variantOption: VariantOptionFilter
 }
 
 """The set of valid sort keys for the ProductImage query."""
@@ -4947,24 +5821,6 @@ type ProductPriceRange {
   minVariantPrice: MoneyV2!
 }
 
-"An auto-generated type for paginating through multiple ProductPriceRanges.\n"
-type ProductPriceRangeConnection {
-  """A list of edges."""
-  edges: [ProductPriceRangeEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-}
-
-"An auto-generated type which holds one ProductPriceRange and a cursor during pagination.\n"
-type ProductPriceRangeEdge {
-  """A cursor for use in pagination."""
-  cursor: String!
-
-  """The item at the end of ProductPriceRangeEdge."""
-  node: ProductPriceRange!
-}
-
 """The set of valid sort keys for the Product query."""
 enum ProductSortKeys {
   """Sort by the `best_selling` value."""
@@ -4999,11 +5855,13 @@ enum ProductSortKeys {
 A product variant represents a different version of a product, such as differing sizes or differing colors.
 """
 type ProductVariant implements HasMetafields & Node {
-  """Indicates if the product variant is in stock."""
-  available: Boolean @deprecated(reason: "Use `availableForSale` instead")
-
   """Indicates if the product variant is available for sale."""
   availableForSale: Boolean!
+
+  """
+  The barcode (for example, ISBN, UPC, or GTIN) associated with the variant.
+  """
+  barcode: String
 
   """
   The compare at price of the variant. This can be used to mark a variant as on sale, when `compareAtPrice` is higher than `price`.
@@ -5024,27 +5882,7 @@ type ProductVariant implements HasMetafields & Node {
   id: ID!
 
   "Image associated with the product variant. This field falls back to the product image if no image is available.\n"
-  image(
-    """
-    Crops the image according to the specified region. This argument is deprecated: Use `crop` on `Image.transformedSrc` instead.
-    """
-    crop: CropRegion
-
-    """
-    Image height in pixels between 1 and 2048. This argument is deprecated: Use `maxHeight` on `Image.transformedSrc` instead.
-    """
-    maxHeight: Int
-
-    """
-    Image width in pixels between 1 and 2048. This argument is deprecated: Use `maxWidth` on `Image.transformedSrc` instead.
-    """
-    maxWidth: Int
-
-    """
-    Image size multiplier for high-resolution retina displays. Must be between 1 and 3. This argument is deprecated: Use `scale` on `Image.transformedSrc` instead.
-    """
-    scale: Int = 1
-  ): Image
+  image: Image
 
   """Returns a metafield found by namespace and key."""
   metafield(
@@ -5076,50 +5914,6 @@ type ProductVariant implements HasMetafields & Node {
     reverse: Boolean = false
   ): MetafieldConnection! @deprecated(reason: "The `metafields` field will be removed in the future in favor of using [aliases](https://graphql.org/learn/queries/#aliases) with the `metafield` field.\n")
 
-  """
-  List of prices and compare-at prices in the presentment currencies for this shop.
-  """
-  presentmentPrices(
-    """Returns the elements that come after the specified cursor."""
-    after: String
-
-    """Returns the elements that come before the specified cursor."""
-    before: String
-
-    """Returns up to the first `n` elements from the list."""
-    first: Int
-
-    """Returns up to the last `n` elements from the list."""
-    last: Int
-
-    """The presentment currencies prices should return in."""
-    presentmentCurrencies: [CurrencyCode!]
-
-    """Reverse the order of the underlying list."""
-    reverse: Boolean = false
-  ): ProductVariantPricePairConnection! @deprecated(reason: "Use `@inContext` instead.")
-
-  """List of unit prices in the presentment currencies for this shop."""
-  presentmentUnitPrices(
-    """Returns the elements that come after the specified cursor."""
-    after: String
-
-    """Returns the elements that come before the specified cursor."""
-    before: String
-
-    """Returns up to the first `n` elements from the list."""
-    first: Int
-
-    """Returns up to the last `n` elements from the list."""
-    last: Int
-
-    """Specify the currencies in which to return presentment unit prices."""
-    presentmentCurrencies: [CurrencyCode!]
-
-    """Reverse the order of the underlying list."""
-    reverse: Boolean = false
-  ): MoneyV2Connection! @deprecated(reason: "Use `@inContext` instead.")
-
   """The product variant’s price."""
   price: Money! @deprecated(reason: "Use `priceV2` instead")
 
@@ -5140,8 +5934,46 @@ type ProductVariant implements HasMetafields & Node {
   """List of product options applied to the variant."""
   selectedOptions: [SelectedOption!]!
 
+  """
+  Represents an association between a variant and a selling plan. Selling plan allocations describe which selling plans are available for each variant, and what their impact is on pricing.
+  """
+  sellingPlanAllocations(
+    """Returns the elements that come after the specified cursor."""
+    after: String
+
+    """Returns the elements that come before the specified cursor."""
+    before: String
+
+    """Returns up to the first `n` elements from the list."""
+    first: Int
+
+    """Returns up to the last `n` elements from the list."""
+    last: Int
+
+    """Reverse the order of the underlying list."""
+    reverse: Boolean = false
+  ): SellingPlanAllocationConnection!
+
   """The SKU (stock keeping unit) associated with the variant."""
   sku: String
+
+  """The in-store pickup availability of this variant by location."""
+  storeAvailability(
+    """Returns the elements that come after the specified cursor."""
+    after: String
+
+    """Returns the elements that come before the specified cursor."""
+    before: String
+
+    """Returns up to the first `n` elements from the list."""
+    first: Int
+
+    """Returns up to the last `n` elements from the list."""
+    last: Int
+
+    """Reverse the order of the underlying list."""
+    reverse: Boolean = false
+  ): StoreAvailabilityConnection!
 
   """The product variant’s title."""
   title: String!
@@ -5179,33 +6011,6 @@ type ProductVariantEdge {
 
   """The item at the end of ProductVariantEdge."""
   node: ProductVariant!
-}
-
-"The compare-at price and price of a variant sharing a currency.\n"
-type ProductVariantPricePair {
-  """The compare-at price of the variant with associated currency."""
-  compareAtPrice: MoneyV2
-
-  """The price of the variant with associated currency."""
-  price: MoneyV2!
-}
-
-"An auto-generated type for paginating through multiple ProductVariantPricePairs.\n"
-type ProductVariantPricePairConnection {
-  """A list of edges."""
-  edges: [ProductVariantPricePairEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-}
-
-"An auto-generated type which holds one ProductVariantPricePair and a cursor during pagination.\n"
-type ProductVariantPricePairEdge {
-  """A cursor for use in pagination."""
-  cursor: String!
-
-  """The item at the end of ProductVariantPricePairEdge."""
-  node: ProductVariantPricePair!
 }
 
 """The set of valid sort keys for the ProductVariant query."""
@@ -5254,6 +6059,15 @@ type QueryRoot {
     sortKey: ArticleSortKeys = ID
   ): ArticleConnection!
 
+  """Fetch a specific `Blog` by one of its unique attributes."""
+  blog(
+    """The handle of the `Blog`."""
+    handle: String
+
+    """The ID of the `Blog`."""
+    id: ID
+  ): Blog
+
   """Find a blog by its handle."""
   blogByHandle(
     """The handle of the blog."""
@@ -5283,6 +6097,21 @@ type QueryRoot {
     """Sort the underlying list by the given key."""
     sortKey: BlogSortKeys = ID
   ): BlogConnection!
+
+  """Find a cart by its ID."""
+  cart(
+    """The id of the cart."""
+    id: ID!
+  ): Cart
+
+  """Fetch a specific `Collection` by one of its unique attributes."""
+  collection(
+    """The handle of the `Collection`."""
+    handle: String
+
+    """The ID of the `Collection`."""
+    id: ID
+  ): Collection
 
   """Find a collection by its handle."""
   collectionByHandle(
@@ -5320,6 +6149,33 @@ type QueryRoot {
     customerAccessToken: String!
   ): Customer
 
+  """Returns the localized experiences configured for the shop."""
+  localization: Localization!
+
+  "List of the shop's locations that support in-store pickup.\n\nWhen sorting by distance, you must specify a location via the `near` argument.\n"
+  locations(
+    """Returns the elements that come after the specified cursor."""
+    after: String
+
+    """Returns the elements that come before the specified cursor."""
+    before: String
+
+    """Returns up to the first `n` elements from the list."""
+    first: Int
+
+    """Returns up to the last `n` elements from the list."""
+    last: Int
+
+    """Used to sort results based on proximity to the provided location."""
+    near: GeoCoordinateInput
+
+    """Reverse the order of the underlying list."""
+    reverse: Boolean = false
+
+    """Sort the underlying list by the given key."""
+    sortKey: LocationSortKeys = ID
+  ): LocationConnection!
+
   """Returns a specific node by ID."""
   node(
     """The ID of the Node to return."""
@@ -5331,6 +6187,15 @@ type QueryRoot {
     """The IDs of the Nodes to return."""
     ids: [ID!]!
   ): [Node]!
+
+  """Fetch a specific `Page` by one of its unique attributes."""
+  page(
+    """The handle of the `Page`."""
+    handle: String
+
+    """The ID of the `Page`."""
+    id: ID
+  ): Page
 
   """Find a page by its handle."""
   pageByHandle(
@@ -5361,6 +6226,15 @@ type QueryRoot {
     """Sort the underlying list by the given key."""
     sortKey: PageSortKeys = ID
   ): PageConnection!
+
+  """Fetch a specific `Product` by one of its unique attributes."""
+  product(
+    """The handle of the `Product`."""
+    handle: String
+
+    """The ID of the `Product`."""
+    id: ID
+  ): Product
 
   """Find a product by its handle."""
   productByHandle(
@@ -5437,9 +6311,6 @@ type ScriptDiscountApplication implements DiscountApplication {
   """
   allocationMethod: DiscountApplicationAllocationMethod!
 
-  """The description of the application as defined by the Script."""
-  description: String! @deprecated(reason: "Use `title` instead")
-
   """Which lines of targetType that the discount is allocated over."""
   targetSelection: DiscountApplicationTargetSelection!
 
@@ -5471,6 +6342,233 @@ input SelectedOptionInput {
   value: String!
 }
 
+"""Represents how products and variants can be sold and purchased."""
+type SellingPlan {
+  """The description of the selling plan."""
+  description: String
+
+  """A globally-unique identifier."""
+  id: ID!
+
+  """
+  The name of the selling plan. For example, '6 weeks of prepaid granola, delivered weekly'.
+  """
+  name: String!
+
+  """
+  Represents the selling plan options available in the drop-down list in the storefront. For example, 'Delivery every week' or 'Delivery every 2 weeks' specifies the delivery frequency options for the product.
+  """
+  options: [SellingPlanOption!]!
+
+  """
+  Represents how a selling plan affects pricing when a variant is purchased with a selling plan.
+  """
+  priceAdjustments: [SellingPlanPriceAdjustment!]!
+
+  """
+  Whether purchasing the selling plan will result in multiple deliveries.
+  """
+  recurringDeliveries: Boolean!
+}
+
+"""
+Represents an association between a variant and a selling plan. Selling plan allocations describe the options offered for each variant, and the price of the variant when purchased with a selling plan.
+"""
+type SellingPlanAllocation {
+  """
+  A list of price adjustments, with a maximum of two. When there are two, the first price adjustment goes into effect at the time of purchase, while the second one starts after a certain number of orders.
+  """
+  priceAdjustments: [SellingPlanAllocationPriceAdjustment!]!
+
+  """
+  A representation of how products and variants can be sold and purchased. For example, an individual selling plan could be '6 weeks of prepaid granola, delivered weekly'.
+  """
+  sellingPlan: SellingPlan!
+}
+
+"An auto-generated type for paginating through multiple SellingPlanAllocations.\n"
+type SellingPlanAllocationConnection {
+  """A list of edges."""
+  edges: [SellingPlanAllocationEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+}
+
+"An auto-generated type which holds one SellingPlanAllocation and a cursor during pagination.\n"
+type SellingPlanAllocationEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of SellingPlanAllocationEdge."""
+  node: SellingPlanAllocation!
+}
+
+"""
+The resulting prices for variants when they're purchased with a specific selling plan.
+"""
+type SellingPlanAllocationPriceAdjustment {
+  """
+  The price of the variant when it's purchased without a selling plan for the same number of deliveries. For example, if a customer purchases 6 deliveries of $10.00 granola separately, then the price is 6 x $10.00 = $60.00.
+  """
+  compareAtPrice: MoneyV2!
+
+  """
+  The effective price for a single delivery. For example, for a prepaid subscription plan that includes 6 deliveries at the price of $48.00, the per delivery price is $8.00.
+  """
+  perDeliveryPrice: MoneyV2!
+
+  """
+  The price of the variant when it's purchased with a selling plan For example, for a prepaid subscription plan that includes 6 deliveries of $10.00 granola, where the customer gets 20% off, the price is 6 x $10.00 x 0.80 = $48.00.
+  """
+  price: MoneyV2!
+
+  """
+  The resulting price per unit for the variant associated with the selling plan. If the variant isn't sold by quantity or measurement, then this field returns `null`.
+  """
+  unitPrice: MoneyV2
+}
+
+"An auto-generated type for paginating through multiple SellingPlans.\n"
+type SellingPlanConnection {
+  """A list of edges."""
+  edges: [SellingPlanEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+}
+
+"An auto-generated type which holds one SellingPlan and a cursor during pagination.\n"
+type SellingPlanEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of SellingPlanEdge."""
+  node: SellingPlan!
+}
+
+"""
+A fixed amount that's deducted from the original variant price. For example, $10.00 off.
+"""
+type SellingPlanFixedAmountPriceAdjustment {
+  """The money value of the price adjustment."""
+  adjustmentAmount: MoneyV2!
+}
+
+"""
+A fixed price adjustment for a variant that's purchased with a selling plan.
+"""
+type SellingPlanFixedPriceAdjustment {
+  """A new price of the variant when it's purchased with the selling plan."""
+  price: MoneyV2!
+}
+
+"""
+Represents a selling method. For example, 'Subscribe and save' is a selling method where customers pay for goods or services per delivery. A selling plan group contains individual selling plans.
+"""
+type SellingPlanGroup {
+  """
+  A display friendly name for the app that created the selling plan group.
+  """
+  appName: String
+
+  """The name of the selling plan group."""
+  name: String!
+
+  """
+  Represents the selling plan options available in the drop-down list in the storefront. For example, 'Delivery every week' or 'Delivery every 2 weeks' specifies the delivery frequency options for the product.
+  """
+  options: [SellingPlanGroupOption!]!
+
+  """
+  A list of selling plans in a selling plan group. A selling plan is a representation of how products and variants can be sold and purchased. For example, an individual selling plan could be '6 weeks of prepaid granola, delivered weekly'.
+  """
+  sellingPlans(
+    """Returns the elements that come after the specified cursor."""
+    after: String
+
+    """Returns the elements that come before the specified cursor."""
+    before: String
+
+    """Returns up to the first `n` elements from the list."""
+    first: Int
+
+    """Returns up to the last `n` elements from the list."""
+    last: Int
+
+    """Reverse the order of the underlying list."""
+    reverse: Boolean = false
+  ): SellingPlanConnection!
+}
+
+"An auto-generated type for paginating through multiple SellingPlanGroups.\n"
+type SellingPlanGroupConnection {
+  """A list of edges."""
+  edges: [SellingPlanGroupEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+}
+
+"An auto-generated type which holds one SellingPlanGroup and a cursor during pagination.\n"
+type SellingPlanGroupEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of SellingPlanGroupEdge."""
+  node: SellingPlanGroup!
+}
+
+"""
+Represents an option on a selling plan group that's available in the drop-down list in the storefront.
+"""
+type SellingPlanGroupOption {
+  """The name of the option. For example, 'Delivery every'."""
+  name: String!
+
+  """
+  The values for the options specified by the selling plans in the selling plan group. For example, '1 week', '2 weeks', '3 weeks'.
+  """
+  values: [String!]!
+}
+
+"""An option provided by a Selling Plan."""
+type SellingPlanOption {
+  """The name of the option (ie "Delivery every")."""
+  name: String
+
+  """The value of the option (ie "Month")."""
+  value: String
+}
+
+"""
+A percentage amount that's deducted from the original variant price. For example, 10% off.
+"""
+type SellingPlanPercentagePriceAdjustment {
+  """The percentage value of the price adjustment."""
+  adjustmentPercentage: Int!
+}
+
+"""
+Represents by how much the price of a variant associated with a selling plan is adjusted. Each variant can have up to two price adjustments.
+"""
+type SellingPlanPriceAdjustment {
+  """
+  The type of price adjustment. An adjustment value can have one of three types: percentage, amount off, or a new price.
+  """
+  adjustmentValue: SellingPlanPriceAdjustmentValue!
+
+  """
+  The number of orders that the price adjustment applies to If the price adjustment always applies, then this field is `null`.
+  """
+  orderCount: Int
+}
+
+"""
+Represents by how much the price of a variant associated with a selling plan is adjusted. Each variant can have up to two price adjustments.
+"""
+union SellingPlanPriceAdjustmentValue = SellingPlanFixedAmountPriceAdjustment | SellingPlanFixedPriceAdjustment | SellingPlanPercentagePriceAdjustment
+
 """A shipping rate to be applied to a checkout."""
 type ShippingRate {
   """Human-readable unique identifier for this shipping rate."""
@@ -5489,90 +6587,39 @@ type ShippingRate {
 """
 Shop represents a collection of the general settings and information about the shop.
 """
-type Shop {
-  """List of the shop' articles."""
-  articles(
-    """Returns the elements that come after the specified cursor."""
-    after: String
-
-    """Returns the elements that come before the specified cursor."""
-    before: String
-
-    """Returns up to the first `n` elements from the list."""
-    first: Int
-
-    """Returns up to the last `n` elements from the list."""
-    last: Int
-
-    "Supported filter parameters:\n - `author`\n - `blog_title`\n - `created_at`\n - `tag`\n - `tag_not`\n - `updated_at`\n\nSee the detailed [search syntax](https://help.shopify.com/api/getting-started/search-syntax)\nfor more information about using filters.\n"
-    query: String
-
-    """Reverse the order of the underlying list."""
-    reverse: Boolean = false
-
-    """Sort the underlying list by the given key."""
-    sortKey: ArticleSortKeys = ID
-  ): ArticleConnection! @deprecated(reason: "Use `QueryRoot.articles` instead.")
-
-  """List of the shop' blogs."""
-  blogs(
-    """Returns the elements that come after the specified cursor."""
-    after: String
-
-    """Returns the elements that come before the specified cursor."""
-    before: String
-
-    """Returns up to the first `n` elements from the list."""
-    first: Int
-
-    """Returns up to the last `n` elements from the list."""
-    last: Int
-
-    "Supported filter parameters:\n - `created_at`\n - `handle`\n - `title`\n - `updated_at`\n\nSee the detailed [search syntax](https://help.shopify.com/api/getting-started/search-syntax)\nfor more information about using filters.\n"
-    query: String
-
-    """Reverse the order of the underlying list."""
-    reverse: Boolean = false
-
-    """Sort the underlying list by the given key."""
-    sortKey: BlogSortKeys = ID
-  ): BlogConnection! @deprecated(reason: "Use `QueryRoot.blogs` instead.")
-
-  """Find a collection by its handle."""
-  collectionByHandle(
-    """The handle of the collection."""
-    handle: String!
-  ): Collection @deprecated(reason: "Use `QueryRoot.collectionByHandle` instead.")
-
-  """List of the shop’s collections."""
-  collections(
-    """Returns the elements that come after the specified cursor."""
-    after: String
-
-    """Returns the elements that come before the specified cursor."""
-    before: String
-
-    """Returns up to the first `n` elements from the list."""
-    first: Int
-
-    """Returns up to the last `n` elements from the list."""
-    last: Int
-
-    "Supported filter parameters:\n - `collection_type`\n - `title`\n - `updated_at`\n\nSee the detailed [search syntax](https://help.shopify.com/api/getting-started/search-syntax)\nfor more information about using filters.\n"
-    query: String
-
-    """Reverse the order of the underlying list."""
-    reverse: Boolean = false
-
-    """Sort the underlying list by the given key."""
-    sortKey: CollectionSortKeys = ID
-  ): CollectionConnection! @deprecated(reason: "Use `QueryRoot.collections` instead.")
-
-  """The three-letter code for the currency that the shop accepts."""
-  currencyCode: CurrencyCode! @deprecated(reason: "Use `paymentSettings` instead")
-
+type Shop implements HasMetafields {
   """A description of the shop."""
   description: String
+
+  """Returns a metafield found by namespace and key."""
+  metafield(
+    """Identifier for the metafield (maximum of 30 characters)."""
+    key: String!
+
+    """Container for a set of metafields (maximum of 20 characters)."""
+    namespace: String!
+  ): Metafield
+
+  """A paginated list of metafields associated with the resource."""
+  metafields(
+    """Returns the elements that come after the specified cursor."""
+    after: String
+
+    """Returns the elements that come before the specified cursor."""
+    before: String
+
+    """Returns up to the first `n` elements from the list."""
+    first: Int
+
+    """Returns up to the last `n` elements from the list."""
+    last: Int
+
+    """Container for a set of metafields (maximum of 20 characters)."""
+    namespace: String
+
+    """Reverse the order of the underlying list."""
+    reverse: Boolean = false
+  ): MetafieldConnection! @deprecated(reason: "The `metafields` field will be removed in the future in favor of using [aliases](https://graphql.org/learn/queries/#aliases) with the `metafield` field.\n")
 
   """
   A string representing the way currency is formatted when the currency isn’t specified.
@@ -5591,48 +6638,6 @@ type Shop {
   """The shop’s privacy policy."""
   privacyPolicy: ShopPolicy
 
-  """Find a product by its handle."""
-  productByHandle(
-    """The handle of the product."""
-    handle: String!
-  ): Product @deprecated(reason: "Use `QueryRoot.productByHandle` instead.")
-
-  "A list of tags that have been added to products.\nAdditional access scope required: unauthenticated_read_product_tags.\n"
-  productTags(
-    """Returns up to the first `n` elements from the list."""
-    first: Int!
-  ): StringConnection! @deprecated(reason: "Use `QueryRoot.productTags` instead.")
-
-  """List of the shop’s product types."""
-  productTypes(
-    """Returns up to the first `n` elements from the list."""
-    first: Int!
-  ): StringConnection! @deprecated(reason: "Use `QueryRoot.productTypes` instead.")
-
-  """List of the shop’s products."""
-  products(
-    """Returns the elements that come after the specified cursor."""
-    after: String
-
-    """Returns the elements that come before the specified cursor."""
-    before: String
-
-    """Returns up to the first `n` elements from the list."""
-    first: Int
-
-    """Returns up to the last `n` elements from the list."""
-    last: Int
-
-    "Supported filter parameters:\n - `available_for_sale`\n - `created_at`\n - `product_type`\n - `tag`\n - `tag_not`\n - `title`\n - `updated_at`\n - `variants.price`\n - `vendor`\n\nSee the detailed [search syntax](https://help.shopify.com/api/getting-started/search-syntax)\nfor more information about using filters.\n"
-    query: String
-
-    """Reverse the order of the underlying list."""
-    reverse: Boolean = false
-
-    """Sort the underlying list by the given key."""
-    sortKey: ProductSortKeys = ID
-  ): ProductConnection! @deprecated(reason: "Use `QueryRoot.products` instead.")
-
   """The shop’s refund policy."""
   refundPolicy: ShopPolicy
 
@@ -5642,8 +6647,8 @@ type Shop {
   """Countries that the shop ships to."""
   shipsToCountries: [CountryCode!]!
 
-  """The shop’s Shopify Payments account id."""
-  shopifyPaymentsAccountId: String @deprecated(reason: "Use `paymentSettings` instead")
+  """The shop’s subscription policy."""
+  subscriptionPolicy: ShopPolicyWithDefault
 
   """The shop’s terms of service."""
   termsOfService: ShopPolicy
@@ -5667,6 +6672,58 @@ type ShopPolicy implements Node {
 
   """Public URL to the policy."""
   url: URL!
+}
+
+"A policy for the store that comes with a default value, such as a subscription policy.\nIf the merchant hasn't configured a policy for their store, then the policy will return the default value.\nOtherwise, the policy will return the merchant-configured value.\n"
+type ShopPolicyWithDefault {
+  """The text of the policy. Maximum size: 64KB."""
+  body: String!
+
+  """The handle of the policy."""
+  handle: String!
+
+  """
+  The unique identifier of the policy. A default policy doesn't have an ID.
+  """
+  id: ID
+
+  """The title of the policy."""
+  title: String!
+
+  """Public URL to the policy."""
+  url: URL!
+}
+
+"The availability of a product variant at a particular location.\nLocal pick-up must be enabled in the  store's shipping settings, otherwise this will return an empty result.\n"
+type StoreAvailability {
+  """Whether or not this product variant is in-stock at this location."""
+  available: Boolean!
+
+  """The location where this product variant is stocked at."""
+  location: Location!
+
+  """
+  Returns the estimated amount of time it takes for pickup to be ready (Example: Usually ready in 24 hours).
+  """
+  pickUpTime: String!
+}
+
+"An auto-generated type for paginating through multiple StoreAvailabilities.\n"
+type StoreAvailabilityConnection {
+  """A list of edges."""
+  edges: [StoreAvailabilityEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+}
+
+"An auto-generated type which holds one StoreAvailability and a cursor during pagination.\n"
+type StoreAvailabilityEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of StoreAvailabilityEdge."""
+  node: StoreAvailability!
 }
 
 "An auto-generated type for paginating through a list of Strings.\n"
@@ -5903,6 +6960,15 @@ enum UnitPriceMeasurementMeasuredUnit {
   MM
 }
 
+"""Systems of weights and measures."""
+enum UnitSystem {
+  """Imperial system of weights and measures."""
+  IMPERIAL_SYSTEM
+
+  """Metric system of weights and measures."""
+  METRIC_SYSTEM
+}
+
 """Represents an error in the input of a mutation."""
 type UserError implements DisplayableError {
   """The path to the input field that caused the error."""
@@ -5910,6 +6976,17 @@ type UserError implements DisplayableError {
 
   """The error message."""
   message: String!
+}
+
+"""
+A filter used to view a subset of products in a collection matching a specific variant option.
+"""
+input VariantOptionFilter {
+  """The name of the variant option to filter on."""
+  name: String!
+
+  """The value of the variant option to filter on."""
+  value: String!
 }
 
 """Represents a Shopify hosted video."""

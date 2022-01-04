@@ -12,7 +12,7 @@
 # *****
 # HISTORY
 ###
-query getAllProducts(
+query GetAllProducts(
   $first: Int = 250
   $query: String = ""
   $sortKey: ProductSortKeys = RELEVANCE

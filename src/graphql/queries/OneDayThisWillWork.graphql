@@ -12,7 +12,7 @@
 # -----
 # HISTORY
 ###
-query getShopName {
+query GetShopName {
   shop {
     name
   }

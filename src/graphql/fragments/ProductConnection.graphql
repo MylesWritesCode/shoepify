@@ -29,19 +29,9 @@ fragment productConnection on ProductConnection {
           currencyCode
         }
       }
-      images(first: 1) {
-        pageInfo {
-          hasNextPage
-          hasPreviousPage
-        }
-        edges {
-          node {
-            originalSrc
-            altText
-            width
-            height
-          }
-        }
+      featuredImage {
+        url
+        altText
       }
     }
   }
