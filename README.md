@@ -113,6 +113,7 @@ const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<GetAllProductsResponseType>
 ) => {
+  // This should all be extracted to its own fn as well
   const shopifyResponse = await getShopifyData(
     SHOPIFY_API_URL,
     GetShopNameDocument

@@ -16,13 +16,13 @@
 import { useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
+import { getAllProducts } from '@pages/api/operations';
 import ProductGallery from "@components/products/ProductGallery";
 import QuantityWidget from "@components/QuantityWidget";
 import { formatPercentage, formatCurrency } from "@utils";
 
 import type { Product } from "@type/product.type";
 
-import { API_URL } from "@/const";
 import { shopConfig } from "@config/shop";
 import styles from "./Products.module.css";
 
@@ -30,9 +30,8 @@ import styles from "./Products.module.css";
 import defaultProduct from "@mock/default-product";
 
 export const getStaticProps = async () => {
-  const res = await fetch(`${API_URL}/api/operations/get-all-products`);
-  const data = await res.json();
-
+  const data = await getAllProducts();
+  
   return {
     props: {
       data,

@@ -35,10 +35,7 @@ type GetAllProductsResponseType = {
   }[];
 };
 
-const handler = async (
-  req: NextApiRequest,
-  res: NextApiResponse<GetAllProductsResponseType>
-) => {
+export const getAllProducts = async () => {
   const shopifyResponse = await getShopifyData(
     SHOPIFY_API_URL,
     GetAllProductsDocument
@@ -47,7 +44,7 @@ const handler = async (
   const products: any[] = [];
 
   const { pageInfo, edges } = shopifyResponse.data.products;
-  
+
   // Normalize all the data coming from the Shopify response
   edges.map(({ node }: any) => {
     products.push({
@@ -61,10 +58,21 @@ const handler = async (
     });
   });
 
-  res.status(200).json({
+  return {
     pageInfo,
     products,
-  });
+  };
 };
 
+const handler = async (
+  req: NextApiRequest,
+  res: NextApiResponse<GetAllProductsResponseType>
+) => {
+  res.status(200).json(await getAllProducts());
+};
+
+// I'll still export this as default, since it's the way to fetch this route
+// via a fetch call (or in the browser/Postman/etc). The thing is, the only 
+// *thing* that should be calling this route is this app, so we should just call
+// the function (i.e. getAllProducts, in this file) from our other components.
 export default handler;
