@@ -13,17 +13,31 @@
  * HISTORY
 **/
 
-/** Product Type
- * @param { string } title 
- * @param { string } company 
- * @param { string } description 
- * @param { number } price - The price in number form
- * @param { number } discount - The percentage discount in decimal form.
+import { ProductImage } from "./product-image.type";
+
+/**
+ * 💢 jsdoc extention not working i give up
  */
 export interface Product {
+  id: string;
   title: string;
-  company: string;
+  handle: string;
+  vendor: string;
   description: string;
-  price: number;
-  discount: number;
+  priceRange: {
+    minVariantPrice: {
+      amount: number;
+      currencyCode: string;
+    }
+  };
+  images: ProductImage[];
+  variants?: {
+    title: string;
+    availableForSale: boolean;
+    image: ProductImage;
+    // TODO: FIX THIS 
+    selectedOptions: any;
+    priceV2: any;
+  }[]
+  discount?: number;
 }

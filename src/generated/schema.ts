@@ -6335,7 +6335,7 @@ export type GetProductByHandleQueryVariables = Exact<{
 }>;
 
 
-export type GetProductByHandleQuery = { __typename?: 'QueryRoot', product?: { __typename?: 'Product', id: string, title: string, handle: string, priceRange: { __typename?: 'ProductPriceRange', minVariantPrice: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } }, images: { __typename?: 'ImageConnection', edges: Array<{ __typename?: 'ImageEdge', node: { __typename?: 'Image', url: any, altText?: string | null | undefined } }> }, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', title: string, availableForSale: boolean, image?: { __typename?: 'Image', url: any, altText?: string | null | undefined } | null | undefined, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, priceV2: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } } }> } } | null | undefined };
+export type GetProductByHandleQuery = { __typename?: 'QueryRoot', product?: { __typename?: 'Product', id: string, title: string, handle: string, vendor: string, description: string, priceRange: { __typename?: 'ProductPriceRange', minVariantPrice: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } }, images: { __typename?: 'ImageConnection', edges: Array<{ __typename?: 'ImageEdge', node: { __typename?: 'Image', url: any, altText?: string | null | undefined } }> }, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', title: string, availableForSale: boolean, image?: { __typename?: 'Image', url: any, altText?: string | null | undefined } | null | undefined, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, priceV2: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } } }> } } | null | undefined };
 
 export type GetShopNameQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -6412,6 +6412,8 @@ export const GetProductByHandleDocument = gql`
     id
     title
     handle
+    vendor
+    description
     priceRange {
       minVariantPrice {
         amount

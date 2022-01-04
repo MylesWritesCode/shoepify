@@ -52,8 +52,8 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
     <div className={styles.container}>
       <div className={styles.featured}>
         <img
-          src={(srcs[index] as ProductImage).src ?? srcs[index]}
-          alt={(srcs[index] as ProductImage).src ?? srcs[index]}
+          src={(srcs[index] as ProductImage).url ?? srcs[index]}
+          alt={(srcs[index] as ProductImage).url ?? srcs[index]}
         />
       </div>
       <div className={styles.thumbnails}>

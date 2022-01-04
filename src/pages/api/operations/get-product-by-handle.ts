@@ -16,17 +16,36 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { getShopifyData } from "@utils/getShopifyData";
 import { GetProductByHandleDocument } from "@generated/schema";
 
-import { API_URL } from "@/const";
+import { SHOPIFY_API_URL } from "@/const";
 
 interface GetProductByHandleType {}
 
 export const getProductByHandle = async (handle: string) => {
-  console.log(handle);
-  const data = await getShopifyData(API_URL, GetProductByHandleDocument, {
-    handle: handle,
-  });
+  const { data } = await getShopifyData(
+    SHOPIFY_API_URL,
+    GetProductByHandleDocument,
+    {
+      handle: handle,
+    }
+  );
+  
+  console.log(JSON.stringify(data, null, 2));
+  
+  const { product: shopifyProduct } = data;
+  const { images, variants } = shopifyProduct;
+  
+  // Consider stronger typing here.
+  const product = {
+    ...shopifyProduct,
+    images: images.edges.map(({node}: any) => {
+      return node;
+    }),
+    variants: variants.edges.map(({node}: any) => {
+      return node;
+    }),
+  };
 
-  // console.log(data);
+  return product;
 };
 
 const handler = (

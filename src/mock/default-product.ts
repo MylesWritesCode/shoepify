@@ -13,41 +13,41 @@
  * HISTORY
  **/
 import type { ProductImage } from "@type/product-image.type";
+import type { Product } from '@type/product.type'
 
-interface DefaultProductType {
-  title: string;
-  company: string;
-  description: string;
-  price: number;
-  discount: number;
-  images: ProductImage[];
-}
 
-const defaultProduct: DefaultProductType = {
+const defaultProduct: Product = {
+  id: "1",
   title: "Fall Limited Edition Sneakers",
-  company: "Sneaker Company",
-  description:
-    "These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer.",
-  price: 250.0,
-  discount: 0.5,
+  handle: "test-product-1",
+  vendor: "Sneaker Company",
+  description: "These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer.",
+  priceRange: {
+    minVariantPrice: {
+      amount: 250.0,
+      currencyCode: "USD",
+    },
+  },
   images: [
     {
-      src: "/fall-limited-edition/image-product-1.jpg",
+      url: "/fall-limited-edition/image-product-1.jpg",
       thumbnail: "/fall-limited-edition/image-product-1-thumbnail.jpg",
+      altText: undefined,
     },
     {
-      src: "/fall-limited-edition/image-product-2.jpg",
+      url: "/fall-limited-edition/image-product-2.jpg",
       thumbnail: "/fall-limited-edition/image-product-2-thumbnail.jpg",
     },
     {
-      src: "/fall-limited-edition/image-product-3.jpg",
+      url: "/fall-limited-edition/image-product-3.jpg",
       thumbnail: "/fall-limited-edition/image-product-3-thumbnail.jpg",
     },
     {
-      src: "/fall-limited-edition/image-product-4.jpg",
+      url: "/fall-limited-edition/image-product-4.jpg",
       thumbnail: "/fall-limited-edition/image-product-4-thumbnail.jpg",
     },
   ],
+  discount: 0
 };
 
 export default defaultProduct;

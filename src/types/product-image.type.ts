@@ -25,6 +25,7 @@
  * @param { string } [thumbnail]
  */
 export type ProductImage = {
-  src: string;
+  url: string;
   thumbnail?: string;
+  altText?: string | null;
 }

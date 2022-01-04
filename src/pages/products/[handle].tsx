@@ -46,13 +46,11 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { handle } = params || {};
-  const data = await getProductByHandle(handle as string);
+  const product = await getProductByHandle(handle as string);
 
-  // console.log(data);
-  
   return {
     props: {
-      // data,
+      product,
     },
   };
 };
@@ -60,11 +58,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 const Product: NextPage = () => {
   const [product, setProduct] = useState<Product>(defaultProduct);
   const [quantity, setQuantity] = useState<number>(1);
-  const router = useRouter();
 
-  // console.log("router.query: ", router.query);
+  const { title, vendor, description, priceRange } = product;
+  const { minVariantPrice } = priceRange;
 
-  const { title, company, description, price, discount } = product;
+  // There's a better way to do this, and I'm gonna figure it out later.
+  const discount = product.discount || 0;
 
   const generateATCButtonText = (): string => {
     if (quantity > 0) return "Add to cart";
@@ -87,7 +86,7 @@ const Product: NextPage = () => {
         </div>
         <div className={`${styles.section} ${styles.right}`}>
           {/* info implementation */}
-          <div className={styles.company}>{company}</div>
+          <div className={styles.company}>{vendor}</div>
           <div className={styles.title}>
             <h1>{title}</h1>
           </div>
@@ -96,14 +95,22 @@ const Product: NextPage = () => {
 
           <div className={styles.pricing}>
             <div className={styles["price-and-discount"]}>
-              <h1>{formatCurrency(price * discount)}</h1>
-              <div className={styles["discount-percentage"]}>
-                {formatPercentage(discount)}
+              <h1>
+                {discount
+                  ? formatCurrency(minVariantPrice.amount * discount)
+                  : formatCurrency(minVariantPrice.amount)}
+              </h1>
+              {discount > 0 && (
+                <div className={styles["discount-percentage"]}>
+                  {formatPercentage(discount)}
+                </div>
+              )}
+            </div>
+            {discount > 0 && discount < 1 && (
+              <div className={styles["original-price"]}>
+                {formatCurrency(minVariantPrice.amount)}
               </div>
-            </div>
-            <div className={styles["original-price"]}>
-              {formatCurrency(price)}
-            </div>
+            )}
           </div>
 
           <div className={styles["qty-and-atc"]}>
