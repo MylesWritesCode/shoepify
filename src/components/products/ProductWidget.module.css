@@ -18,12 +18,18 @@
   /* height: 240px; */
   /* width: 300px; */
   margin: 1rem;
-  /* max-width: 33%; */
-  flex: 1 0 33%;
+  max-width: calc(33% - 1.8rem);
+  flex: 1 0 calc(33% - 1.8rem);
   flex-direction: column;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  box-shadow: var(--shadow-dark);
+
+}
+
+.container-link:hover {
+  box-shadow: 0 0 0 5px var(--primary);
 }
 
 .img-container {
@@ -50,9 +56,13 @@
 }
 
 .info h3 {
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .title {
   margin-left: 0.5rem;
+}
+
+.price {
+  margin-right: 0.5rem;
 }
