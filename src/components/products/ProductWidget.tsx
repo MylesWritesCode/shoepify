@@ -1,6 +1,6 @@
 /**
- * File: /src/components/products/ProductWidget.tsx
- * Project: shoepify
+//  * File: /src/components/products/ProductWidget.tsx
+//  * Project: shoepify
  * Purpose: Displays some data about a product. Meant to be used as a selector
  *          (i.e. a link) for the user to pick which product to look at.
  *
@@ -49,6 +49,7 @@ const ProductWidget: React.FC<ProductWidgetProps> = ({ product, ...props }) => {
           {/* TODO: Add a default image */}
           <div className={styles["img-container"]}>
             <img src={product.featuredImage ? product.featuredImage.url : ""} />
+            {/* <img src={product.featuredImage ? "" : ""} /> */}
           </div>
           <div className={styles.info}>
             <h3 className={styles.title}>{product.title}</h3>
