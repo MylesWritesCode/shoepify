@@ -19,6 +19,7 @@ import type { InferGetStaticPropsType, NextPage } from "next";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import { getAllProducts } from "@pages/api/operations";
+import SizePicker from "@components/products/SizePicker";
 import ProductGallery from "@components/products/ProductGallery";
 import QuantityWidget from "@components/QuantityWidget";
 import { formatPercentage, formatCurrency } from "@utils";
@@ -27,7 +28,7 @@ import { getProductByHandle } from "@pages/api/operations";
 
 import { shopConfig } from "@config/shop";
 import styles from "./Products.module.css";
-import type { Product } from "@type/product.type";
+import type { Product, Variant } from "@type/product.type";
 
 // Mock data
 import defaultProduct from "@mock/default-product";
@@ -73,11 +74,57 @@ const Product: NextPage<StaticProps> = ({
     priceRange,
     discount,
     images,
-    options,
-    variants,
+    // options,
+    // variants,
   } = product;
 
   const { minVariantPrice } = priceRange;
+
+  // I've thought about it, and screw it I'm making a hash map. It'll make for
+  // an easier time looking up what sizes/colors/etc we have in stock. Of course
+  // now I have more space complexity, but I think that's a fine trade-off for
+  // speed. Plus, we could use this hash map for other product page functions
+  // later down the line, when I think of them. Of note, finding if a shoe size
+  // is available, or has a custom image, or has other 'selectedOptions' is much
+  // faster with a hash map - O(1). The alternative would be to look for an item
+  // in our variants array via linear search - O(v) where v is the size of the
+  // array.
+  //
+  // I don't even think I have to iterate over the options array I pulled down;
+  // That might end up being useless. Instead, we need to iterate over all - and
+  // I mean all - of the variants.
+  // @update: Wrong lmfao. I need to make sure sizes is a thing. I'll make a
+  //          hash map for that too.
+  //
+  // I also remember there being some 100 variant per product limit on the
+  // Shopify backend, so it might make sense for a merchant to split up their
+  // products by color or material, but probably not by size. To keep this
+  const options: { [title: string]: any } = {};
+  const variants: { [title: string]: Variant } = {};
+
+  if (product.options) {
+    product.options.map((option: any) => {
+      options[option.name] = option.values;
+    });
+  }
+
+  // I want to conditionally loop through the variants if they exist on the
+  // Product object.
+  if (product.variants) {
+    product.variants.map((variant) => {
+      // A trie might be better for lookup honestly. I don't want to have to
+      // concat strings together to look something up.
+      // console.log(variant);
+      console.log(variant.selectedOptions);
+      variants[variant.title] = variant;
+    });
+  }
+
+  // console.log(options);
+
+  // We will loop once on-mount, then never again even though the user may click
+  // on the size thingy a bunch of times. I'm still debating on whether this
+  // code should go in here, or in the SizePicker component.
 
   const generateATCButtonText = (): string => {
     if (quantity > 0) return "Add to cart";
@@ -126,7 +173,11 @@ const Product: NextPage<StaticProps> = ({
               </div>
             )}
           </div>
-
+          {variants && (
+            <div className={styles.sizes}>
+              <SizePicker />
+            </div>
+          )}
           <div className={styles["qty-and-atc"]}>
             <QuantityWidget
               state={quantity}

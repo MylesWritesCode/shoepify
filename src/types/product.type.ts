@@ -19,7 +19,7 @@ interface Options {
   values: string[];
 }
 
-interface Variant {
+export interface Variant {
   title: string;
   availableForSale: boolean;
   image: ProductImage;
