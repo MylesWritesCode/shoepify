@@ -45,8 +45,10 @@
 
 .thumbnails .thumbnail {
   /* NextJS is a big meanie about images */
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: calc((100% / 4 - 1.5rem));
-  height: 70px;  /* IDK if there's a way to dynamically do this based on img */ 
   margin: 0 0.5rem 1rem;
   border-radius: 0.5rem;
   transition: all 0.25s;
@@ -55,10 +57,7 @@
 
 .thumbnail img {
   position: relative;
-  height: 120%;
-  width: 120%;
-  top: -10%;
-  left: -10%;
+  width: 100%;
   border-radius: 0.5rem;
 }
 
