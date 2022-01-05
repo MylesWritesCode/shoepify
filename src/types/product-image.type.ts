@@ -23,6 +23,7 @@
 /** ProductImage type
  * @param { string } src
  * @param { string } [thumbnail]
+ * @param { string | null } [altText] - Can be null from Shopify
  */
 export type ProductImage = {
   url: string;

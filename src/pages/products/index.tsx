@@ -13,11 +13,10 @@
  * *****
  * HISTORY
  **/
-import { useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import ProductWidget from '@components/products/ProductWidget';
-import { getAllProducts } from '@pages/api/operations';
+import ProductWidget from "@components/products/ProductWidget";
+import { getAllProducts } from "@pages/api/operations";
 
 import type { Product } from "@type/product.type";
 
@@ -25,9 +24,8 @@ import { shopConfig } from "@config/shop";
 import styles from "./Products.module.css";
 
 export const getStaticProps = async () => {
-  
   const data = await getAllProducts();
-  
+
   return {
     props: {
       data,
@@ -38,7 +36,7 @@ export const getStaticProps = async () => {
 const Products: NextPage = ({ ...props }: any) => {
   const { pageInfo, products } = props.data;
   const title = "Products";
-  
+
   return (
     <>
       <Head>
@@ -47,11 +45,9 @@ const Products: NextPage = ({ ...props }: any) => {
         </title>
       </Head>
       <div className={styles.container}>
-        {
-          products.map((product: Product, i: number) => {
-            return <ProductWidget product={product}/>;
-          })
-        }
+        {products.map((product: Product, i: number) => {
+          return <ProductWidget key={i} product={product} />;
+        })}
       </div>
     </>
   );

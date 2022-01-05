@@ -18,20 +18,43 @@ import NextLink from "next/link";
 import type { Product } from "@type/product.type";
 
 import styles from "./ProductWidget.module.css";
+import { formatCurrency } from "@/utils";
 
 interface ProductWidgetProps {
   product: Product;
 }
 
+const ex = {
+  id: "Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0LzY3MzgwNTM4OTAxMDg=",
+  title: "Govalo [MB] Gift Card",
+  vendor: "Govalo [MB]",
+  handle: "govalo-mb-gift-card",
+  featuredImage: {
+    url: "https://cdn.shopify.com/s/files/1/0554/1465/2988/products/getTomorrowDate.png?v=1639594257",
+    altText: null,
+  },
+  priceRange: {
+    minVariantPrice: {
+      amount: "10.0",
+      currencyCode: "USD",
+    },
+  },
+};
+
 const ProductWidget: React.FC<ProductWidgetProps> = ({ product, ...props }) => {
   return (
     <NextLink href={`products/${product.handle}`}>
-      <a href={`products/${product.handle}`}>
+      <a className={styles['container-link']}>
         <div className={styles.container}>
-          {/* I just want the data for now, so I know what to make */}
-          <div>{JSON.stringify(product, null, 2)}</div>
-          <div>
-            <div>hello lmao</div>
+          {/* TODO: Add a default image */}
+          <div className={styles["img-container"]}>
+            <img src={product.featuredImage ? product.featuredImage.url : ""} />
+          </div>
+          <div className={styles.info}>
+            <h3 className={styles.title}>{product.title}</h3>
+            <h3 className={styles.price}>
+              {formatCurrency(product.priceRange.minVariantPrice.amount)}
+            </h3>
           </div>
         </div>
       </a>

@@ -29,8 +29,6 @@ export const getProductByHandle = async (handle: string) => {
     }
   );
   
-  console.log(JSON.stringify(data, null, 2));
-  
   const { product: shopifyProduct } = data;
   const { images, variants } = shopifyProduct;
   

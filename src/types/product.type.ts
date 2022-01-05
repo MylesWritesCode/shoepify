@@ -30,6 +30,7 @@ export interface Product {
       currencyCode: string;
     }
   };
+  featuredImage?: ProductImage;
   images: ProductImage[];
   variants?: {
     title: string;
