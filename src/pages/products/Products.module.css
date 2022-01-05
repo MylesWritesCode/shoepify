@@ -23,7 +23,7 @@
 .section {
   display: flex;
   height: 100%;
-  padding: 2rem;
+  padding: 1rem;
   flex: 1 0 50%;
   flex-direction: column;
   justify-content: center;
