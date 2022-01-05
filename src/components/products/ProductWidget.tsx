@@ -49,7 +49,6 @@ const ProductWidget: React.FC<ProductWidgetProps> = ({ product, ...props }) => {
           {/* TODO: Add a default image */}
           <div className={styles["img-container"]}>
             <img src={product.featuredImage ? product.featuredImage.url : ""} />
-            {/* <img src={product.featuredImage ? "" : ""} /> */}
           </div>
           <div className={styles.info}>
             <h3 className={styles.title}>{product.title}</h3>
