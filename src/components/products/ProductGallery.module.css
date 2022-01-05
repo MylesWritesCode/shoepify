@@ -18,46 +18,45 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* border: 1px solid red; */
 }
 
 .container img { }
 
 .featured {
   display: flex;
+  width: 100%;
   margin: 1rem 0;
   justify-content: center;
   align-items: center;
 }
 
 .featured img {
-  width: 90%;
+  width: 100%;
   border-radius: 1rem;
 }
 
 .thumbnails {
   display: flex;
   width: 100%;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
 }
 
 .thumbnails .thumbnail {
-  /* NextJS is a big meanie about images */
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: calc((100% / 4 - 1.5rem));
-  margin: 0 0.5rem 1rem;
+  height: 100%;
+  width: calc(25% - 0.5rem);
+  margin: 0.25rem;
   border-radius: 0.5rem;
   transition: all 0.25s;
   overflow: hidden;
 }
 
 .thumbnail img {
-  position: relative;
   width: 100%;
+  object-fit: cover;
+  object-position: center;
   border-radius: 0.5rem;
 }
 
