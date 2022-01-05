@@ -25,7 +25,7 @@
  **/
 import React, { useState } from "react";
 import Image from "next/image";
-import type { ProductImage } from "@type/product-image.type";
+import type { ProductImage } from "@type/product.type";
 import styles from "./ProductGallery.module.css";
 
 // Mock data

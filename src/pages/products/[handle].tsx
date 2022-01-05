@@ -17,7 +17,6 @@
 import { useState } from "react";
 import type { InferGetStaticPropsType, NextPage } from "next";
 import { GetStaticProps } from "next";
-import { useRouter } from "next/router";
 import Head from "next/head";
 import { getAllProducts } from "@pages/api/operations";
 import ProductGallery from "@components/products/ProductGallery";
@@ -67,11 +66,18 @@ const Product: NextPage<StaticProps> = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [quantity, setQuantity] = useState<number>(1);
 
-  const { title, vendor, description, priceRange, images } = product;
-  const { minVariantPrice } = priceRange;
+  const {
+    title,
+    vendor,
+    description,
+    priceRange,
+    discount,
+    images,
+    options,
+    variants,
+  } = product;
 
-  // There's a better way to do this, and I'm gonna figure it out later.
-  const discount = product.discount || 0;
+  const { minVariantPrice } = priceRange;
 
   const generateATCButtonText = (): string => {
     if (quantity > 0) return "Add to cart";
@@ -108,13 +114,13 @@ const Product: NextPage<StaticProps> = ({
                   ? formatCurrency(minVariantPrice.amount * discount)
                   : formatCurrency(minVariantPrice.amount)}
               </h1>
-              {discount > 0 && (
+              {discount && discount > 0 && (
                 <div className={styles["discount-percentage"]}>
                   {formatPercentage(discount)}
                 </div>
               )}
             </div>
-            {discount > 0 && discount < 1 && (
+            {discount && discount > 0 && discount < 1 && (
               <div className={styles["original-price"]}>
                 {formatCurrency(minVariantPrice.amount)}
               </div>

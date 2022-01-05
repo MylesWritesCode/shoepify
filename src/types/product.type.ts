@@ -2,7 +2,7 @@
  * File: /src/types/product.type.ts
  * Project: shoepify
  * Purpose: Contains a product data type
- * 
+ *
  * @author Myles Berueda
  * @date   Tuesday December 28th 2021
  * *****
@@ -11,9 +11,28 @@
  * Copyright (c) 2021 MylesWritesCode
  * *****
  * HISTORY
-**/
+ **/
 
-import { ProductImage } from "./product-image.type";
+interface Options {
+  id: string;
+  name: string;
+  values: string[];
+}
+
+interface Variant {
+  title: string;
+  availableForSale: boolean;
+  image: ProductImage;
+  // TODO: FIX THIS lmfao
+  selectedOptions: any;
+  priceV2: any;
+}
+
+export type ProductImage = {
+  url: string;
+  thumbnail?: string;
+  altText?: string;
+}
 
 /**
  * 💢 jsdoc extention not working i give up
@@ -28,17 +47,11 @@ export interface Product {
     minVariantPrice: {
       amount: number;
       currencyCode: string;
-    }
+    };
   };
   featuredImage?: ProductImage;
   images: ProductImage[];
-  variants?: {
-    title: string;
-    availableForSale: boolean;
-    image: ProductImage;
-    // TODO: FIX THIS 
-    selectedOptions: any;
-    priceV2: any;
-  }[]
+  options?: Options[];
+  variants?: Variant[];
   discount?: number;
 }

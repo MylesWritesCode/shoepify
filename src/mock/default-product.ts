@@ -12,9 +12,7 @@
  * -----
  * HISTORY
  **/
-import type { ProductImage } from "@type/product-image.type";
 import type { Product } from '@type/product.type'
-
 
 const defaultProduct: Product = {
   id: "1",

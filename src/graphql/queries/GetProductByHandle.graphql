@@ -13,7 +13,6 @@
 # HISTORY
 ###
 query GetProductByHandle($handle: String) {
-  # Consider turning parts of this into a fragment
   product(handle: $handle) {
     id
     title
@@ -34,11 +33,17 @@ query GetProductByHandle($handle: String) {
         }
       }
     }
+    options {
+      id
+      name
+      values
+    }
     variants(first: 12) {
       edges {
         node {
           title
           availableForSale
+          quantityAvailable
           image {
             url
             altText

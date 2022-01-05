@@ -31,7 +31,7 @@ type ApiVersion {
   handle: String!
 
   """
-  Whether the version is actively supported by Shopify. Supported API versions are guaranteed to be stable. Unsupported API versions include unstable, release candidate, and end-of-life versions that are marked as unsupported. For more information, refer to [Versioning](https://shopify.dev/concepts/about-apis/versioning).
+  Whether the version is actively supported by Shopify. Supported API versions are guaranteed to be stable. Unsupported API versions include unstable, release candidate, and end-of-life versions that are marked as unsupported. For more information, refer to [Versioning](https://shopify.dev/api/usage/versioning).
   """
   supported: Boolean!
 }
@@ -293,7 +293,7 @@ type Blog implements HasMetafields & Node & OnlineStorePublishable {
     """Returns up to the last `n` elements from the list."""
     last: Int
 
-    "Supported filter parameters:\n - `author`\n - `blog_title`\n - `created_at`\n - `tag`\n - `tag_not`\n - `updated_at`\n\nSee the detailed [search syntax](https://help.shopify.com/api/getting-started/search-syntax)\nfor more information about using filters.\n"
+    "Supported filter parameters:\n - `author`\n - `blog_title`\n - `created_at`\n - `tag`\n - `tag_not`\n - `updated_at`\n\nSee the detailed [search syntax](https://shopify.dev/api/usage/search-syntax)\nfor more information about using filters.\n"
     query: String
 
     """Reverse the order of the underlying list."""
@@ -2563,7 +2563,7 @@ input CreditCardPaymentInput {
   billingAddress: MailingAddressInput!
 
   """
-  A unique client generated key used to avoid duplicate charges. When a duplicate payment is found, the original is returned instead of creating a new one. For more information, refer to [Idempotent requests](https://shopify.dev/concepts/about-apis/idempotent-requests).
+  A unique client generated key used to avoid duplicate charges. When a duplicate payment is found, the original is returned instead of creating a new one. For more information, refer to [Idempotent requests](https://shopify.dev/api/usage/idempotent-requests).
   """
   idempotencyKey: String!
 
@@ -2580,7 +2580,7 @@ input CreditCardPaymentInputV2 {
   billingAddress: MailingAddressInput!
 
   """
-  A unique client generated key used to avoid duplicate charges. When a duplicate payment is found, the original is returned instead of creating a new one. For more information, refer to [Idempotent requests](https://shopify.dev/concepts/about-apis/idempotent-requests).
+  A unique client generated key used to avoid duplicate charges. When a duplicate payment is found, the original is returned instead of creating a new one. For more information, refer to [Idempotent requests](https://shopify.dev/api/usage/idempotent-requests).
   """
   idempotencyKey: String!
 
@@ -3199,7 +3199,7 @@ type Customer implements HasMetafields {
     """Returns up to the last `n` elements from the list."""
     last: Int
 
-    "Supported filter parameters:\n - `processed_at`\n\nSee the detailed [search syntax](https://help.shopify.com/api/getting-started/search-syntax)\nfor more information about using filters.\n"
+    "Supported filter parameters:\n - `processed_at`\n\nSee the detailed [search syntax](https://shopify.dev/api/usage/search-syntax)\nfor more information about using filters.\n"
     query: String
 
     """Reverse the order of the underlying list."""
@@ -4529,7 +4529,7 @@ type Mutation {
   ): CheckoutCompleteWithCreditCardPayload @deprecated(reason: "Use `checkoutCompleteWithCreditCardV2` instead")
 
   """
-  Completes a checkout using a credit card token from Shopify's card vault. Before you can complete checkouts using CheckoutCompleteWithCreditCardV2, you need to  [_request payment processing_](https://help.shopify.com/api/guides/sales-channel-sdk/getting-started#request-payment-processing).
+  Completes a checkout using a credit card token from Shopify's card vault. Before you can complete checkouts using CheckoutCompleteWithCreditCardV2, you need to  [_request payment processing_](https://shopify.dev/apps/channels/getting-started#request-payment-processing).
   """
   checkoutCompleteWithCreditCardV2(
     """The ID of the checkout."""
@@ -5400,7 +5400,7 @@ type Payment implements Node {
   """A globally-unique identifier."""
   id: ID!
 
-  "A client-side generated token to identify a payment and perform idempotent operations.\nFor more information, refer to\n[Idempotent requests](https://shopify.dev/concepts/about-apis/idempotent-requests).\n"
+  "A client-side generated token to identify a payment and perform idempotent operations.\nFor more information, refer to\n[Idempotent requests](https://shopify.dev/api/usage/idempotent-requests).\n"
   idempotencyKey: String
 
   """
@@ -6049,7 +6049,7 @@ type QueryRoot {
     """Returns up to the last `n` elements from the list."""
     last: Int
 
-    "Supported filter parameters:\n - `author`\n - `blog_title`\n - `created_at`\n - `tag`\n - `tag_not`\n - `updated_at`\n\nSee the detailed [search syntax](https://help.shopify.com/api/getting-started/search-syntax)\nfor more information about using filters.\n"
+    "Supported filter parameters:\n - `author`\n - `blog_title`\n - `created_at`\n - `tag`\n - `tag_not`\n - `updated_at`\n\nSee the detailed [search syntax](https://shopify.dev/api/usage/search-syntax)\nfor more information about using filters.\n"
     query: String
 
     """Reverse the order of the underlying list."""
@@ -6088,7 +6088,7 @@ type QueryRoot {
     """Returns up to the last `n` elements from the list."""
     last: Int
 
-    "Supported filter parameters:\n - `created_at`\n - `handle`\n - `title`\n - `updated_at`\n\nSee the detailed [search syntax](https://help.shopify.com/api/getting-started/search-syntax)\nfor more information about using filters.\n"
+    "Supported filter parameters:\n - `created_at`\n - `handle`\n - `title`\n - `updated_at`\n\nSee the detailed [search syntax](https://shopify.dev/api/usage/search-syntax)\nfor more information about using filters.\n"
     query: String
 
     """Reverse the order of the underlying list."""
@@ -6133,7 +6133,7 @@ type QueryRoot {
     """Returns up to the last `n` elements from the list."""
     last: Int
 
-    "Supported filter parameters:\n - `collection_type`\n - `title`\n - `updated_at`\n\nSee the detailed [search syntax](https://help.shopify.com/api/getting-started/search-syntax)\nfor more information about using filters.\n"
+    "Supported filter parameters:\n - `collection_type`\n - `title`\n - `updated_at`\n\nSee the detailed [search syntax](https://shopify.dev/api/usage/search-syntax)\nfor more information about using filters.\n"
     query: String
 
     """Reverse the order of the underlying list."""
@@ -6217,7 +6217,7 @@ type QueryRoot {
     """Returns up to the last `n` elements from the list."""
     last: Int
 
-    "Supported filter parameters:\n - `created_at`\n - `handle`\n - `title`\n - `updated_at`\n\nSee the detailed [search syntax](https://help.shopify.com/api/getting-started/search-syntax)\nfor more information about using filters.\n"
+    "Supported filter parameters:\n - `created_at`\n - `handle`\n - `title`\n - `updated_at`\n\nSee the detailed [search syntax](https://shopify.dev/api/usage/search-syntax)\nfor more information about using filters.\n"
     query: String
 
     """Reverse the order of the underlying list."""
@@ -6276,7 +6276,7 @@ type QueryRoot {
     """Returns up to the last `n` elements from the list."""
     last: Int
 
-    "Supported filter parameters:\n - `available_for_sale`\n - `created_at`\n - `product_type`\n - `tag`\n - `tag_not`\n - `title`\n - `updated_at`\n - `variants.price`\n - `vendor`\n\nSee the detailed [search syntax](https://help.shopify.com/api/getting-started/search-syntax)\nfor more information about using filters.\n"
+    "Supported filter parameters:\n - `available_for_sale`\n - `created_at`\n - `product_type`\n - `tag`\n - `tag_not`\n - `title`\n - `updated_at`\n - `variants.price`\n - `vendor`\n\nSee the detailed [search syntax](https://shopify.dev/api/usage/search-syntax)\nfor more information about using filters.\n"
     query: String
 
     """Reverse the order of the underlying list."""
@@ -6753,7 +6753,7 @@ input TokenizedPaymentInput {
   billingAddress: MailingAddressInput!
 
   """
-  A unique client generated key used to avoid duplicate charges. When a duplicate payment is found, the original is returned instead of creating a new one. For more information, refer to [Idempotent requests](https://shopify.dev/concepts/about-apis/idempotent-requests).
+  A unique client generated key used to avoid duplicate charges. When a duplicate payment is found, the original is returned instead of creating a new one. For more information, refer to [Idempotent requests](https://shopify.dev/api/usage/idempotent-requests).
   """
   idempotencyKey: String!
 
@@ -6778,7 +6778,7 @@ input TokenizedPaymentInputV2 {
   billingAddress: MailingAddressInput!
 
   """
-  A unique client generated key used to avoid duplicate charges. When a duplicate payment is found, the original is returned instead of creating a new one. For more information, refer to [Idempotent requests](https://shopify.dev/concepts/about-apis/idempotent-requests).
+  A unique client generated key used to avoid duplicate charges. When a duplicate payment is found, the original is returned instead of creating a new one. For more information, refer to [Idempotent requests](https://shopify.dev/api/usage/idempotent-requests).
   """
   idempotencyKey: String!
 
@@ -6808,7 +6808,7 @@ input TokenizedPaymentInputV3 {
   billingAddress: MailingAddressInput!
 
   """
-  A unique client generated key used to avoid duplicate charges. When a duplicate payment is found, the original is returned instead of creating a new one. For more information, refer to [Idempotent requests](https://shopify.dev/concepts/about-apis/idempotent-requests).
+  A unique client generated key used to avoid duplicate charges. When a duplicate payment is found, the original is returned instead of creating a new one. For more information, refer to [Idempotent requests](https://shopify.dev/api/usage/idempotent-requests).
   """
   idempotencyKey: String!
 
