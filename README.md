@@ -182,7 +182,7 @@ Shopify's backend.
     2. GraphQL Codegen (creates hooks based on gql calls)
 
 # Notes
-**Jan 4, 2022** More notes 🤙
+**Jan 4, 2022** More notes 🤙 Pushed to production today as well
 - Grab more items to fill out the store. It's pretty tedious to do right now ngl
 - Work out variant display on product page (`[handle].tsx`)
 - Build out cart component - I think I'm gonna just deal with the drawer/modal
