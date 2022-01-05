@@ -182,14 +182,21 @@ Shopify's backend.
     2. GraphQL Codegen (creates hooks based on gql calls)
 
 # Notes
+**Jan 4, 2022** More notes 🤙
+- Grab more items to fill out the store. It's pretty tedious to do right now ngl
+- Work out variant display on product page (`[handle].tsx`)
+- Build out cart component - I think I'm gonna just deal with the drawer/modal
+  thingy shown in the Frontend Mentor design; Shopify has its own checkout page
+  and the customer can see their itemized orders there
+
 **Jan 3, 2022** Spent most (all) of the day figuring out what I'd consider the
 best way to pull data down from Shopify that doesn't burn through my API
 throttling threshold. I've updated the docs (this readme) to show what my
 workflow looks like when trying to pull data from the backend. Now, some todos
 and notes for tomorrow:
-- Work on [handle] route to pull a single product and display it using the
-  template.
-- Build out template for products index page (collection of all products)
+- ~~Work on [handle] route to pull a single product and display it using the
+  template.~~
+- ~~Build out template for products index page (collection of all products)~~
 
 **Dec 30, 2021** Responsiveness is done...for now. I now need to focus on 
 getting products from Shopify into the app. I have two options - using GraphQL 
@@ -200,8 +207,8 @@ Storefront API docs. On the other hand, I kinda want to learn how to use the
 Shopify package anyway.
 - ~~Pull something from the Shopify backend~~
 - ~~Move code from `products/index.tsx` to `products/[id].tsx` or something.~~
-- Either get mock data for a full collection, or just upload a bunch of stuff
-  to the backend so I have data to play with while styling the collection grid.
+- ~~Either get mock data for a full collection, or just upload a bunch of stuff
+  to the backend so I have data to play with while styling the collection grid.~~
 - ~~Set up API endpoint on the Next server side to make sensitive calls (e.g.,
   calls that contain API keys)~~
 
@@ -214,8 +221,8 @@ right now. It looks like the first thing that needs to be properly styled
 just leave this in here for now. Anyway - notes for tomorrow:
 - ~~Styles for general layout. Expanding the full width looks bad on big monitors~~
 - ~~Implement product gallery - I'm pretty sure this'll be a component on its own~~
-- Find more assets to upload to Shopify - probably just going to take mock 
-content from Nike or Footlocker or something
+- ~~Find more assets to upload to Shopify - probably just going to take mock 
+content from Nike or Footlocker or something~~
 
 **Dec 27, 2021**
 - ~~Style out the rest of the InfoBox component~~
