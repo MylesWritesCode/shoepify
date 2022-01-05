@@ -47,7 +47,7 @@
   /* NextJS is a big meanie about images */
   width: calc((100% / 4 - 1.5rem));
   height: 70px;  /* IDK if there's a way to dynamically do this based on img */ 
-  margin: 0 0.5rem;
+  margin: 0 0.5rem 1rem;
   border-radius: 0.5rem;
   transition: all 0.25s;
   overflow: hidden;
