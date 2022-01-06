@@ -46,6 +46,7 @@
 
 .selected {
   color: var(--white);
+  font-weight: 700;
   background-color: var(--primary);
 }
 

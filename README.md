@@ -279,7 +279,7 @@ whatever transformations it needs, and it should send data back to the template
 based on what's picked. Based on reading what I wrote yesterday, this seems to 
 be another issue of over-thinking  🤦‍♂️. KISS.
 
-I'm not liking how this is working out. Essentially, I want to 
+~~I'm not liking how this is working out. Essentially, I want to 
 one call to the backend, transform that into useable data, then stick all that 
 data into a state within the page. Things I want to be able to efficiently:
 - Display all the options (styles, sizes, etc) on the product page
@@ -318,4 +318,4 @@ that point I'd rather just take the hit and search through the pre-existing
 array that has a `selectedOptions` object, and compare that way, via some 
 iterator method. Actually that might be the only way I can do what I want. Screw
 it, that's how it's I'm gonna implement this unless I figure out a better 
-method.
+method.~~
