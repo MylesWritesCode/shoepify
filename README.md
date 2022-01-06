@@ -280,7 +280,7 @@ data into a state within the page. Things I want to be able to efficiently:
 
   > - A user clicks size 9
   > - Classic greys out, because we don't have a size 9 Classic in stock
-  > or
+  
   > - A user clicks the style Running
   > - Sizes 7, 9, and 12 grey out. They're not available
 
