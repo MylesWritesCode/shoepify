@@ -27,6 +27,7 @@
   border: 1px solid transparent;
   background: var(--light-grey);
   border-radius: 0.25rem;
+  overflow: hidden;
 }
 
 .value {
@@ -38,7 +39,7 @@
   /* border: 1px solid var(--secondary); */
   user-select: none;
   cursor: pointer;
-  transition: all 0.5s;
+  transition: background-color 0.25s;
 }
 
 .selected {
