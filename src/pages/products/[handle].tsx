@@ -100,7 +100,7 @@ const Product: NextPage<StaticProps> = ({
   // Shopify backend, so it might make sense for a merchant to split up their
   // products by color or material, but probably not by size. To keep this
   const options: { [title: string]: any } = {};
-  const variants: { [title: string]: Variant } = {};
+  const variants: any = {};
 
   if (product.options) {
     product.options.map((option: any) => {
@@ -111,14 +111,10 @@ const Product: NextPage<StaticProps> = ({
   // I want to conditionally loop through the variants if they exist on the
   // Product object.
   if (product.variants) {
-    product.variants.map((variant) => {
-      // A trie might be better for lookup honestly. I don't want to have to
-      // concat strings together to look something up.
-      // console.log(variant);
-      console.log(variant.selectedOptions);
-      variants[variant.title] = variant;
-    });
+    product.variants.map((variant) => {});
   }
+
+  console.log(options);
 
   // console.log(options);
 
@@ -173,7 +169,7 @@ const Product: NextPage<StaticProps> = ({
               </div>
             )}
           </div>
-          {variants && (
+          {options.Size && (
             <div className={styles.sizes}>
               <SizePicker />
             </div>
