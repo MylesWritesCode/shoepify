@@ -29,9 +29,7 @@ a {
     Okay so my eyes fckn hurt from the hyper-contrasting debug colors that I've
     been using (e.g. red, yellow, green, blue), so I'm just going to define a
     nice looking palette and use this instead.
-
-    d4c5e2, c9d7f8, a7e2e3, 80cfa9, 4c6663
-   */
+  */
   --debug-1: #D4C5E2;
   --debug-2: #C9D7F8;
   --debug-3: #A7E2E3;
