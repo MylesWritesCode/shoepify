@@ -43,6 +43,7 @@ export const getProductByHandle = async (handle: string) => {
       const { selectedOptions, ...rest } = node;
 
       return {
+        ...rest,
         // Reduce the array to an object of it's kv-pairs.
         selectedOptions: selectedOptions.reduce(
           (a: any, option: { name: string; value: string }) => {
@@ -50,7 +51,6 @@ export const getProductByHandle = async (handle: string) => {
           },
           {}
         ),
-        ...rest,
       };
     }),
   };

@@ -74,51 +74,23 @@ const Product: NextPage<StaticProps> = ({
     priceRange,
     discount,
     images,
-    // options,
-    // variants,
+    variants,
   } = product;
 
   const { minVariantPrice } = priceRange;
 
-  // I've thought about it, and screw it I'm making a hash map. It'll make for
-  // an easier time looking up what sizes/colors/etc we have in stock. Of course
-  // now I have more space complexity, but I think that's a fine trade-off for
-  // speed. Plus, we could use this hash map for other product page functions
-  // later down the line, when I think of them. Of note, finding if a shoe size
-  // is available, or has a custom image, or has other 'selectedOptions' is much
-  // faster with a hash map - O(1). The alternative would be to look for an item
-  // in our variants array via linear search - O(v) where v is the size of the
-  // array.
-  //
-  // I don't even think I have to iterate over the options array I pulled down;
-  // That might end up being useless. Instead, we need to iterate over all - and
-  // I mean all - of the variants.
-  // @update: Wrong lmfao. I need to make sure sizes is a thing. I'll make a
-  //          hash map for that too.
-  //
-  // I also remember there being some 100 variant per product limit on the
-  // Shopify backend, so it might make sense for a merchant to split up their
-  // products by color or material, but probably not by size. To keep this
   const options: { [title: string]: any } = {};
-  const variants: any = {};
 
   if (product.options) {
     product.options.map((option: { name: string; values: string[] }) => {
       options[option.name.toLowerCase()] = option.values;
     });
   }
-
-  // I want to conditionally loop through the variants if they exist on the
-  // Product object.
-  if (product.variants) {
-    product.variants.map((variant) => {});
-  }
-
-  // console.log(options);
-
-  // We will loop once on-mount, then never again even though the user may click
-  // on the size thingy a bunch of times. I'm still debating on whether this
-  // code should go in here, or in the SizePicker component.
+  
+  // It's getting late. But I should be able to filter through the variants
+  // based on what the user interacts with in each OptionPicker (yes, we're
+  // generalizing it tomorrow) in the DOM.
+  console.log(variants);
 
   const generateATCButtonText = (): string => {
     if (quantity > 0) return "Add to cart";
@@ -167,7 +139,7 @@ const Product: NextPage<StaticProps> = ({
               </div>
             )}
           </div>
-          {options.Size && (
+          {options.size && (
             <div className={styles.sizes}>
               <SizePicker />
             </div>
