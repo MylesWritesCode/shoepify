@@ -271,10 +271,9 @@ will probably be doc reading time~~
 # Weird ramblings
 Pay no mind to the man behind the curtain 🧙‍♂️
 
-### @transform:
-I'm not liking how this is working out. Essentially, I want to one
-call to the backend, transform that into useable data, then stick all that 
-data into a state within the page. My first thought was to create a hash map
+**@transform:** I'm not liking how this is working out. Essentially, I want to 
+one call to the backend, transform that into useable data, then stick all that 
+data into a state within the page. My first thought was to create a hash map 
 with the variants, but this is kinda weird because I'm not a huge fan of magic
 strings vs a dictionary e.g. "10/Classic" vs `variants["10"]["Classic"]`.
 
