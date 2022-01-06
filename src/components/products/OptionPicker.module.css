@@ -14,9 +14,11 @@
 **/
 
 .container {
+  margin: 1rem 0;
 }
 
 .title {
+  margin: 0.5rem 0;
 }
 
 .values {
@@ -45,4 +47,8 @@
 .selected {
   color: var(--white);
   background-color: var(--primary);
+}
+
+.disabled {
+  color: var(--grey);
 }
