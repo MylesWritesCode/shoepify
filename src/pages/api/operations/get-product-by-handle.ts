@@ -44,9 +44,12 @@ export const getProductByHandle = async (handle: string) => {
 
       return {
         // Reduce the array to an object of it's kv-pairs.
-        selectedOptions: selectedOptions.reduce((a: any, option: any) => {
-          return ({...a, [option.name]: option.value });
-        }, {}),
+        selectedOptions: selectedOptions.reduce(
+          (a: any, option: { name: string; value: string }) => {
+            return { ...a, [option.name.toLowerCase()]: option.value };
+          },
+          {}
+        ),
         ...rest,
       };
     }),
