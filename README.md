@@ -183,12 +183,12 @@ Shopify's backend.
 
 # Notes
 **Jan 5, 2022** Again with the notes :)
-- Build out SizePicker component. I think it might be better to generalize this
+- ~~Build out SizePicker component. I think it might be better to generalize this
   component e.g. size, style, material, etc. picker. It's not that big of an ask
   once I have my data transforms down pact, but I'd really like these transforms
-  down before I start with the component.
-- Build out better transforms for variant and option data. Notes below under
-  @transform.
+  down before I start with the component.~~
+- ~~Build out better transforms for variant and option data. Notes below under
+  @transform.~~
 
 **Jan 4, 2022** More notes 🤙 Pushed to production today as well
 - ~~Grab more items to fill out the store. It's pretty tedious to do right now ngl~~
@@ -273,13 +273,17 @@ Pay no mind to the man behind the curtain 🧙‍♂️
 
 **@transform:** 
 
-**Jan 6 2022 update** I'm now under the impression that I don't need to do more
+**Jan 6 2022 Update** I'm now under the impression that I don't need to do more
 data transformation in the page itself; the component should be in charge of 
 whatever transformations it needs, and it should send data back to the template
 based on what's picked. Based on reading what I wrote yesterday, this seems to 
 be another issue of over-thinking  🤦‍♂️. KISS.
 
-~~I'm not liking how this is working out. Essentially, I want to 
+You know what, I **do** want people to click on options even if they're not in
+stock. It'll give more opportunities for the Govalo OOS integration to work, 
+when I eventually get to it.
+
+**Jan 5 2022** I'm not liking how this is working out. Essentially, I want to 
 one call to the backend, transform that into useable data, then stick all that 
 data into a state within the page. Things I want to be able to efficiently:
 - Display all the options (styles, sizes, etc) on the product page
@@ -318,4 +322,4 @@ that point I'd rather just take the hit and search through the pre-existing
 array that has a `selectedOptions` object, and compare that way, via some 
 iterator method. Actually that might be the only way I can do what I want. Screw
 it, that's how it's I'm gonna implement this unless I figure out a better 
-method.~~
+method.
