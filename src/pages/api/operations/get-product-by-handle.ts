@@ -28,18 +28,27 @@ export const getProductByHandle = async (handle: string) => {
       handle: handle,
     }
   );
-  
+
+  // Start normalizing the data as to how the app will use it.
   const { product: shopifyProduct } = data;
   const { images, variants } = shopifyProduct;
-  
+
   // Consider stronger typing here.
   const product = {
     ...shopifyProduct,
-    images: images.edges.map(({node}: any) => {
+    images: images.edges.map(({ node }: any) => {
       return node;
     }),
-    variants: variants.edges.map(({node}: any) => {
-      return node;
+    variants: variants.edges.map(({ node }: any) => {
+      const { selectedOptions, ...rest } = node;
+
+      return {
+        // Reduce the array to an object of it's kv-pairs.
+        selectedOptions: selectedOptions.reduce((a: any, option: any) => {
+          return ({...a, [option.name]: option.value });
+        }, {}),
+        ...rest,
+      };
     }),
   };
 
