@@ -271,7 +271,15 @@ will probably be doc reading time~~
 # Weird ramblings
 Pay no mind to the man behind the curtain 🧙‍♂️
 
-**@transform:** I'm not liking how this is working out. Essentially, I want to 
+**@transform:** 
+
+**Jan 6 2022 update** I'm now under the impression that I don't need to do more
+data transformation in the page itself; the component should be in charge of 
+whatever transformations it needs, and it should send data back to the template
+based on what's picked. Based on reading what I wrote yesterday, this seems to 
+be another issue of over-thinking  🤦‍♂️. KISS.
+
+I'm not liking how this is working out. Essentially, I want to 
 one call to the backend, transform that into useable data, then stick all that 
 data into a state within the page. Things I want to be able to efficiently:
 - Display all the options (styles, sizes, etc) on the product page

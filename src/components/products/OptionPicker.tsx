@@ -12,8 +12,10 @@
  * *****
  * HISTORY
  **/
-import React from "react";
-import type { Options } from '@type/product.type';
+import React, { useState } from "react";
+import type { Options } from "@type/product.type";
+
+import styles from "./OptionPicker.module.css";
 
 interface OptionPickerProps {
   data: Options;
@@ -21,17 +23,38 @@ interface OptionPickerProps {
 
 /**
  * Takes a dataset from a component and creates a view for that option.
- * @param { Options } data  
+ * @param { Options } data
  * @param { string } data.id
  * @param { string } data.name
  * @param { string } data.values
  */
 const OptionPicker: React.FC<OptionPickerProps> = ({ data, ...props }) => {
+  const [index, setIndex] = useState<number>();
+  const { name, values } = data;
   console.log(data);
+  
+  const handleClick = (i: number) => {
+    setIndex(i);
+  }
+
   return (
-    <div>
-      <div>
-        <div>Something here lol</div>
+    <div className={styles.container}>
+      <h3 className={styles.title}>{name}</h3>
+      <div className={styles.values}>
+        {Array.isArray(values) &&
+          values.map((v, i) => {
+            return (
+              <div
+                key={i}
+                className={`${styles.value} ${
+                  i === index ? styles.selected : ""
+                }`}
+                onClick={() => handleClick(i)}
+              >
+                {v}
+              </div>
+            );
+          })}
       </div>
     </div>
   );

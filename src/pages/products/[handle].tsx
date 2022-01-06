@@ -71,23 +71,11 @@ const Product: NextPage<StaticProps> = ({
     priceRange,
     discount,
     images,
+    options,
     variants,
   } = product;
 
   const { minVariantPrice } = priceRange;
-
-  const options: { [title: string]: any } = {};
-
-  if (product.options) {
-    product.options.map((option: { name: string; values: string[] }) => {
-      options[option.name.toLowerCase()] = option.values;
-    });
-  }
-  
-  // It's getting late. But I should be able to filter through the variants
-  // based on what the user interacts with in each OptionPicker (yes, we're
-  // generalizing it tomorrow) in the DOM.
-  console.log(variants);
 
   const generateATCButtonText = (): string => {
     if (quantity > 0) return "Add to cart";
@@ -136,11 +124,11 @@ const Product: NextPage<StaticProps> = ({
               </div>
             )}
           </div>
-          {options.size && (
-            <div className={styles.sizes}>
-              <OptionPicker data={options.size} />
-            </div>
-          )}
+          <div className={styles['options-container']}>
+            {Array.isArray(options) && options.map((option, i) => {
+              return <OptionPicker key={i} data={option} />;
+            })}
+          </div>
           <div className={styles["qty-and-atc"]}>
             <QuantityWidget
               state={quantity}

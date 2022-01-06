@@ -1,0 +1,47 @@
+/**
+ * File: /src/components/products/OptionPicker.module.css
+ * Project: shoepify
+ * Purpose: // TODO: Add the purpose of the file here.
+ * 
+ * @author Myles Berueda
+ * @date   Thursday January 6th 2022
+ * *****
+ * Modified: Thursday January 6th 2022 6:41:10 am
+ * *****
+ * Copyright (c) 2022 MylesWritesCode
+ * *****
+ * HISTORY
+**/
+
+.container {
+}
+
+.title {
+}
+
+.values {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  border: 1px solid transparent;
+  background: var(--light-grey);
+  border-radius: 0.25rem;
+}
+
+.value {
+  display: flex;
+  padding: 0.5rem;
+  flex: 1 0 calc(100% / 6);
+  justify-content: center;
+  font-size: 12px;
+  /* border: 1px solid var(--secondary); */
+  user-select: none;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.selected {
+  color: var(--white);
+  background-color: var(--primary);
+}
