@@ -56,5 +56,12 @@
 
 .info h3 {
   font-size: 14px;
-  margin: 0.25rem;
+  margin: 0.125rem;
+}
+
+.vendor {
+  margin: 0;
+  padding: 0;
+  color: var(--primary);
+  font-style: italic;
 }
