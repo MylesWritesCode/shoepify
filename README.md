@@ -182,9 +182,17 @@ Shopify's backend.
     2. GraphQL Codegen (creates hooks based on gql calls)
 
 # Notes
+**Jan 5, 2022** Again with the notes :)
+- Build out SizePicker component. I think it might be better to generalize this
+  component e.g. size, style, material, etc. picker. It's not that big of an ask
+  once I have my data transforms down pact, but I'd really like these transforms
+  down before I start with the component.
+- Build out better transforms for variant and option data. Notes below under
+  @transform.
+
 **Jan 4, 2022** More notes 🤙 Pushed to production today as well
-- Grab more items to fill out the store. It's pretty tedious to do right now ngl
-- Work out variant display on product page (`[handle].tsx`)
+- ~~Grab more items to fill out the store. It's pretty tedious to do right now ngl~~
+- ~~Work out variant display on product page (`[handle].tsx`)~~
 - Build out cart component - I think I'm gonna just deal with the drawer/modal
   thingy shown in the Frontend Mentor design; Shopify has its own checkout page
   and the customer can see their itemized orders there
@@ -259,3 +267,27 @@ will probably be doc reading time~~
   > directly, rather than trying to use `fetch` for no reason. The server 
   > doesn't/shouldn't need to call itself to get data; that doesn't make sense.
   > View the graphql-codegen example above to see the workflow I've adopted.
+- @transform: I'm not liking how this is working out. Essentially, I want to one
+  call to the backend, transform that into useable data, then stick all that 
+  data into a state within the page. My first thought was to create a hash map
+  with the variants, but this is kinda weird because I'm not a huge fan of magic
+  strings vs a dictionary e.g. "10/Classic" vs `variants["10"]["Classic"]`.
+
+  This is why I write things out though, cause now that I'm exposing my
+  thoughts, I'm realizing that the dictionary is actually a monumentally stupid
+  way to do this. If, say, we don't have a shoe size in `x`, and we look up 
+  using the dictionary e.g. `variants[x][y]`, even if variant exists in `y` 
+  style, this will throw an error. What I'm left with is a really slow lookup
+  through the array of variant objects. So maybe the magic string is the only
+  way I can do this.
+
+  Looking up "x/y" will return `null` if we don't have size `x` in style `y`,
+  but this may be dumb as well. What if I want to display all the sizes we *do*
+  have in stock in style `y`?
+
+  The most brute-force answer I can come up with is to have two different arrays
+  which will output what sizes `x` we have of style `y`, but I mean, come on. At
+  that point I'd rather just take the hit and search through the pre-existing
+  array that has a `selectedOptions` object, and compare that way. Actually that
+  might be the only way I can do what I want. Screw it, that's how it's I'm
+  gonna implement this unless I figure out a better method.
