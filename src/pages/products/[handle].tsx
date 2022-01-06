@@ -103,8 +103,8 @@ const Product: NextPage<StaticProps> = ({
   const variants: any = {};
 
   if (product.options) {
-    product.options.map((option: any) => {
-      options[option.name] = option.values;
+    product.options.map((option: { name: string; values: string[] }) => {
+      options[option.name.toLowerCase()] = option.values;
     });
   }
 
@@ -113,8 +113,6 @@ const Product: NextPage<StaticProps> = ({
   if (product.variants) {
     product.variants.map((variant) => {});
   }
-
-  console.log(options);
 
   // console.log(options);
 
