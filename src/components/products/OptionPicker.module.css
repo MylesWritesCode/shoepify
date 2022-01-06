@@ -29,6 +29,7 @@
   border: 1px solid transparent;
   background: var(--light-grey);
   border-radius: 0.25rem;
+  box-shadow: var(--shadow-base);
   overflow: hidden;
 }
 

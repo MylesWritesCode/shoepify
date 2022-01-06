@@ -3998,7 +3998,7 @@ type Location implements Node {
   name: String!
 }
 
-"Represents the address of the location.\n"
+"Represents the address of a location.\n"
 type LocationAddress {
   """The first line of the address for the location."""
   address1: String
@@ -4012,10 +4012,10 @@ type LocationAddress {
   """The country of the location."""
   country: String
 
-  """The two-letter country code of the location."""
+  """The country code of the location."""
   countryCode: String
 
-  """A formatted version of the location address."""
+  """A formatted version of the address for the location."""
   formatted: [String!]!
 
   """The latitude coordinates of the location."""
@@ -4030,7 +4030,7 @@ type LocationAddress {
   """The province of the location."""
   province: String
 
-  "The code for the region of the address, such as the province, state, or district.\nFor example QC for Quebec, Canada.\n"
+  "The code for the province, state, or district of the address of the location.\n"
   provinceCode: String
 
   """The ZIP code of the location."""

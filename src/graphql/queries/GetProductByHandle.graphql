@@ -19,6 +19,7 @@ query GetProductByHandle($handle: String) {
     handle
     vendor
     description
+    descriptionHtml
     priceRange {
       minVariantPrice {
         amount

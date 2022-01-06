@@ -67,13 +67,15 @@ const Product: NextPage<StaticProps> = ({
   const {
     title,
     vendor,
-    description,
+    descriptionHtml: description,
     priceRange,
     discount,
     images,
     options,
     variants,
   } = product;
+
+  console.log(product);
 
   const { minVariantPrice } = priceRange;
 
@@ -103,7 +105,10 @@ const Product: NextPage<StaticProps> = ({
             <h1>{title}</h1>
           </div>
 
-          <div className={styles.description}>{description}</div>
+          <div
+            className={styles.description}
+            dangerouslySetInnerHTML={{__html: description}}
+          ></div>
 
           <div className={styles.pricing}>
             <div className={styles["price-and-discount"]}>
@@ -124,10 +129,11 @@ const Product: NextPage<StaticProps> = ({
               </div>
             )}
           </div>
-          <div className={styles['options-container']}>
-            {Array.isArray(options) && options.map((option, i) => {
-              return <OptionPicker key={i} data={option} />;
-            })}
+          <div className={styles["options-container"]}>
+            {Array.isArray(options) &&
+              options.map((option, i) => {
+                return <OptionPicker key={i} data={option} />;
+              })}
           </div>
           <div className={styles["qty-and-atc"]}>
             <QuantityWidget

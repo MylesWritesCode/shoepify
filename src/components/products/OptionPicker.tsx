@@ -31,7 +31,6 @@ interface OptionPickerProps {
 const OptionPicker: React.FC<OptionPickerProps> = ({ data, ...props }) => {
   const [index, setIndex] = useState<number>();
   const { name, values } = data;
-  console.log(data);
 
   const handleClick = (i: number) => {
     setIndex(i);
@@ -40,11 +39,8 @@ const OptionPicker: React.FC<OptionPickerProps> = ({ data, ...props }) => {
   const setClasses = (i: number): string => {
     // All values v should have the value class
     let style = styles.value;
-
     if (i === index) style += " " + styles.selected;
     
-    console.log(style);
-
     return style;
   };
 

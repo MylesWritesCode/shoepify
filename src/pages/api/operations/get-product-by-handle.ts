@@ -41,7 +41,7 @@ export const getProductByHandle = async (handle: string) => {
     }),
     variants: variants.edges.map(({ node }: any) => {
       const { selectedOptions, ...rest } = node;
-
+      
       return {
         ...rest,
         // Reduce the array to an object of it's kv-pairs.

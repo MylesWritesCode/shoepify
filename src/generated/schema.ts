@@ -3456,7 +3456,7 @@ export type Location = Node & {
 };
 
 /**
- * Represents the address of the location.
+ * Represents the address of a location.
  *
  */
 export type LocationAddress = {
@@ -3469,9 +3469,9 @@ export type LocationAddress = {
   city?: Maybe<Scalars['String']>;
   /** The country of the location. */
   country?: Maybe<Scalars['String']>;
-  /** The two-letter country code of the location. */
+  /** The country code of the location. */
   countryCode?: Maybe<Scalars['String']>;
-  /** A formatted version of the location address. */
+  /** A formatted version of the address for the location. */
   formatted: Array<Scalars['String']>;
   /** The latitude coordinates of the location. */
   latitude?: Maybe<Scalars['Float']>;
@@ -3482,8 +3482,7 @@ export type LocationAddress = {
   /** The province of the location. */
   province?: Maybe<Scalars['String']>;
   /**
-   * The code for the region of the address, such as the province, state, or district.
-   * For example QC for Quebec, Canada.
+   * The code for the province, state, or district of the address of the location.
    *
    */
   provinceCode?: Maybe<Scalars['String']>;
@@ -6335,7 +6334,7 @@ export type GetProductByHandleQueryVariables = Exact<{
 }>;
 
 
-export type GetProductByHandleQuery = { __typename?: 'QueryRoot', product?: { __typename?: 'Product', id: string, title: string, handle: string, vendor: string, description: string, priceRange: { __typename?: 'ProductPriceRange', minVariantPrice: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } }, images: { __typename?: 'ImageConnection', edges: Array<{ __typename?: 'ImageEdge', node: { __typename?: 'Image', url: any, altText?: string | null | undefined } }> }, options: Array<{ __typename?: 'ProductOption', id: string, name: string, values: Array<string> }>, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', title: string, availableForSale: boolean, quantityAvailable?: number | null | undefined, image?: { __typename?: 'Image', url: any, altText?: string | null | undefined } | null | undefined, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, priceV2: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } } }> } } | null | undefined };
+export type GetProductByHandleQuery = { __typename?: 'QueryRoot', product?: { __typename?: 'Product', id: string, title: string, handle: string, vendor: string, description: string, descriptionHtml: any, priceRange: { __typename?: 'ProductPriceRange', minVariantPrice: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } }, images: { __typename?: 'ImageConnection', edges: Array<{ __typename?: 'ImageEdge', node: { __typename?: 'Image', url: any, altText?: string | null | undefined } }> }, options: Array<{ __typename?: 'ProductOption', id: string, name: string, values: Array<string> }>, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', title: string, availableForSale: boolean, quantityAvailable?: number | null | undefined, image?: { __typename?: 'Image', url: any, altText?: string | null | undefined } | null | undefined, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, priceV2: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } } }> } } | null | undefined };
 
 export type GetShopNameQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -6414,6 +6413,7 @@ export const GetProductByHandleDocument = gql`
     handle
     vendor
     description
+    descriptionHtml
     priceRange {
       minVariantPrice {
         amount
