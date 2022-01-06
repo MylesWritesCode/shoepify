@@ -19,7 +19,7 @@ import type { InferGetStaticPropsType, NextPage } from "next";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import { getAllProducts } from "@pages/api/operations";
-import SizePicker from "@components/products/SizePicker";
+import OptionPicker from "@/components/products/OptionPicker";
 import ProductGallery from "@components/products/ProductGallery";
 import QuantityWidget from "@components/QuantityWidget";
 import { formatPercentage, formatCurrency } from "@utils";
@@ -29,9 +29,6 @@ import { getProductByHandle } from "@pages/api/operations";
 import { shopConfig } from "@config/shop";
 import styles from "./Products.module.css";
 import type { Product, Variant } from "@type/product.type";
-
-// Mock data
-import defaultProduct from "@mock/default-product";
 
 export const getStaticPaths = async () => {
   // Get all the product paths
@@ -141,7 +138,7 @@ const Product: NextPage<StaticProps> = ({
           </div>
           {options.size && (
             <div className={styles.sizes}>
-              <SizePicker />
+              <OptionPicker data={options.size} />
             </div>
           )}
           <div className={styles["qty-and-atc"]}>

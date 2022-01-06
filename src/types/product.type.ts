@@ -12,8 +12,7 @@
  * *****
  * HISTORY
  **/
-
-interface Options {
+export interface Options {
   id: string;
   name: string;
   values: string[];
@@ -34,9 +33,6 @@ export type ProductImage = {
   altText?: string;
 }
 
-/**
- * 💢 jsdoc extention not working i give up
- */
 export interface Product {
   id: string;
   title: string;
