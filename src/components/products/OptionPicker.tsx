@@ -12,13 +12,14 @@
  * *****
  * HISTORY
  **/
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import type { Options } from "@type/product.type";
 
 import styles from "./OptionPicker.module.css";
 
 interface OptionPickerProps {
   data: Options;
+  setOptionState: ({}) => void;
 }
 
 /**
@@ -27,20 +28,28 @@ interface OptionPickerProps {
  * @param { string } data.id
  * @param { string } data.name
  * @param { string } data.values
+ * @param { callback } setOptionState - The setter for the state in the parent
  */
-const OptionPicker: React.FC<OptionPickerProps> = ({ data, ...props }) => {
+const OptionPicker: React.FC<OptionPickerProps> = ({
+  data,
+  setOptionState,
+  ...props
+}) => {
   const [index, setIndex] = useState<number>();
   const { name, values } = data;
 
   const handleClick = (i: number) => {
     setIndex(i);
+    setOptionState({
+      [name.toLowerCase()]: values[i],
+    });
   };
 
   const setClasses = (i: number): string => {
     // All values v should have the value class
     let style = styles.value;
     if (i === index) style += " " + styles.selected;
-    
+
     return style;
   };
 

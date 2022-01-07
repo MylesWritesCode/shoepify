@@ -14,7 +14,7 @@
  * *****
  * HISTORY
  **/
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { InferGetStaticPropsType, NextPage } from "next";
 import { GetStaticProps } from "next";
 import Head from "next/head";
@@ -63,6 +63,20 @@ const Product: NextPage<StaticProps> = ({
   ...props
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [quantity, setQuantity] = useState<number>(1);
+  const [selectedOptions, setSelectedOptions] = useState<Object>({});
+
+  // I want to generically handle all the Options clicks when setting the state
+  const handleOptionsClick = (kv: {}) => {
+    setSelectedOptions({
+      ...selectedOptions,
+      ...kv,
+    });
+  };
+  
+  // Debug useEffect
+  useEffect(() => {
+    console.log(selectedOptions);
+  }, [selectedOptions]);
 
   const {
     title,
@@ -74,8 +88,8 @@ const Product: NextPage<StaticProps> = ({
     options,
     variants,
   } = product;
-
-  // console.log(product);
+  
+  // console.log(variants);
 
   const { minVariantPrice } = priceRange;
 
@@ -107,7 +121,7 @@ const Product: NextPage<StaticProps> = ({
 
           <div
             className={styles.description}
-            dangerouslySetInnerHTML={{__html: description}}
+            dangerouslySetInnerHTML={{ __html: description }}
           ></div>
 
           <div className={styles.pricing}>
@@ -132,7 +146,13 @@ const Product: NextPage<StaticProps> = ({
           <div className={styles["options-container"]}>
             {Array.isArray(options) &&
               options.map((option, i) => {
-                return <OptionPicker key={i} data={option} />;
+                return (
+                  <OptionPicker
+                    key={i}
+                    data={option}
+                    setOptionState={handleOptionsClick}
+                  />
+                );
               })}
           </div>
           <div className={styles["qty-and-atc"]}>
