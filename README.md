@@ -175,13 +175,17 @@ Shopify's backend.
 # Dependencies 
 1. React a la Typescript
 2. Nextjs
-3. [Hydrogen](https://shopify.dev/custom-storefronts/hydrogen/getting-started/create)
-4. [swr](https://www.npmjs.com/package/swr) (data fetching -> hook)
-5. GraphQL (if using manual GraphQL calls)
-    1. Apollo (needed for @graphql-codegen)
-    2. GraphQL Codegen (creates hooks based on gql calls)
+3. GraphQL (if using manual GraphQL calls)
+4. Apollo (needed for @graphql-codegen)
+5. GraphQL Codegen (creates hooks based on gql calls)
 
 # Notes
+**Jan 6, 2022** Long day, short attention span
+- Link up OptionsPicker to [handle] page by sending data back to the parent
+- Establish algo for searching through variants for selected options - this is
+  probably just going to be some iterative Array method
+- Start scaffolding the cart out - gotta start somewhere
+
 **Jan 5, 2022** Again with the notes :)
 - ~~Build out SizePicker component. I think it might be better to generalize this
   component e.g. size, style, material, etc. picker. It's not that big of an ask
