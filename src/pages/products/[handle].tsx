@@ -89,7 +89,7 @@ const Product: NextPage<StaticProps> = ({
     variants,
   } = product;
   
-  // console.log(variants);
+  console.log(variants);
 
   const { minVariantPrice } = priceRange;
 

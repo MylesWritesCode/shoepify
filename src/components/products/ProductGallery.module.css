@@ -29,8 +29,10 @@
 }
 
 .featured img {
-  height: 300px;
-  width: 400px;
+  min-height: 300px;
+  min-width: 400px;
+  max-height: 100%;
+  max-width: 100%;
   object-fit: cover;
   border-radius: 1rem;
 }
