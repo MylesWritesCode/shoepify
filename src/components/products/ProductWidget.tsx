@@ -52,6 +52,7 @@ const ProductWidget: React.FC<ProductWidgetProps> = ({ product, ...props }) => {
           </div>
           <div className={styles.info}>
             <h3 className={styles.title}>{product.title}</h3>
+            <h3 className={styles.vendor}>{product.vendor}</h3>
             <h3 className={styles.price}>
               {formatCurrency(product.priceRange.minVariantPrice.amount)}
             </h3>

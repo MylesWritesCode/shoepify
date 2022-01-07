@@ -22,7 +22,7 @@ export const shopConfig = {
       link: "/products"
     },
     {
-      name: "Men",
+      name: "Dads",
       link: "#"
     },
     {

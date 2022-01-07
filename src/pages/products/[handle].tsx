@@ -19,6 +19,7 @@ import type { InferGetStaticPropsType, NextPage } from "next";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import { getAllProducts } from "@pages/api/operations";
+import OptionPicker from "@/components/products/OptionPicker";
 import ProductGallery from "@components/products/ProductGallery";
 import QuantityWidget from "@components/QuantityWidget";
 import { formatPercentage, formatCurrency } from "@utils";
@@ -28,9 +29,6 @@ import { getProductByHandle } from "@pages/api/operations";
 import { shopConfig } from "@config/shop";
 import styles from "./Products.module.css";
 import type { Product } from "@type/product.type";
-
-// Mock data
-import defaultProduct from "@mock/default-product";
 
 export const getStaticPaths = async () => {
   // Get all the product paths
@@ -69,13 +67,15 @@ const Product: NextPage<StaticProps> = ({
   const {
     title,
     vendor,
-    description,
+    descriptionHtml: description = product.description,
     priceRange,
     discount,
     images,
     options,
     variants,
   } = product;
+
+  // console.log(product);
 
   const { minVariantPrice } = priceRange;
 
@@ -105,7 +105,10 @@ const Product: NextPage<StaticProps> = ({
             <h1>{title}</h1>
           </div>
 
-          <div className={styles.description}>{description}</div>
+          <div
+            className={styles.description}
+            dangerouslySetInnerHTML={{__html: description}}
+          ></div>
 
           <div className={styles.pricing}>
             <div className={styles["price-and-discount"]}>
@@ -126,7 +129,12 @@ const Product: NextPage<StaticProps> = ({
               </div>
             )}
           </div>
-
+          <div className={styles["options-container"]}>
+            {Array.isArray(options) &&
+              options.map((option, i) => {
+                return <OptionPicker key={i} data={option} />;
+              })}
+          </div>
           <div className={styles["qty-and-atc"]}>
             <QuantityWidget
               state={quantity}

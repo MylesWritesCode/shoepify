@@ -175,16 +175,28 @@ Shopify's backend.
 # Dependencies 
 1. React a la Typescript
 2. Nextjs
-3. [Hydrogen](https://shopify.dev/custom-storefronts/hydrogen/getting-started/create)
-4. [swr](https://www.npmjs.com/package/swr) (data fetching -> hook)
-5. GraphQL (if using manual GraphQL calls)
-    1. Apollo (needed for @graphql-codegen)
-    2. GraphQL Codegen (creates hooks based on gql calls)
+3. GraphQL (if using manual GraphQL calls)
+4. Apollo (needed for @graphql-codegen)
+5. GraphQL Codegen (creates hooks based on gql calls)
 
 # Notes
+**Jan 6, 2022** Long day, short attention span
+- Link up OptionsPicker to [handle] page by sending data back to the parent
+- Establish algo for searching through variants for selected options - this is
+  probably just going to be some iterative Array method
+- Start scaffolding the cart out - gotta start somewhere
+
+**Jan 5, 2022** Again with the notes :)
+- ~~Build out SizePicker component. I think it might be better to generalize this
+  component e.g. size, style, material, etc. picker. It's not that big of an ask
+  once I have my data transforms down pact, but I'd really like these transforms
+  down before I start with the component.~~
+- ~~Build out better transforms for variant and option data. Notes below under
+  @transform.~~
+
 **Jan 4, 2022** More notes 🤙 Pushed to production today as well
-- Grab more items to fill out the store. It's pretty tedious to do right now ngl
-- Work out variant display on product page (`[handle].tsx`)
+- ~~Grab more items to fill out the store. It's pretty tedious to do right now ngl~~
+- ~~Work out variant display on product page (`[handle].tsx`)~~
 - Build out cart component - I think I'm gonna just deal with the drawer/modal
   thingy shown in the Frontend Mentor design; Shopify has its own checkout page
   and the customer can see their itemized orders there
@@ -259,3 +271,59 @@ will probably be doc reading time~~
   > directly, rather than trying to use `fetch` for no reason. The server 
   > doesn't/shouldn't need to call itself to get data; that doesn't make sense.
   > View the graphql-codegen example above to see the workflow I've adopted.
+  
+# Weird ramblings
+Pay no mind to the man behind the curtain 🧙‍♂️
+
+**@transform:** 
+
+**Jan 6 2022 Update** I'm now under the impression that I don't need to do more
+data transformation in the page itself; the component should be in charge of 
+whatever transformations it needs, and it should send data back to the template
+based on what's picked. Based on reading what I wrote yesterday, this seems to 
+be another issue of over-thinking  🤦‍♂️. KISS.
+
+You know what, I **do** want people to click on options even if they're not in
+stock. It'll give more opportunities for the Govalo OOS integration to work, 
+when I eventually get to it.
+
+**Jan 5 2022** I'm not liking how this is working out. Essentially, I want to 
+one call to the backend, transform that into useable data, then stick all that 
+data into a state within the page. Things I want to be able to efficiently:
+- Display all the options (styles, sizes, etc) on the product page
+- When a user clicks on an option, disable the buttons for the other options of
+  which none are available e.g.
+
+  > - A user clicks size 9
+  > - Classic greys out, because we don't have a size 9 Classic in stock
+  
+  > - A user clicks the style Running
+  > - Sizes 7, 9, and 12 grey out. They're not available
+
+My first thought was to create a hash map with the variants, but this is kinda
+weird because I'm not a huge fan of magic strings vs a dictionary e.g. 
+```ts
+// I don't wanna do this way
+findSomehowWithAFunction(variants, "10/Classic")  
+
+// I want to do this way
+variants["10"]["Classic"]
+```
+This is why I write things out though, cause now that I'm exposing my
+thoughts, I'm realizing that the dictionary is actually a dumb way to do this.
+If, say, we don't have a shoe size in `x`, and we look up using the dictionary 
+e.g. `variants[x][y]`, even if variant exists in `y` style, this will throw an
+error. What I'm left with is a really slow lookup through the array of variant
+objects. So maybe the magic string is the only way I can do this.
+
+Looking up "x/y" will return `null` if we don't have size `x` in style `y`,
+but this may be dumb as well. What if I want to display all the sizes we *do*
+have in stock in style `y`?
+
+The most brute-force answer I can come up with is to have two different arrays
+which will output what sizes `x` we have of style `y`, but I mean, come on. At
+that point I'd rather just take the hit and search through the pre-existing
+array that has a `selectedOptions` object, and compare that way, via some 
+iterator method. Actually that might be the only way I can do what I want. Screw
+it, that's how it's I'm gonna implement this unless I figure out a better 
+method.

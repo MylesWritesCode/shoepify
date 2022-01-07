@@ -12,14 +12,13 @@
  * *****
  * HISTORY
  **/
-
-interface Options {
+export interface Options {
   id: string;
   name: string;
   values: string[];
 }
 
-interface Variant {
+export interface Variant {
   title: string;
   availableForSale: boolean;
   image: ProductImage;
@@ -34,15 +33,13 @@ export type ProductImage = {
   altText?: string;
 }
 
-/**
- * 💢 jsdoc extention not working i give up
- */
 export interface Product {
   id: string;
   title: string;
   handle: string;
   vendor: string;
   description: string;
+  descriptionHtml?: string;
   priceRange: {
     minVariantPrice: {
       amount: number;

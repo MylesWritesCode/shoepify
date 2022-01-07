@@ -25,6 +25,17 @@ a {
   --white: hsl(0, 0%, 100%);
   --black: hsl(0, 0%, 0%);
   
+  /*
+    Okay so my eyes fckn hurt from the hyper-contrasting debug colors that I've
+    been using (e.g. red, yellow, green, blue), so I'm just going to define a
+    nice looking palette and use this instead.
+  */
+  --debug-1: #D4C5E2;
+  --debug-2: #C9D7F8;
+  --debug-3: #A7E2E3;
+  --debug-4: #80CFA9;
+  --debug-5: #4C6663;
+  
   --shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1),0 1px 2px 0 rgba(0, 0, 0, 0.06);
   --shadow-dark: 0 10px 15px -3px rgba(0, 0, 0, 0.1),0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
