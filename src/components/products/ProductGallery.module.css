@@ -33,7 +33,7 @@
 .featured img {
   height: 300px;
   width: 400px;
-  object-fit: contain;
+  object-fit: cover;
   border-radius: 1rem;
 }
 
