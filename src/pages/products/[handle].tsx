@@ -28,7 +28,7 @@ import { getProductByHandle } from "@pages/api/operations";
 
 import { shopConfig } from "@config/shop";
 import styles from "./Products.module.css";
-import type { Product } from "@type/product.type";
+import { Product, Variant } from "@type/product.type";
 
 export const getStaticPaths = async () => {
   // Get all the product paths
@@ -64,19 +64,8 @@ const Product: NextPage<StaticProps> = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [quantity, setQuantity] = useState<number>(1);
   const [selectedOptions, setSelectedOptions] = useState<Object>({});
-
-  // I want to generically handle all the Options clicks when setting the state
-  const handleOptionsClick = (kv: {}) => {
-    setSelectedOptions({
-      ...selectedOptions,
-      ...kv,
-    });
-  };
-  
-  // Debug useEffect
-  useEffect(() => {
-    console.log(selectedOptions);
-  }, [selectedOptions]);
+  const [selectedVariant, setSelectedVariant] = useState<Variant>();
+  const [isValidSelection, setIsValidSelection] = useState<boolean>(false);
 
   const {
     title,
@@ -88,10 +77,54 @@ const Product: NextPage<StaticProps> = ({
     options,
     variants,
   } = product;
-  
-  console.log(variants);
-
   const { minVariantPrice } = priceRange;
+  // console.log(variants);
+
+  // Debug useEffect
+  useEffect(() => {
+    if (!options) return;
+
+    const getVariant = () => {
+      return variants?.filter((variant: Variant) => {
+        // Super lazy version of an isEquals fn. I may write one in utils, but
+        // this works for now. I don't want to go key-by-key to check if each
+        // object is deeply equal to each other.
+        return (
+          JSON.stringify(variant.selectedOptions) ==
+          JSON.stringify(selectedOptions)
+        );
+      })[0];
+    };
+
+    // Just declaring these cause I don't a super long conditional
+    const soLen = Object.keys(selectedOptions).length;
+    const poLen = Object.keys(options!).length;
+
+    if (soLen === poLen) setSelectedVariant(getVariant());
+  }, [selectedOptions]);
+
+  // I want to generically handle all the Options clicks when setting the state
+  const handleOptionsClick = (kv: {}) => {
+    setSelectedOptions({
+      ...selectedOptions,
+      ...kv,
+    });
+  };
+
+  // console.log(selectedVariant);
+
+  const generatePriceText = (): string => {
+    if (!selectedVariant) {
+      return discount
+        ? formatCurrency(minVariantPrice.amount * discount)
+        : formatCurrency(minVariantPrice.amount);
+    } else {
+      return discount
+        ? formatCurrency(selectedVariant.priceV2.amount * discount)
+        : formatCurrency(selectedVariant.priceV2.amount)
+    }
+    return "";
+  };
 
   const generateATCButtonText = (): string => {
     if (quantity > 0) return "Add to cart";
@@ -127,9 +160,7 @@ const Product: NextPage<StaticProps> = ({
           <div className={styles.pricing}>
             <div className={styles["price-and-discount"]}>
               <h1>
-                {discount
-                  ? formatCurrency(minVariantPrice.amount * discount)
-                  : formatCurrency(minVariantPrice.amount)}
+                {generatePriceText()}
               </h1>
               {discount && discount > 0 && (
                 <div className={styles["discount-percentage"]}>
