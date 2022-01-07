@@ -20,8 +20,6 @@
   align-items: center;
 }
 
-.container img { }
-
 .featured {
   display: flex;
   width: 100%;

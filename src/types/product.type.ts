@@ -39,7 +39,7 @@ export interface Product {
   handle: string;
   vendor: string;
   description: string;
-  descriptionHtml: string;
+  descriptionHtml?: string;
   priceRange: {
     minVariantPrice: {
       amount: number;

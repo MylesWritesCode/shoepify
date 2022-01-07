@@ -28,7 +28,7 @@ import { getProductByHandle } from "@pages/api/operations";
 
 import { shopConfig } from "@config/shop";
 import styles from "./Products.module.css";
-import type { Product, Variant } from "@type/product.type";
+import type { Product } from "@type/product.type";
 
 export const getStaticPaths = async () => {
   // Get all the product paths
@@ -67,7 +67,7 @@ const Product: NextPage<StaticProps> = ({
   const {
     title,
     vendor,
-    descriptionHtml: description,
+    descriptionHtml: description = product.description,
     priceRange,
     discount,
     images,
@@ -75,7 +75,7 @@ const Product: NextPage<StaticProps> = ({
     variants,
   } = product;
 
-  console.log(product);
+  // console.log(product);
 
   const { minVariantPrice } = priceRange;
 
