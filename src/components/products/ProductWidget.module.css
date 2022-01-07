@@ -19,6 +19,8 @@
   flex: 1 0 30%;
   max-width: 30%;
   flex-direction: column;
+  border-radius: 1rem;
+  overflow: hidden;
 }
 
 @media only screen and (max-width: 640px) {
@@ -29,7 +31,7 @@
 }
 
 .container-link:hover {
-  box-shadow: 0 0 0 3px var(--primary);
+  box-shadow: 0 0 0 2px var(--primary);
 }
 
 .img-container {
@@ -37,6 +39,7 @@
   width: 100%;
   height: 250px;
   overflow: hidden;
+  /* border-radius: 1rem 1rem 0 0; */
 }
 
 .img-container img {
@@ -47,7 +50,7 @@
 .info {
   display: flex;
   width: 100%;
-  margin: 0.5rem 0;
+  margin: 0.5rem 0.25rem;
   font-size: 16px;
   flex-direction: column;
   align-items: flex-start;
