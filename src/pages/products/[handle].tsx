@@ -78,7 +78,6 @@ const Product: NextPage<StaticProps> = ({
     variants,
   } = product;
   const { minVariantPrice } = priceRange;
-  // console.log(variants);
 
   // Debug useEffect
   useEffect(() => {
@@ -100,7 +99,13 @@ const Product: NextPage<StaticProps> = ({
     const soLen = Object.keys(selectedOptions).length;
     const poLen = Object.keys(options!).length;
 
-    if (soLen === poLen) setSelectedVariant(getVariant());
+    if (soLen === poLen) {
+      setSelectedVariant(getVariant());
+      setIsValidSelection(true);
+    } else {
+      // In case they pick on a valid selection, then click on an invalid one
+      setIsValidSelection(false);
+    }
   }, [selectedOptions]);
 
   // I want to generically handle all the Options clicks when setting the state
@@ -111,19 +116,16 @@ const Product: NextPage<StaticProps> = ({
     });
   };
 
-  // console.log(selectedVariant);
-
-  const generatePriceText = (): string => {
+  const generatePrice = (): number => {
     if (!selectedVariant) {
       return discount
-        ? formatCurrency(minVariantPrice.amount * discount)
-        : formatCurrency(minVariantPrice.amount);
+        ? minVariantPrice.amount * discount
+        : minVariantPrice.amount
     } else {
       return discount
-        ? formatCurrency(selectedVariant.priceV2.amount * discount)
-        : formatCurrency(selectedVariant.priceV2.amount)
+        ? selectedVariant.priceV2.amount * discount
+        : selectedVariant.priceV2.amount
     }
-    return "";
   };
 
   const generateATCButtonText = (): string => {
@@ -160,7 +162,7 @@ const Product: NextPage<StaticProps> = ({
           <div className={styles.pricing}>
             <div className={styles["price-and-discount"]}>
               <h1>
-                {generatePriceText()}
+                {formatCurrency(generatePrice())}
               </h1>
               {discount && discount > 0 && (
                 <div className={styles["discount-percentage"]}>
