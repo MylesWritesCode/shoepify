@@ -111,10 +111,10 @@ const Product: NextPage<StaticProps> = ({
   }, [selectedOptions]);
   
   useEffect(() => {
-    console.log(variants);
     console.log(selectedVariant);
+    setQuantity(1);
   }, [selectedVariant])
-
+  
   // I want to generically handle all the Options clicks when setting the state
   const handleOptionsClick = (kv: {}) => {
     setSelectedOptions({
@@ -197,7 +197,7 @@ const Product: NextPage<StaticProps> = ({
             <QuantityWidget
               state={quantity}
               setState={setQuantity}
-              max={selectedVariant?.quantityAvailable}
+              max={selectedVariant?.quantityAvailable || 0}
               min={-100}
             />
             <button className={styles.atc} disabled={quantity == 0}>
