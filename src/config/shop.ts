@@ -13,7 +13,7 @@
  * HISTORY
 **/
 export const shopConfig = {
-  // Will show where ever branding needs to exist
+  // Will show wherever branding needs to exist
   name: "shoepify",
   // Links to various pages in the webapp
   links: [

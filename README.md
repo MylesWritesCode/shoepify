@@ -180,6 +180,11 @@ Shopify's backend.
 5. GraphQL Codegen (creates hooks based on gql calls)
 
 # Notes
+**Jan 7, 2022** Linked everything together 🙏
+- Set up cart mutation (query? idk)
+- Probably should look up the docs for the cart first lmfao
+- Add functionality for ATC button on product page
+
 **Jan 6, 2022** Long day, short attention span
 - ~~Link up OptionsPicker to [handle] page by sending data back to the parent~~
 - ~~Establish algo for searching through variants for selected options - this is
