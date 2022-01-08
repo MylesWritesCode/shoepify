@@ -39,7 +39,7 @@ query GetProductByHandle($handle: String) {
       name
       values
     }
-    variants(first: 250) {
+    variants(first: 100) {
       edges {
         node {
           title

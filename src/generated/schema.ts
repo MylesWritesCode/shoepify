@@ -6433,7 +6433,7 @@ export const GetProductByHandleDocument = gql`
       name
       values
     }
-    variants(first: 250) {
+    variants(first: 100) {
       edges {
         node {
           title
