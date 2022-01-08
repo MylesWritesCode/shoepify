@@ -22,11 +22,15 @@ export const shopConfig = {
       link: "/products"
     },
     {
-      name: "Dads",
+      name: "Men",
       link: "#"
     },
     {
       name: "Women",
+      link: "#"
+    },
+    {
+      name: "Dad Shoes",
       link: "#"
     },
     {
