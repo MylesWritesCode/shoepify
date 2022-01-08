@@ -111,7 +111,6 @@ const Product: NextPage<StaticProps> = ({
   }, [selectedOptions]);
   
   useEffect(() => {
-    console.log(selectedVariant);
     setQuantity(1);
   }, [selectedVariant])
   
