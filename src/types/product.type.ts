@@ -18,20 +18,26 @@ export interface Options {
   values: string[];
 }
 
+interface PriceV2 {
+  amount: number;
+  currencyCode: string;
+}
+
 export interface Variant {
   title: string;
   availableForSale: boolean;
+  quantityAvailable: number;
   image: ProductImage;
   // TODO: FIX THIS lmfao
   selectedOptions: any;
-  priceV2: any;
+  priceV2: PriceV2;
 }
 
 export type ProductImage = {
   url: string;
   thumbnail?: string;
   altText?: string;
-}
+};
 
 export interface Product {
   id: string;
@@ -41,10 +47,7 @@ export interface Product {
   description: string;
   descriptionHtml?: string;
   priceRange: {
-    minVariantPrice: {
-      amount: number;
-      currencyCode: string;
-    };
+    minVariantPrice: PriceV2;
   };
   featuredImage?: ProductImage;
   images: ProductImage[];

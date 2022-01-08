@@ -99,6 +99,7 @@ const Product: NextPage<StaticProps> = ({
     const soLen = Object.keys(selectedOptions).length;
     const poLen = Object.keys(options!).length;
 
+    // In this app, you need to select all options
     if (soLen === poLen) {
       setSelectedVariant(getVariant());
       setIsValidSelection(true);
@@ -106,7 +107,13 @@ const Product: NextPage<StaticProps> = ({
       // In case they pick on a valid selection, then click on an invalid one
       setIsValidSelection(false);
     }
+    
   }, [selectedOptions]);
+  
+  useEffect(() => {
+    console.log(variants);
+    console.log(selectedVariant);
+  }, [selectedVariant])
 
   // I want to generically handle all the Options clicks when setting the state
   const handleOptionsClick = (kv: {}) => {
@@ -120,11 +127,11 @@ const Product: NextPage<StaticProps> = ({
     if (!selectedVariant) {
       return discount
         ? minVariantPrice.amount * discount
-        : minVariantPrice.amount
+        : minVariantPrice.amount;
     } else {
       return discount
         ? selectedVariant.priceV2.amount * discount
-        : selectedVariant.priceV2.amount
+        : selectedVariant.priceV2.amount;
     }
   };
 
@@ -161,9 +168,7 @@ const Product: NextPage<StaticProps> = ({
 
           <div className={styles.pricing}>
             <div className={styles["price-and-discount"]}>
-              <h1>
-                {formatCurrency(generatePrice())}
-              </h1>
+              <h1>{formatCurrency(generatePrice())}</h1>
               {discount && discount > 0 && (
                 <div className={styles["discount-percentage"]}>
                   {formatPercentage(discount)}
@@ -192,6 +197,7 @@ const Product: NextPage<StaticProps> = ({
             <QuantityWidget
               state={quantity}
               setState={setQuantity}
+              max={selectedVariant?.quantityAvailable}
               min={-100}
             />
             <button className={styles.atc} disabled={quantity == 0}>
