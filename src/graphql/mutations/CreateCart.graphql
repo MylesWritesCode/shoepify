@@ -1,0 +1,58 @@
+###
+# File: /src/graphql/mutations/CreateCart.graphql
+# Project: shoepify
+# Purpose: // TODO: Add the purpose of the file here.
+# 
+# @author Myles Berueda
+# @date   Tuesday January 11th 2022
+# *****
+# Modified: Tuesday January 11th 2022 7:09:41 am
+# *****
+# Copyright (c) 2022 MylesWritesCode
+# *****
+# HISTORY
+###
+mutation createCart($cartInput: CartInput) {
+  cartCreate(input: $cartInput) {
+    cart {
+      id
+      createdAt
+      updatedAt
+      lines(first:10) {
+        edges {
+          node {
+            id
+            merchandise {
+              ... on ProductVariant {
+                id
+              }
+            }
+          }
+        }
+
+      }
+      attributes {
+        key
+        value
+      }
+      estimatedCost {
+        totalAmount {
+          amount
+          currencyCode
+        }
+        subtotalAmount {
+          amount
+          currencyCode
+        }
+        totalTaxAmount {
+          amount
+          currencyCode
+        }
+        totalDutyAmount {
+          amount
+          currencyCode
+        }
+      }
+    }
+  }
+}
