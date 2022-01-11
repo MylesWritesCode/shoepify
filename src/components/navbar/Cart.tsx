@@ -12,7 +12,9 @@
  * *****
  * HISTORY
  **/
-import React from "react";
+import React, { useEffect } from "react";
+
+import styles from './Cart.module.css';
 
 interface CartProps {}
 
@@ -28,10 +30,23 @@ const Cart: React.FC<CartProps> = ({ ...props }) => {
   // only be making one call to GraphQL. On the other, I don't have any locks on
   // products, creating race conditions with multiple customers on the same
   // inventory. Yeah. I'll just use GraphQL and Shopify lmfao.
+  
+  useEffect(() => {
+    console.log('component mounted');
+
+    return () => {
+      console.log('component unmounted');
+    }
+  }, []);
   return (
-    <div>
-      <div>
-        <div>testing</div>
+    <div className={styles.container}>
+      <div className={styles.heading}>
+        <p>Cart</p>
+      </div>
+      <div className={styles.cart}>
+        <div className={styles.empty}>
+          <p>Your cart is empty.</p>
+        </div>
       </div>
     </div>
   );

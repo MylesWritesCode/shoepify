@@ -12,21 +12,46 @@
  * -----
  * HISTORY
  **/
+import React, { useState } from "react";
+import Image from "next/image";
+import Cart from "./Cart";
+
 import styles from "./Info.module.css";
-import React from "react";
-import Image from 'next/image';
 
 interface InfoProps {
   pictureUrl: string;
 }
 
+// Not dealing with this long ass className again
+
 const Info: React.FC<InfoProps> = ({ pictureUrl, ...props }) => {
+  const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
+
+  const setCartClasses = (): string => {
+    let classes = styles.cart;
+
+    classes +=
+      " " +
+      (isCartOpen
+        ? styles["puff-in-center-reverse"]
+        : styles["puff-in-center"]);
+      
+    return classes;
+  };
+
   return (
     <div className={styles.container}>
-      <div className={styles.cart}>
-      </div>
+      <div
+        className={styles.cart}
+        onClick={() => setIsCartOpen(!isCartOpen)}
+      />
+      {isCartOpen && (
+        <div style={{ position: "relative" }}>
+          <Cart />
+        </div>
+      )}
       <div className={styles.profile}>
-        <Image src={pictureUrl} alt="Profile picture" width={36} height={36}/>
+        <Image src={pictureUrl} alt="Profile picture" width={36} height={36} />
       </div>
     </div>
   );
