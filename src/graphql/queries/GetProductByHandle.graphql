@@ -42,6 +42,7 @@ query GetProductByHandle($handle: String) {
     variants(first: 100) {
       edges {
         node {
+          id
           title
           availableForSale
           quantityAvailable

@@ -107,13 +107,16 @@ const Product: NextPage<StaticProps> = ({
       // In case they pick on a valid selection, then click on an invalid one
       setIsValidSelection(false);
     }
-    
   }, [selectedOptions]);
-  
+
+  useEffect(() => {
+    console.log(selectedVariant);
+  }, [selectedVariant]);
+
   useEffect(() => {
     setQuantity(1);
-  }, [selectedVariant])
-  
+  }, [selectedVariant]);
+
   // I want to generically handle all the Options clicks when setting the state
   const handleOptionsClick = (kv: {}) => {
     setSelectedOptions({

@@ -12,35 +12,33 @@
  * *****
  * HISTORY
  **/
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import styles from "./Cart.module.css";
 
 interface CartProps {
-  // It's gross to make this mount and unmount constantly because this is
-  // where I want to keep the state of the cart items, so I'm just going to pass
-  // this bool and I'm going to use it to show/hide the container div.
   isShowing: boolean;
 }
 
-// Alright, so it looks like I have some work ahead of me. I want to have all
-// the cart data in this navbar, which will exist kinda like a singleton
-// throughout the application. I have to be able to add and remove from the cart
-// via simple functions, which updates this view template. Finally, when a
-// customer wants to checkout, I want a button on this cart tooltip that sends
-// them to the Shopify checkout page, so I don't have to make it myself.
 const Cart: React.FC<CartProps> = ({ isShowing, ...props }) => {
-  // I'm half tempted to just store everything (products, variantIds, quantity)
-  // in states here. But I don't know if that's a good idea. On one hand, I'll
-  // only be making one call to GraphQL. On the other, I don't have any locks on
-  // products, creating race conditions with multiple customers on the same
-  // inventory. Yeah. I'll just use GraphQL and Shopify lmfao.
+  // Options: 
+  // 1. Manage the cart via a local state, then when a user clicks "Checkout",
+  //    we create a cart with the items + quantities, navigating to the Shopify
+  //    managed checkout URL.
+  // 2. We manage the cart via Shopify by always making various calls to the 
+  //    cart depending on what the user did. It looks like there are mutations
+  //    for adding, deleting, and updating items in the cart. 
+
+  // Will probably be set to a Product[]; debugging with any[] for now
+  const [products, setProducts] = useState<any[]>([]);
 
   // Debug useEffect
   useEffect(() => {
     console.log("component mounted");
 
     return () => {
+      // We really don't want this to unmount because it'll be holding our cart
+      // state. Unless Shopify will take care of all that goodness for us.
       console.log("component unmounted");
     };
   }, []);
@@ -52,9 +50,11 @@ const Cart: React.FC<CartProps> = ({ isShowing, ...props }) => {
           <p>Cart</p>
         </div>
         <div className={styles.cart}>
-          <div className={styles.empty}>
-            <p>Your cart is empty.</p>
-          </div>
+          {products.length <= 0 && (
+            <div className={styles.empty}>
+              <p>Your cart is empty.</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
