@@ -180,10 +180,13 @@ Shopify's backend.
 5. GraphQL Codegen (creates hooks based on gql calls)
 
 # Notes
-**Jan 7, 2022** Linked everything together 🙏
-- Set up cart mutation (query? idk)
-- Probably should look up the docs for the cart first lmfao
+**Jan 13, 2022** Been busy the past few days with actual work :)
+- Setup other cart calls (get, update, add, remove)
 - Add functionality for ATC button on product page
+
+**Jan 7, 2022** Linked everything together 🙏
+~~- Set up cart mutation (query? idk)~~
+~~- Probably should look up the docs for the cart first lmfao~~
 
 **Jan 6, 2022** Long day, short attention span
 - ~~Link up OptionsPicker to [handle] page by sending data back to the parent~~
@@ -276,6 +279,9 @@ will probably be doc reading time~~
   > directly, rather than trying to use `fetch` for no reason. The server 
   > doesn't/shouldn't need to call itself to get data; that doesn't make sense.
   > View the graphql-codegen example above to see the workflow I've adopted.
+- Cookie vs localStorage for my variables. 
+  > This one article was saying that if I need it on the server, then use a 
+  > cookie, otherwise, just use localStorage. I'm gonna do it that way.
   
 # Weird ramblings
 Pay no mind to the man behind the curtain 🧙‍♂️

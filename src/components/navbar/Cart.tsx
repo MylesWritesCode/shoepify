@@ -14,11 +14,11 @@
  **/
 import React, { useEffect, useState } from "react";
 import { CreateCartDocument } from "@generated/schema";
-import { SHOPIFY_API_URL } from "@/const";
 
-import { SHOPIFY_COOKIE_ID } from "@/const";
+import { SHOPIFY_API_URL, SHOPIFY_COOKIE_ID } from "@/const";
 import styles from "./Cart.module.css";
 import { getShopifyData } from "@/utils";
+import { createCart } from "@/pages/api/operations";
 
 interface CartProps {
   isShowing: boolean;
@@ -44,16 +44,23 @@ const Cart: React.FC<CartProps> = ({ isShowing, ...props }) => {
   // Debug useEffect
   useEffect(() => {
     console.log("component mounted");
+    // For now, so I don't have to keep clearing the local storage
+    window.localStorage.clear();
+
     // We're going to use localStorage 'cause turns out I don't remember how to
     // set cookies and all the examples I found used even more Node packages.
 
     // On mount, we're gonna check localStorage to see if a cartId exists
     const localCartId = window.localStorage.getItem(SHOPIFY_COOKIE_ID);
 
-    // No async, so can't await; gotta do it this way, bud
-    getShopifyData(SHOPIFY_API_URL, CreateCartDocument).then(({ data }) =>
-      console.log(data.cartCreate.cart.id)
-    );
+    if (!localCartId) {
+      // No async, so can't await; gotta do it this way, bud
+      getShopifyData(SHOPIFY_API_URL, CreateCartDocument).then(({ data }) =>
+        setCartId(data.cartCreate.cart.id)
+      );
+    } else {
+      setCartId(localCartId);
+    }
 
     return () => {
       // We really don't want this to unmount because it'll be holding our cart
@@ -61,6 +68,15 @@ const Cart: React.FC<CartProps> = ({ isShowing, ...props }) => {
       console.log("component unmounted");
     };
   }, []);
+
+  useEffect(() => {
+    if (cartId) {
+      // If, for some random reason, the cartId changes. Honestly might just
+      // combine the two useEffects because why would the cartId change without
+      // at least a refresh
+      window.localStorage.setItem(SHOPIFY_COOKIE_ID, cartId);
+    }
+  }, [cartId]);
 
   return (
     <div style={{ position: "relative", display: isShowing ? "flex" : "none" }}>
