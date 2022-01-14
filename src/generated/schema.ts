@@ -6336,12 +6336,19 @@ export type GetAllProductsQueryVariables = Exact<{
 
 export type GetAllProductsQuery = { __typename?: 'QueryRoot', products: { __typename?: 'ProductConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean }, edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', id: string, title: string, vendor: string, handle: string, featuredImage?: { __typename?: 'Image', url: any, altText?: string | null | undefined } | null | undefined, priceRange: { __typename?: 'ProductPriceRange', minVariantPrice: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } } } }> } };
 
+export type GetCheckoutUrlQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetCheckoutUrlQuery = { __typename?: 'QueryRoot', cart?: { __typename?: 'Cart', checkoutUrl: any } | null | undefined };
+
 export type GetProductByHandleQueryVariables = Exact<{
   handle?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type GetProductByHandleQuery = { __typename?: 'QueryRoot', product?: { __typename?: 'Product', id: string, title: string, handle: string, vendor: string, description: string, descriptionHtml: any, priceRange: { __typename?: 'ProductPriceRange', minVariantPrice: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } }, images: { __typename?: 'ImageConnection', edges: Array<{ __typename?: 'ImageEdge', node: { __typename?: 'Image', url: any, altText?: string | null | undefined } }> }, options: Array<{ __typename?: 'ProductOption', id: string, name: string, values: Array<string> }>, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', title: string, availableForSale: boolean, quantityAvailable?: number | null | undefined, image?: { __typename?: 'Image', url: any, altText?: string | null | undefined } | null | undefined, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, priceV2: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } } }> } } | null | undefined };
+export type GetProductByHandleQuery = { __typename?: 'QueryRoot', product?: { __typename?: 'Product', id: string, title: string, handle: string, vendor: string, description: string, descriptionHtml: any, priceRange: { __typename?: 'ProductPriceRange', minVariantPrice: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } }, images: { __typename?: 'ImageConnection', edges: Array<{ __typename?: 'ImageEdge', node: { __typename?: 'Image', url: any, altText?: string | null | undefined } }> }, options: Array<{ __typename?: 'ProductOption', id: string, name: string, values: Array<string> }>, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', id: string, title: string, availableForSale: boolean, quantityAvailable?: number | null | undefined, image?: { __typename?: 'Image', url: any, altText?: string | null | undefined } | null | undefined, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, priceV2: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } } }> } } | null | undefined };
 
 export type GetShopNameQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -6375,7 +6382,7 @@ export const ProductConnectionFragmentDoc = gql`
 }
     `;
 export const CreateCartDocument = gql`
-    mutation createCart($cartInput: CartInput) {
+    mutation CreateCart($cartInput: CartInput) {
   cartCreate(input: $cartInput) {
     cart {
       id
@@ -6483,6 +6490,41 @@ export function useGetAllProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetAllProductsQueryHookResult = ReturnType<typeof useGetAllProductsQuery>;
 export type GetAllProductsLazyQueryHookResult = ReturnType<typeof useGetAllProductsLazyQuery>;
 export type GetAllProductsQueryResult = Apollo.QueryResult<GetAllProductsQuery, GetAllProductsQueryVariables>;
+export const GetCheckoutUrlDocument = gql`
+    query GetCheckoutUrl($id: ID!) {
+  cart(id: $id) {
+    checkoutUrl
+  }
+}
+    `;
+
+/**
+ * __useGetCheckoutUrlQuery__
+ *
+ * To run a query within a React component, call `useGetCheckoutUrlQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCheckoutUrlQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCheckoutUrlQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetCheckoutUrlQuery(baseOptions: Apollo.QueryHookOptions<GetCheckoutUrlQuery, GetCheckoutUrlQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCheckoutUrlQuery, GetCheckoutUrlQueryVariables>(GetCheckoutUrlDocument, options);
+      }
+export function useGetCheckoutUrlLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCheckoutUrlQuery, GetCheckoutUrlQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCheckoutUrlQuery, GetCheckoutUrlQueryVariables>(GetCheckoutUrlDocument, options);
+        }
+export type GetCheckoutUrlQueryHookResult = ReturnType<typeof useGetCheckoutUrlQuery>;
+export type GetCheckoutUrlLazyQueryHookResult = ReturnType<typeof useGetCheckoutUrlLazyQuery>;
+export type GetCheckoutUrlQueryResult = Apollo.QueryResult<GetCheckoutUrlQuery, GetCheckoutUrlQueryVariables>;
 export const GetProductByHandleDocument = gql`
     query GetProductByHandle($handle: String) {
   product(handle: $handle) {
@@ -6514,6 +6556,7 @@ export const GetProductByHandleDocument = gql`
     variants(first: 100) {
       edges {
         node {
+          id
           title
           availableForSale
           quantityAvailable

@@ -1,0 +1,19 @@
+###
+# File: /src/graphql/queries/GetCheckoutUrl.graphql
+# Project: shoepify
+# Purpose: Use this to update the checkout url provided by Shopify
+# 
+# @author Myles Berueda
+# @date   Thursday January 13th 2022
+# *****
+# Modified: Thursday January 13th 2022 6:39:47 am
+# *****
+# Copyright (c) 2022 MylesWritesCode
+# *****
+# HISTORY
+###
+query GetCheckoutUrl($id: ID!) {
+  cart(id: $id) {
+    checkoutUrl
+  }
+}

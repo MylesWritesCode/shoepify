@@ -25,6 +25,7 @@ const app = {
 const s = {
   url: process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN,        // Shopify domain
   ver: process.env.NEXT_PUBLIC_SHOPIFY_GRAPHQL_API_VERSION, // API version
+  cookie: process.env.NEXT_PUBLIC_SHOPIFY_CART_COOKIE,      // Cookie id 
 };
 
 // Log warnings for missing variables
@@ -45,3 +46,4 @@ if (!s.url) {
 export const API_URL = app.url || "";
 export const SHOPIFY_API_URL =
   s.url && s.ver ? `https://${s.url}/api/${s.ver}/graphql.json` : "";
+export const SHOPIFY_COOKIE_ID = s.cookie ?? "shopify:cid";
