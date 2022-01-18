@@ -1,16 +1,7 @@
 /**
- * File: /src/types/product.type.ts
- * Project: shoepify
- * Purpose: Contains a product data type
- *
+ * src/types/product.type.ts
+ * Contains a product data type
  * @author Myles Berueda
- * @date   Tuesday December 28th 2021
- * *****
- * Modified: Tuesday December 28th 2021 9:37:58 am
- * *****
- * Copyright (c) 2021 MylesWritesCode
- * *****
- * HISTORY
  **/
 export interface Options {
   id: string;
@@ -24,6 +15,7 @@ interface PriceV2 {
 }
 
 export interface Variant {
+  id: string;
   title: string;
   availableForSale: boolean;
   quantityAvailable: number;
