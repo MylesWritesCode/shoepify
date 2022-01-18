@@ -3,7 +3,7 @@
 # Adds an item to the cart
 # @author Myles Berueda <MylesWritesCode>
 ##
-mutation cartLinesAdd($lines: [CartLineInput!]!, $cartId: ID!) {
+mutation AddToCart($lines: [CartLineInput!]!, $cartId: ID!) {
   cartLinesAdd(lines: $lines, cartId: $cartId) {
     cart {
       id
