@@ -1,0 +1,18 @@
+## 
+# src/graphql/mutations/AddToCart.graphql
+# Adds an item to the cart
+# @author Myles Berueda <MylesWritesCode>
+##
+mutation cartLinesAdd($lines: [CartLineInput!]!, $cartId: ID!) {
+  cartLinesAdd(lines: $lines, cartId: $cartId) {
+    cart {
+      id
+    }
+    # I may just turn this guy into a fragment; seems useful
+    userErrors {
+      code
+      field
+      message
+    }
+  }
+}
