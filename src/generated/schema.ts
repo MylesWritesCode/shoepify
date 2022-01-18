@@ -6319,13 +6319,13 @@ export enum WeightUnit {
 
 export type ProductConnectionFragment = { __typename?: 'ProductConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean }, edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', id: string, title: string, vendor: string, handle: string, featuredImage?: { __typename?: 'Image', url: any, altText?: string | null | undefined } | null | undefined, priceRange: { __typename?: 'ProductPriceRange', minVariantPrice: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } } } }> };
 
-export type CartLinesAddMutationVariables = Exact<{
+export type AddToCartMutationVariables = Exact<{
   lines: Array<CartLineInput> | CartLineInput;
   cartId: Scalars['ID'];
 }>;
 
 
-export type CartLinesAddMutation = { __typename?: 'Mutation', cartLinesAdd?: { __typename?: 'CartLinesAddPayload', cart?: { __typename?: 'Cart', id: string } | null | undefined, userErrors: Array<{ __typename?: 'CartUserError', code?: CartErrorCode | null | undefined, field?: Array<string> | null | undefined, message: string }> } | null | undefined };
+export type AddToCartMutation = { __typename?: 'Mutation', cartLinesAdd?: { __typename?: 'CartLinesAddPayload', cart?: { __typename?: 'Cart', id: string } | null | undefined, userErrors: Array<{ __typename?: 'CartUserError', code?: CartErrorCode | null | undefined, field?: Array<string> | null | undefined, message: string }> } | null | undefined };
 
 export type CreateCartMutationVariables = Exact<{
   cartInput?: InputMaybe<CartInput>;
@@ -6389,8 +6389,8 @@ export const ProductConnectionFragmentDoc = gql`
   }
 }
     `;
-export const CartLinesAddDocument = gql`
-    mutation cartLinesAdd($lines: [CartLineInput!]!, $cartId: ID!) {
+export const AddToCartDocument = gql`
+    mutation AddToCart($lines: [CartLineInput!]!, $cartId: ID!) {
   cartLinesAdd(lines: $lines, cartId: $cartId) {
     cart {
       id
@@ -6403,33 +6403,33 @@ export const CartLinesAddDocument = gql`
   }
 }
     `;
-export type CartLinesAddMutationFn = Apollo.MutationFunction<CartLinesAddMutation, CartLinesAddMutationVariables>;
+export type AddToCartMutationFn = Apollo.MutationFunction<AddToCartMutation, AddToCartMutationVariables>;
 
 /**
- * __useCartLinesAddMutation__
+ * __useAddToCartMutation__
  *
- * To run a mutation, you first call `useCartLinesAddMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCartLinesAddMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useAddToCartMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddToCartMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [cartLinesAddMutation, { data, loading, error }] = useCartLinesAddMutation({
+ * const [addToCartMutation, { data, loading, error }] = useAddToCartMutation({
  *   variables: {
  *      lines: // value for 'lines'
  *      cartId: // value for 'cartId'
  *   },
  * });
  */
-export function useCartLinesAddMutation(baseOptions?: Apollo.MutationHookOptions<CartLinesAddMutation, CartLinesAddMutationVariables>) {
+export function useAddToCartMutation(baseOptions?: Apollo.MutationHookOptions<AddToCartMutation, AddToCartMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CartLinesAddMutation, CartLinesAddMutationVariables>(CartLinesAddDocument, options);
+        return Apollo.useMutation<AddToCartMutation, AddToCartMutationVariables>(AddToCartDocument, options);
       }
-export type CartLinesAddMutationHookResult = ReturnType<typeof useCartLinesAddMutation>;
-export type CartLinesAddMutationResult = Apollo.MutationResult<CartLinesAddMutation>;
-export type CartLinesAddMutationOptions = Apollo.BaseMutationOptions<CartLinesAddMutation, CartLinesAddMutationVariables>;
+export type AddToCartMutationHookResult = ReturnType<typeof useAddToCartMutation>;
+export type AddToCartMutationResult = Apollo.MutationResult<AddToCartMutation>;
+export type AddToCartMutationOptions = Apollo.BaseMutationOptions<AddToCartMutation, AddToCartMutationVariables>;
 export const CreateCartDocument = gql`
     mutation CreateCart($cartInput: CartInput) {
   cartCreate(input: $cartInput) {
