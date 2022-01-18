@@ -27,7 +27,7 @@ added Reactv17 as a peer dependency" [source](https://stackoverflow.com/question
 yarn install
 
 # npm
-npm install (--legacy-peer-deps may be needed)
+npm install  # --legacy-peer-deps may be needed
 ```
 
 ## Config
