@@ -14,7 +14,7 @@ remember to merge into that when I want it deployed.
 # Installation
 Yarn was fine, but npm is being a little fickle right now. Apparently the issue
 deals with React 17, because "a large number of modules haven't specifically 
-added Reactv17 as a peer dependency" [stack overflow](https://stackoverflow.com/questions/66239691/what-does-npm-install-legacy-peer-deps-do-exactly-when-is-it-recommended-wh).
+added Reactv17 as a peer dependency" [source](https://stackoverflow.com/questions/66239691/what-does-npm-install-legacy-peer-deps-do-exactly-when-is-it-recommended-wh).
 
 
 ```
