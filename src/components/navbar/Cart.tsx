@@ -1,16 +1,7 @@
-/**
- * File: /src/components/navbar/Cart.tsx
- * Project: shoepify
- * Purpose: Displays the cart as a popup tooltip
- *
- * @author Myles Berueda
- * @date   Friday January 7th 2022
- * *****
- * Modified: Friday January 7th 2022 8:33:58 am
- * *****
- * Copyright (c) 2022 MylesWritesCode
- * *****
- * HISTORY
+/** 
+ * src/components/navbar/Cart.tsx
+ * Displays the cart as a popup tooltip
+ * @author Myles Berueda <MylesWritesCode>
  **/
 import React, { useEffect, useState } from "react";
 import { CreateCartDocument } from "@generated/schema";
@@ -18,7 +9,6 @@ import { CreateCartDocument } from "@generated/schema";
 import { SHOPIFY_API_URL, SHOPIFY_COOKIE_ID } from "@/const";
 import styles from "./Cart.module.css";
 import { getShopifyData } from "@/utils";
-import { createCart } from "@/pages/api/operations";
 
 interface CartProps {
   isShowing: boolean;

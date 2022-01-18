@@ -1,18 +1,11 @@
 /**
- * File: /src/pages/products/[handle].tsx
- * Project: govalo-store-playground
- * Purpose: Pulls some data via a handle. I'm going to change this to instead
- *          pull a product by id, but that'll be after I create all the util
- *          functions you need for Shopify.
+ * src/pages/products/[handle].tsx
+ * Pulls some data via a handle. 
  *
- * @author Myles Berueda
- * @date   Tuesday December 21st 2021
- * *****
- * Modified: Tuesday December 21st 2021 1:45:32 pm
- * *****
- * Copyright (c) 2021 MylesWritesCode
- * *****
- * HISTORY
+ * NOTES I'm going to change this to instead pull a product by id, but that'll 
+ * be after I create all the util functions you need for Shopify.
+ *
+ * @author Myles Berueda <MylesWritesCode>
  **/
 import { useEffect, useState } from "react";
 import type { InferGetStaticPropsType, NextPage } from "next";
@@ -79,6 +72,15 @@ const Product: NextPage<StaticProps> = ({
   } = product;
   const { minVariantPrice } = priceRange;
 
+  const handleAddToCart = () => {
+    const productToAddToCart = {
+      merchandiseId: product.id,
+      quantity: quantity,
+    };
+
+    console.log("Add to cart: ", productToAddToCart);
+  };
+
   // Debug useEffect
   useEffect(() => {
     if (!options) return;
@@ -144,6 +146,8 @@ const Product: NextPage<StaticProps> = ({
     return "";
   };
 
+
+
   return (
     <>
       <Head>
@@ -202,7 +206,11 @@ const Product: NextPage<StaticProps> = ({
               max={selectedVariant?.quantityAvailable || 0}
               min={-100}
             />
-            <button className={styles.atc} disabled={quantity == 0}>
+            <button
+              className={styles.atc}
+              disabled={quantity == 0}
+              onClick={handleAddToCart}
+            >
               <div className={styles.icon} /> {generateATCButtonText()}
             </button>
           </div>

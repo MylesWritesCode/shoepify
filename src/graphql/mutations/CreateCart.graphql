@@ -1,23 +1,15 @@
 ###
-# File: /src/graphql/mutations/CreateCart.graphql
-# Project: shoepify
-# Purpose: // TODO: Add the purpose of the file here.
+# src/graphql/mutations/CreateCart.graphql
 # 
-# @author Myles Berueda
-# @date   Tuesday January 11th 2022
-# *****
-# Modified: Tuesday January 11th 2022 7:09:41 am
-# *****
-# Copyright (c) 2022 MylesWritesCode
-# *****
-# HISTORY
-###
-# Okay so I'm just gonna use this super long GraphQL call to create a cart. Yeah
-# it's too informative, but CartInput is an optional parameter so, ya'know, we
-# can call this without any variables.
+# NOTES Okay so I'm just gonna use this super long GraphQL call to create a 
+# cart. Yeah it's too informative, but CartInput is an optional parameter so, 
+# ya'know, we can call this without any variables.
 #
 # Also, it's literally copied from the docs lmao
 # https://shopify.dev/custom-storefronts/cart
+# 
+# @author Myles Berueda <MylesWritesCode>
+###
 mutation CreateCart($cartInput: CartInput) {
   cartCreate(input: $cartInput) {
     cart {
