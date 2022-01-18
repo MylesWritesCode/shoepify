@@ -16,7 +16,12 @@ Yarn was fine, but npm is being a little fickle right now. Apparently the issue
 deals with React 17, because "a large number of modules haven't specifically 
 added Reactv17 as a peer dependency" [source](https://stackoverflow.com/questions/66239691/what-does-npm-install-legacy-peer-deps-do-exactly-when-is-it-recommended-wh).
 
-
+> This error will fire whenever a module (or any of its own dependencies) lists
+> a previous version of React as a peerDependency without specifically 
+> including React v17 as well.
+> 
+> (Note: Similar behavior will occur with the major-version update of any 
+> other framework or library.)
 ```
 # yarn
 yarn install
