@@ -1,8 +1,8 @@
 /**
  * src/pages/products/[handle].tsx
- * Pulls some data via a handle. 
+ * Pulls some data via a handle.
  *
- * NOTES I'm going to change this to instead pull a product by id, but that'll 
+ * NOTES I'm going to change this to instead pull a product by id, but that'll
  * be after I create all the util functions you need for Shopify.
  *
  * @author Myles Berueda <MylesWritesCode>
@@ -15,13 +15,17 @@ import { getAllProducts } from "@pages/api/operations";
 import OptionPicker from "@/components/products/OptionPicker";
 import ProductGallery from "@components/products/ProductGallery";
 import QuantityWidget from "@components/QuantityWidget";
-import { formatPercentage, formatCurrency } from "@utils";
+import { formatPercentage, formatCurrency, getShopifyData } from "@utils";
 
+import { AddToCartDocument, useAddToCartMutation } from "@generated/schema";
 import { getProductByHandle } from "@pages/api/operations";
 
 import { shopConfig } from "@config/shop";
-import styles from "./Products.module.css";
 import { Product, Variant } from "@type/product.type";
+import styles from "./Products.module.css";
+import { SHOPIFY_API_URL, SHOPIFY_COOKIE_ID } from "@/const";
+
+import { createCart, getCart } from "@pages/api/operations/cart";
 
 export const getStaticPaths = async () => {
   // Get all the product paths
@@ -72,13 +76,43 @@ const Product: NextPage<StaticProps> = ({
   } = product;
   const { minVariantPrice } = priceRange;
 
-  const handleAddToCart = () => {
-    const productToAddToCart = {
-      merchandiseId: product.id,
-      quantity: quantity,
-    };
+  /**
+   * TESTING AND DEBUG CENTER
+   *
+   * GET YOUR HAZMAT SUIT ON IT'S DANGEROUS IN HERE
+   */
+  useEffect(() => {
+    createCart().then((d) => console.log("createCart(): ", d));
+  }, []);
 
-    console.log("Add to cart: ", productToAddToCart);
+  const handleAddToCart = async () => {
+    if (selectedVariant) {
+      // A variant should be selected before being able to click atc
+      const productToAddToCart = {
+        merchandiseId: selectedVariant.id,
+        quantity: quantity,
+      };
+
+      // We also need to get a cart
+      const cartId = window.localStorage.getItem(SHOPIFY_COOKIE_ID);
+
+      console.log("Sending to cart: ", productToAddToCart);
+
+      try {
+        const response = await getShopifyData(
+          SHOPIFY_API_URL,
+          AddToCartDocument,
+          {
+            cartId: cartId,
+            lines: [productToAddToCart],
+          }
+        );
+
+        console.log(await response);
+      } catch (err) {
+        console.warn(`ERROR: pages/products/[handle].tsx: ${err}`);
+      }
+    }
   };
 
   // Debug useEffect
@@ -145,8 +179,6 @@ const Product: NextPage<StaticProps> = ({
     if (quantity < 0) return "Return product";
     return "";
   };
-
-
 
   return (
     <>

@@ -35,7 +35,7 @@ const Cart: React.FC<CartProps> = ({ isShowing, ...props }) => {
   useEffect(() => {
     console.log("component mounted");
     // For now, so I don't have to keep clearing the local storage
-    window.localStorage.clear();
+    // window.localStorage.clear();
 
     // We're going to use localStorage 'cause turns out I don't remember how to
     // set cookies and all the examples I found used even more Node packages.
@@ -54,7 +54,8 @@ const Cart: React.FC<CartProps> = ({ isShowing, ...props }) => {
 
     return () => {
       // We really don't want this to unmount because it'll be holding our cart
-      // state. Unless Shopify will take care of all that goodness for us.
+      // state. Unless Shopify will take care of all that goodness for us. Gonna
+      // log this for debugging.
       console.log("component unmounted");
     };
   }, []);
