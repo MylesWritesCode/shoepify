@@ -1,0 +1,60 @@
+##
+# src/graphql/queries/GetCart.graphql
+# Retrieves a cart based on id
+# NOTES Shamelessly stolen from https://shopify.dev/custom-storefronts/cart
+# @author Myles Berueda <MylesWritesCode>
+##
+query GetCart($id: ID!) {
+  cart(id: $id) {
+    id
+    createdAt
+    updatedAt
+    lines(first: 10) {
+      edges {
+        node {
+          id
+          quantity
+          merchandise {
+            ... on ProductVariant {
+              id
+            }
+          }
+          attributes {
+            key
+            value
+          }
+        }
+      }
+    }
+    attributes {
+      key
+      value
+    }
+    estimatedCost {
+      totalAmount {
+        amount
+        currencyCode
+      }
+      subtotalAmount {
+        amount
+        currencyCode
+      }
+      totalTaxAmount {
+        amount
+        currencyCode
+      }
+      totalDutyAmount {
+        amount
+        currencyCode
+      }
+    }
+    buyerIdentity {
+      email
+      phone
+      customer {
+        id
+      }
+      countryCode
+    }
+  }
+}

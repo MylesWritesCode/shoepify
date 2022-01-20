@@ -1,0 +1,43 @@
+##
+# src/graphql/mutations/UpdateCart.graphql
+# Updates a cart via a cart id & lines
+# @author Myles Berueda <MylesWritesCode>
+##
+mutation UpdateCart($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+  cartLinesUpdate(cartId: $cartId, lines: $lines) {
+    cart {
+      id
+      lines(first:10) {
+        edges {
+          node {
+            id
+            quantity
+            merchandise {
+              ... on ProductVariant {
+                id
+              }
+            }
+          }
+        }
+      }
+      estimatedCost {
+        totalAmount {
+          amount
+          currencyCode
+        }
+        subtotalAmount {
+          amount
+          currencyCode
+        }
+        totalTaxAmount {
+          amount
+          currencyCode
+        }
+        totalDutyAmount {
+          amount
+          currencyCode
+        }
+      }
+    }
+  }
+}
