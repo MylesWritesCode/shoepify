@@ -15,28 +15,16 @@ import { getAllProducts } from "@pages/api/operations";
 import OptionPicker from "@/components/products/OptionPicker";
 import ProductGallery from "@components/products/ProductGallery";
 import QuantityWidget from "@components/QuantityWidget";
-import { formatPercentage, formatCurrency, getShopifyData } from "@utils";
+import { formatPercentage, formatCurrency } from "@utils";
 
-import {
-  AddToCartDocument,
-  CartLineInput,
-  useAddToCartMutation,
-  useGetProductByHandleQuery,
-} from "@generated/schema";
+import { CartLineInput } from "@generated/schema";
+import { addProductToCart } from "@pages/api/operations/cart";
 import { getProductByHandle } from "@pages/api/operations";
 
 import { shopConfig } from "@config/shop";
 import { Product, Variant } from "@type/product.type";
 import styles from "./Products.module.css";
-import { SHOPIFY_API_URL, SHOPIFY_COOKIE_ID } from "@/const";
 
-import {
-  addProductToCart,
-  createCart,
-  getCart,
-  updateCart,
-} from "@pages/api/operations/cart";
-import { CartLineUpdateInput } from "@shopify/hydrogen/dist/esnext/graphql/types/types";
 
 export const getStaticPaths = async () => {
   // Get all the product paths
@@ -87,15 +75,6 @@ const Product: NextPage<StaticProps> = ({
   } = product;
   const { minVariantPrice } = priceRange;
 
-  /**
-   * TESTING AND DEBUG CENTER
-   *
-   * GET YOUR HAZMAT SUIT ON IT'S DANGEROUS IN HERE
-   */
-  useEffect(() => {
-    createCart().then((d) => console.log("createCart(): ", d));
-  }, []);
-
   const handleAddToCart = async () => {
     if (selectedVariant) {
       // A variant should be selected before being able to click atc
@@ -104,16 +83,10 @@ const Product: NextPage<StaticProps> = ({
         quantity: quantity,
       };
 
-      /**
-       * TESTING AND DEBUG OFFSITE
-       *
-       * YOU STILL NEED TO WEAR YOUR HAZMAT SUIT, SON
-       */
       addProductToCart(productToAddToCart).then((d) => console.log(d));
     }
   };
 
-  // Debug useEffect
   useEffect(() => {
     if (!options) return;
 
@@ -138,7 +111,7 @@ const Product: NextPage<StaticProps> = ({
       setSelectedVariant(getVariant());
       setIsValidSelection(true);
     } else {
-      // In case they pick on a valid selection, then click on an invalid one
+      // In case the user pick a valid selection, then clicks an invalid one
       setIsValidSelection(false);
     }
   }, [selectedOptions]);
@@ -148,7 +121,11 @@ const Product: NextPage<StaticProps> = ({
   }, [selectedVariant]);
 
   useEffect(() => {
-    setQuantity(1);
+    if (selectedVariant?.availableForSale) {
+      setQuantity(1);
+    } else {
+      setQuantity(0);
+    }
   }, [selectedVariant]);
 
   // I want to generically handle all the Options clicks when setting the state
@@ -172,10 +149,13 @@ const Product: NextPage<StaticProps> = ({
   };
 
   const generateATCButtonText = (): string => {
-    if (quantity > 0) return "Add to cart";
-    if (quantity == 0) return "Select a quantity";
-    if (quantity < 0) return "Return product";
-    return "";
+    if (selectedVariant) {
+      if (!selectedVariant.availableForSale) return "Out of stock :(";
+      if (quantity > 0) return "Add to cart";
+      if (quantity == 0) return "Select a quantity";
+      if (quantity < 0) return "Return product";
+    }
+    return "Pick your options!";
   };
 
   return (
@@ -195,6 +175,9 @@ const Product: NextPage<StaticProps> = ({
           <div className={styles.company}>{vendor}</div>
           <div className={styles.title}>
             <h1>{title}</h1>
+            {selectedVariant && !selectedVariant.availableForSale && (
+              <p className={styles["badge"]}>SOLD OUT</p>
+            )}
           </div>
 
           <div
@@ -206,7 +189,7 @@ const Product: NextPage<StaticProps> = ({
             <div className={styles["price-and-discount"]}>
               <h1>{formatCurrency(generatePrice())}</h1>
               {discount && discount > 0 && (
-                <div className={styles["discount-percentage"]}>
+                <div className={styles["badge"]}>
                   {formatPercentage(discount)}
                 </div>
               )}
@@ -238,7 +221,7 @@ const Product: NextPage<StaticProps> = ({
             />
             <button
               className={styles.atc}
-              disabled={quantity == 0}
+              disabled={quantity <= 0 || !selectedVariant?.availableForSale}
               onClick={handleAddToCart}
             >
               <div className={styles.icon} /> {generateATCButtonText()}

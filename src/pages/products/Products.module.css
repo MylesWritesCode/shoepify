@@ -37,6 +37,8 @@
 }
 
 .title {
+  display: flex;
+  align-items: center;
   color: var(--secondary);
 }
 
@@ -56,13 +58,17 @@
   padding: 0;
 }
 
-.discount-percentage {
+.badge {
   margin: 0 1rem;
   padding: 0.25rem 0.50rem;
   background: var(--primary-pale);
   color: var(--primary);
   border-radius: 0.25rem;
   font-weight: 700;
+}
+
+p.badge {
+  height: 100%;
 }
 
 .original-price {
@@ -96,6 +102,10 @@
   box-shadow: var(--shadow-base);
 }
 
+.atc:disabled {
+  opacity: 0.5;
+}
+
 .atc .icon {
   height: 16px;
   width: 16px;
@@ -108,7 +118,6 @@
 }
 
 .atc:hover {
-  opacity: 0.5;
   box-shadow: var(--shadow-dark);
 }
 
