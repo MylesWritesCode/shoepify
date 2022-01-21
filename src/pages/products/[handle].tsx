@@ -17,7 +17,12 @@ import ProductGallery from "@components/products/ProductGallery";
 import QuantityWidget from "@components/QuantityWidget";
 import { formatPercentage, formatCurrency, getShopifyData } from "@utils";
 
-import { AddToCartDocument, useAddToCartMutation } from "@generated/schema";
+import {
+  AddToCartDocument,
+  CartLineInput,
+  useAddToCartMutation,
+  useGetProductByHandleQuery,
+} from "@generated/schema";
 import { getProductByHandle } from "@pages/api/operations";
 
 import { shopConfig } from "@config/shop";
@@ -25,7 +30,13 @@ import { Product, Variant } from "@type/product.type";
 import styles from "./Products.module.css";
 import { SHOPIFY_API_URL, SHOPIFY_COOKIE_ID } from "@/const";
 
-import { createCart, getCart } from "@pages/api/operations/cart";
+import {
+  addProductToCart,
+  createCart,
+  getCart,
+  updateCart,
+} from "@pages/api/operations/cart";
+import { CartLineUpdateInput } from "@shopify/hydrogen/dist/esnext/graphql/types/types";
 
 export const getStaticPaths = async () => {
   // Get all the product paths
@@ -88,30 +99,17 @@ const Product: NextPage<StaticProps> = ({
   const handleAddToCart = async () => {
     if (selectedVariant) {
       // A variant should be selected before being able to click atc
-      const productToAddToCart = {
+      const productToAddToCart: CartLineInput = {
         merchandiseId: selectedVariant.id,
         quantity: quantity,
       };
 
-      // We also need to get a cart
-      const cartId = window.localStorage.getItem(SHOPIFY_COOKIE_ID);
-
-      console.log("Sending to cart: ", productToAddToCart);
-
-      try {
-        const response = await getShopifyData(
-          SHOPIFY_API_URL,
-          AddToCartDocument,
-          {
-            cartId: cartId,
-            lines: [productToAddToCart],
-          }
-        );
-
-        console.log(await response);
-      } catch (err) {
-        console.warn(`ERROR: pages/products/[handle].tsx: ${err}`);
-      }
+      /**
+       * TESTING AND DEBUG OFFSITE
+       *
+       * YOU STILL NEED TO WEAR YOUR HAZMAT SUIT, SON
+       */
+      addProductToCart(productToAddToCart).then((d) => console.log(d));
     }
   };
 

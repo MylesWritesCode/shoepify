@@ -26,7 +26,7 @@ const Cart: React.FC<CartProps> = ({ isShowing, ...props }) => {
   //    customer, not the API key like typical APIs tend to do. That means that
   //    no matter what the traffic looks like, as long as a customer isn't
   //    making millions of calls to the API, it should generally be fine.
-
+  
   // Will probably be set to a Product[]; debugging with any[] for now
   const [products, setProducts] = useState<any[]>([]);
   const [cartId, setCartId] = useState<string>();

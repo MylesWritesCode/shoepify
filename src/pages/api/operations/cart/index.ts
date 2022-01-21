@@ -6,4 +6,4 @@
 export { createCart } from './create-cart';
 export { getCart } from './get-cart';
 export { addProductToCart } from './add-product-to-cart';
-// export * from './update-cart';
+export { updateCart } from './update-cart';

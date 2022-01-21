@@ -1,6 +1,8 @@
 ## 
 # src/graphql/mutations/AddToCart.graphql
 # Adds an item to the cart
+# NOTES Hmm I don't think I actually need this. We can just always update the
+# cart with new items...I think.
 # @author Myles Berueda <MylesWritesCode>
 ##
 mutation AddToCart($lines: [CartLineInput!]!, $cartId: ID!) {
