@@ -2,7 +2,7 @@
  * File: /src/pages/_app.tsx
  * Project: shoepify
  * Purpose: Main entry into app
- * 
+ *
  * @author Myles Berueda
  * @date   Tuesday December 21st 2021
  * *****
@@ -11,28 +11,32 @@
  * Copyright (c) 2021 MylesWritesCode
  * *****
  * HISTORY
-**/
+ **/
 import "../styles/globals.css";
-import type { AppProps } from "next/app";
-import { ShopifyServerProvider, DefaultRoutes } from "@shopify/hydrogen";
-import Navbar from "@components/navbar/Navbar";
-
+import React, { useState } from "react";
 import shopifyConfig from "shopify.config";
+import type { AppProps } from "next/app";
+import { ShopifyServerProvider } from "@shopify/hydrogen";
+import Navbar from "@components/navbar/Navbar";
+import CartContext from '@/context/CartContext';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
+  const [cart, setCart] = useState({});
+
   return (
     <ShopifyServerProvider shopifyConfig={shopifyConfig}>
       <>
-        <Navbar />
-        <div className="content-container">
-          <div className="content">
-            <Component {...pageProps} />
+        <CartContext.Provider value={[cart, setCart]}>
+          <Navbar />
+          <div className="content-container">
+            <div className="content">
+              <Component {...pageProps} />
+            </div>
           </div>
-        </div>
-        {/* This is what qualifies as my footer for now */}
+        </CartContext.Provider>
       </>
     </ShopifyServerProvider>
   );
 }
 
-export default MyApp;
+export default App;

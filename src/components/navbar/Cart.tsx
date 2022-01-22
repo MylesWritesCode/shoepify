@@ -1,14 +1,16 @@
-/** 
+/**
  * src/components/navbar/Cart.tsx
  * Displays the cart as a popup tooltip
  * @author Myles Berueda <MylesWritesCode>
  **/
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { createCart, getCart } from "@pages/api/operations/cart";
 import { CreateCartDocument } from "@generated/schema";
+import CartContext from "@/context/CartContext";
 
 import { SHOPIFY_API_URL, SHOPIFY_COOKIE_ID } from "@/const";
-import styles from "./Cart.module.css";
 import { getShopifyData } from "@/utils";
+import styles from "./Cart.module.css";
 
 interface CartProps {
   isShowing: boolean;
@@ -26,48 +28,44 @@ const Cart: React.FC<CartProps> = ({ isShowing, ...props }) => {
   //    customer, not the API key like typical APIs tend to do. That means that
   //    no matter what the traffic looks like, as long as a customer isn't
   //    making millions of calls to the API, it should generally be fine.
-  
+
   // Will probably be set to a Product[]; debugging with any[] for now
   const [products, setProducts] = useState<any[]>([]);
   const [cartId, setCartId] = useState<string>();
+  const [cartContext, setCartContext] = useContext(CartContext);
 
-  // Debug useEffect
   useEffect(() => {
-    console.log("component mounted");
-    // For now, so I don't have to keep clearing the local storage
-    // window.localStorage.clear();
+    console.log("Cart component loaded!");
+    // Once on mount, we want to check localStorage for our cookie id. I'd like
+    // to use localStorage as our source-of-truth, since it should still be
+    // there when a customer comes back to the app.
+    const cookieInStorage = window.localStorage.getItem(SHOPIFY_COOKIE_ID);
 
-    // We're going to use localStorage 'cause turns out I don't remember how to
-    // set cookies and all the examples I found used even more Node packages.
-
-    // On mount, we're gonna check localStorage to see if a cartId exists
-    const localCartId = window.localStorage.getItem(SHOPIFY_COOKIE_ID);
-
-    if (!localCartId) {
-      // No async, so can't await; gotta do it this way, bud
-      getShopifyData(SHOPIFY_API_URL, CreateCartDocument).then(({ data }) =>
-        setCartId(data.cartCreate.cart.id)
-      );
+    if (cookieInStorage) {
+      getCart(cookieInStorage).then((data) => {
+        setCartId(data.id);
+      });
     } else {
-      setCartId(localCartId);
+      createCart().then((data) => {
+        window.localStorage.setItem(SHOPIFY_COOKIE_ID, data.id);
+        setCartId(data.id);
+      });
     }
 
     return () => {
-      // We really don't want this to unmount because it'll be holding our cart
-      // state. Unless Shopify will take care of all that goodness for us. Gonna
-      // log this for debugging.
-      console.log("component unmounted");
+      console.log("Cart component unmounted!");
     };
   }, []);
 
   useEffect(() => {
     if (cartId) {
-      // If, for some random reason, the cartId changes. Honestly might just
-      // combine the two useEffects because why would the cartId change without
-      // at least a refresh
-      window.localStorage.setItem(SHOPIFY_COOKIE_ID, cartId);
+      setCartContext({
+        id: cartId,
+        lines: products,
+      });
     }
-  }, [cartId]);
+    // I'm scared this will re-render constantly, but we'll see.
+  }, [cartId, products]);
 
   return (
     <div style={{ position: "relative", display: isShowing ? "flex" : "none" }}>

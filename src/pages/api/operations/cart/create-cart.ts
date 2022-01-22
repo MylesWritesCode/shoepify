@@ -9,6 +9,17 @@ import { CreateCartDocument, type CartInput } from "@generated/schema";
 
 import { SHOPIFY_API_URL, SHOPIFY_COOKIE_ID } from "@/const";
 
+/**
+ * If no cart exists, this fn will return a cart. Otherwise, returns a fresh
+ * instance of a cart or errors.
+ * @param { Object } [cartInput] 
+ * @param { AttributesInput[] } [cartInput.attributes]
+ * @param { CartBuyerIdentityInput } [cartInput.buyerIdentity]
+ * @param { string[] } [cartInput.discountCodes]
+ * @param { CartLineInput[] } [cartInput.lines]
+ * @param { string } [cartInput.note]
+ * @returns { Cart } 
+ */
 export async function createCart(cartInput?: CartInput) {
   // In this app, I don't ever want to overwrite if a cart already exists in
   // local storage. I'll just have this check in place to ensure something like
